@@ -1,0 +1,64 @@
+# Ignore Visual Studio temporary files, build results, and
+# user-specific files
+
+.vs
+.user
+.suo
+.userosscache
+.sln.docstates
+
+# Build results
+bin
+obj
+out
+
+# Rider IDE
+.idea
+
+# ASP.NET Secrets
+secrets.json
+appsettings.Development.json
+
+# DotCover
+.dotCover
+
+# User-specific files
+.userprefs
+.csproj.user
+
+# Logs
+.log
+
+# Crash reports
+.dmp
+
+# IIS Express SSL certs
+.pfx
+
+# npm
+node_modules
+
+# dotenv
+.env
+
+# Mac
+.DS_Store
+
+# Windows thumbnail cache
+Thumbs.db
+
+# JetBrains Rider
+.idea
+
+# GitKraken lock files
+.lock
+
+# EF Core tools generated files
+Migrations
+
+# Visual Studio Code
+.vscode
+
+# Others
+_ReSharper
+.[Rr]e[Ss]harper
