@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MeliGo.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using MeliGo.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using MeliGo.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace MeliGo.Data
 {
@@ -14,7 +15,9 @@ namespace MeliGo.Data
             : base(options)
         {
         }
-
+        public DbSet<Picture> Pictures { get; set; } = default!;
         public DbSet<MeliGo.Models.Item> Item { get; set; } = default!;
+        public DbSet<Item> Items { get; set; } = default!;
+
     }
 }

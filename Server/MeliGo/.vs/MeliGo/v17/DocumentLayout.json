@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\controllers\\hubscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:controllers\\hubscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\controllers\\itemscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:controllers\\itemscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,20 +19,8 @@
       "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\models\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:models\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\controllers\\itemscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:controllers\\itemscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\models\\dtos\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:models\\dtos\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -35,12 +31,56 @@
       "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:data\\meligocontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\models\\item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:models\\item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\models\\dtos\\itemdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:models\\dtos\\itemdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\models\\item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:models\\item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\sql_scripts\\initialcreate.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
+      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:sql_scripts\\initialcreate.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\meligocontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:meligocontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\meligo.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:meligo.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\models\\picture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:models\\picture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\meligo.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:meligo.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\properties\\servicedependencies.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:properties\\servicedependencies.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\services\\pictureservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:services\\pictureservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\models\\dtos\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:models\\dtos\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\models\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:models\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|c:\\users\\arman\\onedrive\\desktop\\arman\\meligo\\meligo\\server\\meligo\\models\\dtos\\changepassworddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{792D800B-F289-4EF1-95F6-76DA1193A3CD}|MeliGo.csproj|solutionrelative:models\\dtos\\changepassworddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -54,137 +94,250 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "LoginDTO.cs",
-              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\DTOs\\LoginDTO.cs",
-              "RelativeDocumentMoniker": "Models\\DTOs\\LoginDTO.cs",
-              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\DTOs\\LoginDTO.cs",
-              "RelativeToolTip": "Models\\DTOs\\LoginDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAA1AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-06T16:00:48.362Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Properties\\launchSettings.json",
-              "RelativeToolTip": "Properties\\launchSettings.json",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAUwB4AAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-06-06T15:59:01.475Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "RegisterDTO.cs",
-              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\DTOs\\RegisterDTO.cs",
-              "RelativeDocumentMoniker": "Models\\DTOs\\RegisterDTO.cs",
-              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\DTOs\\RegisterDTO.cs",
-              "RelativeToolTip": "Models\\DTOs\\RegisterDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA8AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-06T15:55:54.566Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UsersController.cs",
-              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Controllers\\UsersController.cs",
-              "RelativeDocumentMoniker": "Controllers\\UsersController.cs",
-              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Controllers\\UsersController.cs",
-              "RelativeToolTip": "Controllers\\UsersController.cs",
-              "ViewState": "AgIAAE0AAAAAbmZmZmYgwFIAAABHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-06T15:53:48.858Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "MeliGoContext.cs",
-              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Data\\MeliGoContext.cs",
-              "RelativeDocumentMoniker": "Data\\MeliGoContext.cs",
-              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Data\\MeliGoContext.cs",
-              "RelativeToolTip": "Data\\MeliGoContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-06T15:44:52.68Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\User.cs",
-              "RelativeDocumentMoniker": "Models\\User.cs",
-              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\User.cs",
-              "RelativeToolTip": "Models\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-06T15:44:28.331Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAABcAAAAAWTMzMzMLwC0AAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-06T15:13:18.416Z",
+              "WhenOpened": "2025-06-09T19:59:19.418Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-06-06T15:30:08.87Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "ItemsController.cs",
               "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Controllers\\ItemsController.cs",
               "RelativeDocumentMoniker": "Controllers\\ItemsController.cs",
               "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Controllers\\ItemsController.cs",
               "RelativeToolTip": "Controllers\\ItemsController.cs",
-              "ViewState": "AgIAADgAAAAALDMzMzMTwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAApwDoAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-06T15:29:54.907Z",
+              "WhenOpened": "2025-06-09T23:34:35.301Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 2,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "Controllers\\UsersController.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAiwEsAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T23:28:35.203Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HubsController.cs",
+              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Controllers\\HubsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HubsController.cs",
+              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Controllers\\HubsController.cs",
+              "RelativeToolTip": "Controllers\\HubsController.cs",
+              "ViewState": "AgIAAFMAAAAAAAAAAAAIwGgAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-14T17:08:37.329Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-06-20T22:13:22.241Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Models\\User.cs",
+              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\User.cs",
+              "RelativeToolTip": "Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T23:37:28.211Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MeliGoContext.cs",
+              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Data\\MeliGoContext.cs",
+              "RelativeDocumentMoniker": "Data\\MeliGoContext.cs",
+              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Data\\MeliGoContext.cs",
+              "RelativeToolTip": "Data\\MeliGoContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T23:33:19.4Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "Item.cs",
               "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\Item.cs",
               "RelativeDocumentMoniker": "Models\\Item.cs",
               "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\Item.cs",
               "RelativeToolTip": "Models\\Item.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-06T15:26:56.464Z",
+              "WhenOpened": "2025-06-09T23:50:21.878Z",
               "EditorCaption": ""
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Picture.cs",
+              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\Picture.cs",
+              "RelativeDocumentMoniker": "Models\\Picture.cs",
+              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\Picture.cs",
+              "RelativeToolTip": "Models\\Picture.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-20T22:49:58.899Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "serviceDependencies.json",
+              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Properties\\serviceDependencies.json",
+              "RelativeDocumentMoniker": "Properties\\serviceDependencies.json",
+              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Properties\\serviceDependencies.json",
+              "RelativeToolTip": "Properties\\serviceDependencies.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-06-20T23:37:31.164Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "LoginDTO.cs",
+              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\DTOs\\LoginDTO.cs",
+              "RelativeDocumentMoniker": "Models\\DTOs\\LoginDTO.cs",
+              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\DTOs\\LoginDTO.cs",
+              "RelativeToolTip": "Models\\DTOs\\LoginDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T23:38:08.272Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "PictureService.cs",
+              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Services\\PictureService.cs",
+              "RelativeDocumentMoniker": "Services\\PictureService.cs",
+              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Services\\PictureService.cs",
+              "RelativeToolTip": "Services\\PictureService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T23:30:09.122Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ItemDTO.cs",
+              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\DTOs\\ItemDTO.cs",
+              "RelativeDocumentMoniker": "Models\\DTOs\\ItemDTO.cs",
+              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\DTOs\\ItemDTO.cs",
+              "RelativeToolTip": "Models\\DTOs\\ItemDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-14T17:09:21.704Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "MeliGo.csproj",
+              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGo.csproj",
+              "RelativeDocumentMoniker": "MeliGo.csproj",
+              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGo.csproj",
+              "RelativeToolTip": "MeliGo.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-06-20T23:41:13.123Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-06-20T22:12:45.14Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "InitialCreate.sql",
+              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Sql_Scripts\\InitialCreate.sql",
+              "RelativeDocumentMoniker": "Sql_Scripts\\InitialCreate.sql",
+              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Sql_Scripts\\InitialCreate.sql",
+              "RelativeToolTip": "Sql_Scripts\\InitialCreate.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-06-23T20:43:54.785Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "MeliGoContextFactory.cs",
+              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGoContextFactory.cs",
+              "RelativeDocumentMoniker": "MeliGoContextFactory.cs",
+              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGoContextFactory.cs",
+              "RelativeToolTip": "MeliGoContextFactory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-23T20:49:45.892Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "MeliGo",
+              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGo.csproj",
+              "RelativeDocumentMoniker": "MeliGo.csproj",
+              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGo.csproj",
+              "RelativeToolTip": "MeliGo.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-06-20T22:13:19.46Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ChangePasswordDTO.cs",
+              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\DTOs\\ChangePasswordDTO.cs",
+              "RelativeDocumentMoniker": "Models\\DTOs\\ChangePasswordDTO.cs",
+              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\DTOs\\ChangePasswordDTO.cs",
+              "RelativeToolTip": "Models\\DTOs\\ChangePasswordDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T23:38:03.89Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "RegisterDTO.cs",
+              "DocumentMoniker": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\DTOs\\RegisterDTO.cs",
+              "RelativeDocumentMoniker": "Models\\DTOs\\RegisterDTO.cs",
+              "ToolTip": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\Models\\DTOs\\RegisterDTO.cs",
+              "RelativeToolTip": "Models\\DTOs\\RegisterDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-20T22:40:32.538Z"
             }
           ]
         }

@@ -1,12 +1,70 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { Hub } from './models/hub';
+import { HubService } from './services/hub.service';
+import { UserService } from './services/user.service';
+import { HttpClientModule } from '@angular/common/http'; 
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [
+    RouterOutlet,
+    RouterModule,
+    CommonModule,
+    FormsModule,
+    HttpClientModule // ⬅️ Add this
+    ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'MeliGo';
+ searchText : string = "";
+
+  hubsToggled : boolean = false;
+  hubList : Hub[] = [];
+avatarUrl: string = 'assets/images/default.jpg';
+  constructor(public hubService : HubService, public userService : UserService){}
+
+  async toggleHubs(){
+
+    this.hubsToggled = !this.hubsToggled;
+
+    if(this.hubsToggled && localStorage.getItem("token") != null){
+      let jsonHubs : string | null = localStorage.getItem("myHubs");
+      if(jsonHubs != null) this.hubList = JSON.parse(jsonHubs);
+    }
+  }
+
+  ngOnInit(): void {
+  const username = localStorage.getItem("username");
+  const rolesJson = localStorage.getItem("roles");
+  const roles = rolesJson ? JSON.parse(rolesJson) : [];
+  this.userService.setUsername(username);
+  this.userService.setRoles(roles);
+
+ if (username) {
+    this.avatarUrl = `https://localhost:7066/api/Users/GetAvatar/${username}`;
+  }
+   // ✅ Subscribe to avatar changes
+  this.userService.avatarChanged$.subscribe(() => {
+    const newUsername = localStorage.getItem("username");
+    if (newUsername) {
+      this.avatarUrl = `https://localhost:7066/api/Users/GetAvatar/${newUsername}`;
+    }
+  });
+}
+
+  logout(){
+    localStorage.clear();
+    location.reload();
+  }
+  isAdmin(): boolean {
+  let roles = JSON.parse(localStorage.getItem("roles") ?? "[]");
+  return roles.includes("admin");
+}
 }

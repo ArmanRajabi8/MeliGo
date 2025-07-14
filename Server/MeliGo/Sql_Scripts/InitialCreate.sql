@@ -1,0 +1,12 @@
+
+IF EXISTS(SELECT * FROM sys.databases WHERE name='MeliGo')
+BEGIN
+    DROP DATABASE MeliGo
+END
+
+CREATE DATABASE MeliGo
+GO
+
+USE MeliGo;
+GO
+

@@ -150,7 +150,12 @@ C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\MeliGo.pdb
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Azure.Identity.dll
+C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Castle.Core.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Humanizer.dll
+C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.AspNetCore.Razor.Language.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.Build.dll
@@ -171,12 +176,15 @@ C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Proxies.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.Extensions.Caching.Memory.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
@@ -201,6 +209,8 @@ C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Mono.TextTemplating.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Npgsql.dll
+C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\NuGet.Common.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\NuGet.Configuration.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\NuGet.DependencyResolver.Core.dll
@@ -210,6 +220,7 @@ C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\NuGet.ProjectModel.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\NuGet.Protocol.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\NuGet.Versioning.dll
+C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\SixLabors.ImageSharp.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -398,3 +409,4 @@ C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\obj\Debug\net8
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\obj\Debug\net8.0\MeliGo.pdb
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\obj\Debug\net8.0\MeliGo.genruntimeconfig.cache
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\obj\Debug\net8.0\ref\MeliGo.dll
+C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
