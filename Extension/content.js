@@ -1,3 +1,4 @@
+//content.js 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'getProductInfo') {
     console.log('[content.js] Received getProductInfo request');

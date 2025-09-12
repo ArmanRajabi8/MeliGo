@@ -1,3 +1,4 @@
+//popup.js
 document.addEventListener('DOMContentLoaded', () => {
   const sendBtn = document.getElementById('sendButton');
   const status = document.getElementById('status');
