@@ -1,0 +1,36 @@
+<div id="container">
+  <header>
+
+    <!-- Ruban principal -->
+   <div id="headerRibbon">
+  <!-- Left side: Title -->
+  <div id="title" [routerLink]="['/postList', 'index']">Meli<span>Go</span></div>
+
+  <!-- Right side: Buttons + Profile -->
+  <div class="header-actions">
+    <!-- Show only when not logged in -->
+    <button class="log" [routerLink]="['/register']" *ngIf="!userService.isLoggedIn()">Sign up</button>
+    <button class="log" [routerLink]="['/login']" *ngIf="!userService.isLoggedIn()">Login</button>
+
+    <!-- Show only when logged in -->
+    <button class="log" (click)="logout()" *ngIf="userService.isLoggedIn()">Logout</button>
+
+    <!-- Profile Picture -->
+    <a [routerLink]="['/profile']">
+  <img [src]="avatarUrl"
+     alt="Profile"
+     class="profile-pic"
+     (error)="avatarUrl = 'assets/images/default.jpg'" />
+    </a>
+  </div>
+</div>
+
+    <!-- Ruban de navigation  -->
+    
+  </header>
+  <main>
+    
+    <router-outlet></router-outlet>
+
+  </main>
+</div>

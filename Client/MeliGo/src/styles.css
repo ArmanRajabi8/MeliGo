@@ -1,0 +1,79 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+body{
+    background:linear-gradient(to bottom, #494f5b, #322e43) fixed;
+}
+
+hr{
+    border-color:#51516c;
+}
+
+.spacer{
+    flex:1;
+    width:100%;
+    border:none;
+}
+
+.orange{
+    background-color:#ff45e6;
+    display:inline-block;
+    border-radius:3px;
+    color:black;
+    font-weight:bold;
+    padding:0px 4px;
+}
+
+.arrow{
+    background: gray;
+    border-radius: 25px;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    border : none;
+}
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+
+}
+
+#headerRibbon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+#title {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* spacing between buttons and profile pic */
+}
+
+button.log {
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+}
+.item-image {
+  width: 150px;      /* medium size */
+  height: 150px;     /* same as width to make it square */
+  object-fit: cover; /* crop/scale image to cover area without distortion */
+  border-radius: 8px; /* optional: rounded corners */
+}
