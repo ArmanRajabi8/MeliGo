@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MeliGo.Data;
 using MeliGo.Models;
+using MeliGo.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MeliGo.Controllers
 {
@@ -15,94 +15,92 @@ namespace MeliGo.Controllers
     public class ItemsController : ControllerBase
     {
         private readonly MeliGoContext _context;
+        private readonly MetadataService _metadataService;
 
-        public ItemsController(MeliGoContext context)
+        public ItemsController(MeliGoContext context, MetadataService metadataService)
         {
             _context = context;
+            _metadataService = metadataService;
         }
 
         // GET: api/Items
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Item>>> GetItem()
+        public async Task<ActionResult<IEnumerable<Item>>> GetItems()
         {
-            return await _context.Item.ToListAsync();
+            return await _context.Items.ToListAsync();
         }
 
         // GET: api/Items/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Item>> GetItem(int id)
+        public async Task<ActionResult<Item>> GetItemById(int id)
         {
-            var item = await _context.Item.FindAsync(id);
-
+            var item = await _context.Items.FindAsync(id);
             if (item == null)
-            {
                 return NotFound();
-            }
-
             return item;
         }
 
-        // PUT: api/Items/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutItem(int id, Item item)
+        // GET: api/Items/user/{userId}
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<Item>>> GetByUser(string userId)
         {
-            if (id != item.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(item).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ItemExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return await _context.Items
+                                 .Where(i => i.UserId == userId)
+                                 .ToListAsync();
         }
 
         // POST: api/Items
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Item>> PostItem(Item item)
         {
-            _context.Item.Add(item);
+            _context.Items.Add(item);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetItem", new { id = item.Id }, item);
+            return CreatedAtAction(
+                nameof(GetItemById),
+                new { id = item.Id },
+                item
+            );
         }
 
-        // DELETE: api/Items/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteItem(int id)
+        // POST: api/Items/link
+        [HttpPost("link")]
+        public async Task<ActionResult<Item>> PostItemFromLink([FromBody] LinkDto dto)
         {
-            var item = await _context.Item.FindAsync(id);
-            if (item == null)
+            if (string.IsNullOrWhiteSpace(dto.Link) ||
+                string.IsNullOrWhiteSpace(dto.UserId))
             {
-                return NotFound();
+                return BadRequest("Link and UserId are required.");
             }
 
-            _context.Item.Remove(item);
+            var meta = await _metadataService.GetMetadataAsync(dto.Link);
+
+            var item = new Item
+            {
+                Name = meta.Title ?? "Unknown product",
+                Link = dto.Link,
+                Price = 0,
+                ImageUrl = meta.ImageUrl,
+                Category = "Uncategorized",
+                Importance = 1,
+                DateAdded = DateTime.UtcNow,
+                UserId = dto.UserId
+            };
+
+            _context.Items.Add(item);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return CreatedAtAction(
+                nameof(GetItemById),
+                new { id = item.Id },
+                item
+            );
         }
 
-        private bool ItemExists(int id)
+        public class LinkDto
         {
-            return _context.Item.Any(e => e.Id == id);
+            public string Link { get; set; }
+            public string UserId { get; set; }
         }
     }
 }

@@ -14,20 +14,24 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoginComponent {
 
-  loginUsername : string = "";
-  loginPassword : string = "";
+  loginUsername: string = "";
+  loginPassword: string = "";
 
-  constructor(public userService : UserService, public hubService : HubService, public router : Router) { }
+  constructor(
+    public userService: UserService,
+    public hubService: HubService,
+    public router: Router
+  ) {}
 
   ngOnInit() {}
 
-  async login() : Promise<void>{
+  async login(): Promise<void> {
     await this.userService.login(this.loginUsername, this.loginPassword);
 
-    let x : Hub[] = await this.hubService.getUserHubs();
-    localStorage.setItem("myHubs", JSON.stringify(x));
+    // ✅ Correct method and type
+    let hubs: Hub[] = await this.hubService.getUserHubs();
+    localStorage.setItem("myHubs", JSON.stringify(hubs));
 
     this.router.navigate(["/postList", "index"]);
   }
-
 }

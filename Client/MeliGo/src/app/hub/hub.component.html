@@ -1,49 +1,13 @@
-<!-- 
-<div class="filters">
-  <label>
-    Category:
-    <input type="text" [(ngModel)]="filterCategory" (input)="applyFilters()" placeholder="Filter by category" />
-  </label>
-
-  <label>
-    Min Importance:
-    <select [(ngModel)]="filterMinImportance" (change)="applyFilters()">
-      <option *ngFor="let star of [1,2,3,4,5]" [value]="star">{{star}}</option>
-    </select>
-  </label>
-
-  <label>
-    Date Added After:
-    <input type="date" [(ngModel)]="filterDateAdded" (change)="applyFilters()" />
-  </label>
-</div>
--->
 <button (click)="openAdd()" *ngIf="!isAdding && !isEditing">Add New Item</button>
 
 <!-- Add / Edit form -->
 <div *ngIf="isAdding || isEditing" class="item-form">
   <h3>{{ isAdding ? 'Add New Item' : 'Edit Item' }}</h3>
 
-  <label>
-    Name:
-    <input type="text" [(ngModel)]="formItem.name" />
-  </label>
-
-  <label>
-    Price:
-    <input type="number" [(ngModel)]="formItem.price" />
-  </label>
-
-  <label>
-    Image URL:
-    <input type="text" [(ngModel)]="formItem.imageUrl" placeholder="URL or path to image" />
-  </label>
-
-  <label>
-    Category:
-    <input type="text" [(ngModel)]="formItem.category" />
-  </label>
-
+  <label>Name: <input type="text" [(ngModel)]="formItem.name" /></label>
+  <label>Price: <input type="number" [(ngModel)]="formItem.price" /></label>
+  <label>Image URL: <input type="text" [(ngModel)]="formItem.imageUrl" /></label>
+  <label>Category: <input type="text" [(ngModel)]="formItem.category" /></label>
   <label>
     Importance:
     <select [(ngModel)]="formItem.importance">
@@ -56,9 +20,9 @@
 </div>
 
 <!-- Items list -->
-<div *ngIf="filteredItems.length > 0; else noItems">
+<div *ngIf="items.length > 0; else noItems">
   <ul class="item-list">
-    <li *ngFor="let item of filteredItems" class="item-card">
+    <li *ngFor="let item of items" class="item-card">
       <img [src]="item.imageUrl || 'assets/images/default.jpg'" alt="{{item.name}}" class="item-image" />
       <div class="item-details">
         <h4>{{item.name}}</h4>
@@ -66,7 +30,7 @@
         <p>Date Added: {{item.dateAdded | date:'mediumDate'}}</p>
         <p>Category: {{item.category}}</p>
         <p>
-          Importance: 
+          Importance:
           <span *ngFor="let star of [1,2,3,4,5]">
             <i class="fa" [ngClass]="star <= item.importance ? 'fa-star' : 'fa-star-o'"></i>
           </span>

@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "zcAAyUmdOpQ=",
+  "dgSpecHash": "0XT/tgI8R5Y=",
   "success": true,
   "projectFilePath": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGo.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\arman\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\arman\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
     "C:\\Users\\arman\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
+    "C:\\Users\\arman\\.nuget\\packages\\htmlagilitypack\\1.12.2\\htmlagilitypack.1.12.2.nupkg.sha512",
     "C:\\Users\\arman\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\arman\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\arman\\.nuget\\packages\\humanizer.core.af\\2.14.1\\humanizer.core.af.2.14.1.nupkg.sha512",
@@ -252,6 +253,18 @@
       "code": "NU1902",
       "level": "Warning",
       "message": "Package 'SixLabors.ImageSharp' 3.0.1 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-qxrv-gp6x-rc23",
+      "projectPath": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGo.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGo.csproj",
+      "libraryId": "SixLabors.ImageSharp",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "message": "Package 'SixLabors.ImageSharp' 3.0.1 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-rxmq-m78w-7wmc",
       "projectPath": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGo.csproj",
       "warningLevel": 1,
       "filePath": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGo.csproj",

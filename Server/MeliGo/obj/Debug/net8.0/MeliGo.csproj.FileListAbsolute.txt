@@ -410,3 +410,4 @@ C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\obj\Debug\net8
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\obj\Debug\net8.0\MeliGo.genruntimeconfig.cache
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\obj\Debug\net8.0\ref\MeliGo.dll
 C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\arman\OneDrive\Desktop\Arman\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\HtmlAgilityPack.dll

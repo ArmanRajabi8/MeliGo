@@ -48,7 +48,7 @@ namespace MeliGo.Controllers
         }
 
         [HttpPost("AddItem")]
-        public async Task<IActionResult> AddItem([FromBody] ItemDTO dto)
+        public async Task<IActionResult> AddItem([FromBody] ItemCreateDto dto)
         {
             var username = User.Identity?.Name;
             var user = await _userManager.FindByNameAsync(username);
@@ -71,7 +71,7 @@ namespace MeliGo.Controllers
         }
 
         [HttpPut("UpdateItem/{id}")]
-        public async Task<IActionResult> UpdateItem(int id, [FromBody] ItemDTO dto)
+        public async Task<IActionResult> UpdateItem(int id, [FromBody] ItemCreateDto dto)
         {
             var username = User.Identity?.Name;
             if (string.IsNullOrEmpty(username))

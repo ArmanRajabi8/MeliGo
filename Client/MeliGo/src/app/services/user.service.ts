@@ -40,20 +40,19 @@ export class UserService {
     console.log(x);
   }
 
-  async login(username : string, password : string) : Promise<void>{
-    let loginDTO = {
-      username : username,
-      password : password
-    };
-    let x = await lastValueFrom(this.http.post<any>(domain + "api/Users/Login", loginDTO));
-    console.log(x);
+ async login(username: string, password: string): Promise<void> {
+  let loginDTO = { username, password };
+  let x = await lastValueFrom(this.http.post<any>(domain + "api/Users/Login", loginDTO));
+  console.log(x);
 
-    localStorage.setItem("token", x.token);
-    localStorage.setItem("username", x.username);
-    localStorage.setItem("roles", JSON.stringify(x.roles));
-    this.setUsername(x.username);
-    this.setRoles(x.roles);
-  }
+  localStorage.setItem("token", x.token);
+  localStorage.setItem("username", x.username);
+  localStorage.setItem("roles", JSON.stringify(x.roles));
+  localStorage.setItem("userId", x.userId); // ✅ Add this line
+
+  this.setUsername(x.username);
+  this.setRoles(x.roles);
+}
 
   async ProfilePic(formData : any) : Promise<void>{
     let x = await lastValueFrom(this.http.put<any>(domain + "api/Users/ProfilePic", formData));

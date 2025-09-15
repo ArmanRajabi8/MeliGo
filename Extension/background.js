@@ -10,14 +10,12 @@ chrome.action.onClicked.addListener((tab) => {
     const product = response?.productInfo;
     if (product && product.name && product.link) {
       // Send product to your API
-      fetch('https://your-server-url/api/products', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-          // Add auth header here if needed
-        },
-        body: JSON.stringify(product)
-      })
+      fetch('https://localhost:7066/api/items', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(product)
+})
+
       .then(res => res.json())
       .then(data => {
         console.log('Product saved:', data);

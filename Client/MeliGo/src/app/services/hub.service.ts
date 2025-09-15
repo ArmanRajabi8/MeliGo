@@ -47,25 +47,32 @@ export class HubService {
     console.log(x);
   }
 
-// ✅ Get all items in the user's hub
+
+ // In your Angular service
 async getUserItems(): Promise<Item[]> {
-  return await lastValueFrom(this.http.get<Item[]>(domain + "api/Hubs/GetUserHubs"));
-}
+  const userId = localStorage.getItem("userId"); // Make sure this is set at login
+  if (!userId) throw new Error("User ID not found in localStorage");
 
-// ✅ Add an item manually
-async addItem(item: Item): Promise<Item> {
-  return await lastValueFrom(this.http.post<Item>(domain + "api/Hubs/AddItem", item));
+  return await lastValueFrom(
+    this.http.get<Item[]>(`https://localhost:7066/api/Items/user/${userId}`)
+  );
 }
+  async addItem(item: Item): Promise<Item> {
+    return await lastValueFrom(this.http.post<Item>(`${domain}api/items`, item));
+  }
 
-// ✅ Modify an item
-async updateItem(id: number, item: Item): Promise<Item> {
-  return await lastValueFrom(this.http.put<Item>(domain + "api/Hubs/UpdateItem/" + id, item));
-}
+  async updateItem(id: number, item: Item): Promise<Item> {
+    return await lastValueFrom(this.http.put<Item>(`${domain}api/items/${id}`, item));
+  }
 
-// ✅ Delete an item
-async deleteItem(id: number): Promise<void> {
-  return await lastValueFrom(this.http.delete<void>(domain + "api/Hubs/DeleteItem/" + id));
-}
+  async deleteItem(id: number): Promise<void> {
+    return await lastValueFrom(this.http.delete<void>(`${domain}api/items/${id}`));
+  }
+
+  async addItemFromLink(link: string): Promise<Item> {
+    return await lastValueFrom(this.http.post<Item>(`${domain}api/items/link`, { link }));
+  }
+
 
 
 }

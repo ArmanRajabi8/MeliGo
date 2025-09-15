@@ -1,41 +1,29 @@
-//popup.js
-document.addEventListener('DOMContentLoaded', () => {
-  const sendBtn = document.getElementById('sendButton');
-  const status = document.getElementById('status');
+// popup.js
+const sendBtn = document.getElementById("sendButton");
+const status  = document.getElementById("status");
+const error   = document.getElementById("error");
+const result  = document.getElementById("result");
 
-  sendBtn.addEventListener('click', async () => {
-    status.textContent = 'Sending...';
+sendBtn.addEventListener("click", () => {
+  status.textContent = "";
+  error.textContent  = "";
+  result.innerHTML   = `<span class="spinner"></span> Sending…`;
 
-    try {
-      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  // Tell the background script to fire off the save
+  chrome.runtime.sendMessage({ action: "saveLink" });
+});
 
-      // Inject content script if not already injected
-      await chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        files: ['content.js']
-      });
-
-      // Now send the message
-      chrome.tabs.sendMessage(tab.id, { action: 'getProductInfo' }, (response) => {
-        if (chrome.runtime.lastError) {
-          console.error('SendMessage error:', chrome.runtime.lastError.message);
-          status.textContent = 'Failed to communicate with tab';
-          return;
-        }
-        console.log('Got response:', response);
-
-        if (!response || !response.productInfo) {
-          status.textContent = 'No product data found';
-          return;
-        }
-
-        // Process productInfo...
-        status.textContent = 'Product info received!';
-      });
-
-    } catch (err) {
-      console.error('Unexpected error:', err);
-      status.textContent = 'Unexpected error';
-    }
-  });
+// Listen for background.js messages
+chrome.runtime.onMessage.addListener(msg => {
+  if (msg.status === "saved") {
+    status.textContent = "Product saved!";
+    result.innerHTML   = `
+      <img src="${msg.item.imageUrl}" width="60" />
+      <span>${msg.item.name}</span>
+    `;
+  }
+  if (msg.status === "error") {
+    error.textContent = `Error: ${msg.message}`;
+    result.textContent = "";
+  }
 });

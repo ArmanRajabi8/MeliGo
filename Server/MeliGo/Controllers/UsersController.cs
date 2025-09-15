@@ -89,7 +89,8 @@ namespace MeliGo.Controllers
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     validTo = token.ValidTo,
                     username = user.UserName,
-                    roles = roles
+                    roles = roles,
+                    userId = user.Id
                 });
             }
             else
