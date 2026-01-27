@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MeliGo.Data;
+﻿using MeliGo.Data;
 using MeliGo.Models;
 using MeliGo.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using MeliGo.Models.DTOs;
 namespace MeliGo.Controllers
 {
     [Route("api/[controller]")]
@@ -65,42 +67,40 @@ namespace MeliGo.Controllers
 
         // POST: api/Items/link
         [HttpPost("link")]
-        public async Task<ActionResult<Item>> PostItemFromLink([FromBody] LinkDto dto)
+        [Authorize]
+        public async Task<ActionResult<Item>> AddItemFromLink([FromBody] LinkDto dto)
         {
-            if (string.IsNullOrWhiteSpace(dto.Link) ||
-                string.IsNullOrWhiteSpace(dto.UserId))
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
+            var title = dto.Title;
+            var imageUrl = dto.ImageUrl;
+
+            if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(imageUrl))
             {
-                return BadRequest("Link and UserId are required.");
+                var (fallbackTitle, fallbackImage) = await _metadataService.GetMetadataAsync(dto.Link);
+                title = string.IsNullOrWhiteSpace(title) ? fallbackTitle : title;
+                imageUrl = string.IsNullOrWhiteSpace(imageUrl) ? fallbackImage : imageUrl;
             }
-
-            var meta = await _metadataService.GetMetadataAsync(dto.Link);
-
+            Console.WriteLine($"[Extension Input] Title: '{dto.Title}', ImageUrl: '{dto.ImageUrl}', Link: '{dto.Link}'");
             var item = new Item
             {
-                Name = meta.Title ?? "Unknown product",
+                Name = title ?? "Unknown product",
+                ImageUrl = imageUrl,
                 Link = dto.Link,
                 Price = 0,
-                ImageUrl = meta.ImageUrl,
                 Category = "Uncategorized",
                 Importance = 1,
                 DateAdded = DateTime.UtcNow,
-                UserId = dto.UserId
+                UserId = userId
             };
 
             _context.Items.Add(item);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(
-                nameof(GetItemById),
-                new { id = item.Id },
-                item
-            );
+            return item;
         }
 
-        public class LinkDto
-        {
-            public string Link { get; set; }
-            public string UserId { get; set; }
-        }
+
+    
     }
 }

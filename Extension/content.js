@@ -1,27 +1,62 @@
-//content.js 
+// 🔄 Listen for token from Angular app and store it in extension storage
+window.addEventListener("message", (event) => {
+  if (event.source !== window) return;
+  if (event.data.type === "MELIGO_TOKEN" && event.data.token) {
+    chrome.storage.local.set({ token: event.data.token }, () => {
+      console.log("[content.js] Token received and stored:", event.data.token);
+    });
+  }
+});
+
+// 🛒 Listen for product info request from background.js
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'getProductInfo') {
     console.log('[content.js] Received getProductInfo request');
 
-    // Try to extract product data from the page:
-    const productName = document.querySelector('h1')?.innerText || null;
+    // Extract product name
+    const productName = document.querySelector('h1')?.innerText?.trim() || null;
 
-    // This selector depends on the website, update it accordingly:
-    const productPrice = document.querySelector('.price')?.innerText || null;
+    // Extract price (adjust selector for specific sites)
+    const productPrice = document.querySelector('.price')?.innerText?.trim() || null;
 
-    // For image, try a few common selectors:
+    // 🖼️ Enhanced image scraping logic
     let productImage = null;
+
+    // Try common image selectors
     const imgSelectors = [
-      'img.primary-image',   // example, adjust per site
+      'img.primary-image',
       'img#main-product-image',
       'img.product-image',
-      'img.featured-image'
+      'img.featured-image',
+      'img[src*="amazon"]',
+      'img[src*="bestbuy"]',
+      'img[src*="cdn"]'
     ];
+
     for (const sel of imgSelectors) {
       const imgEl = document.querySelector(sel);
-      if (imgEl && imgEl.src) {
+      if (imgEl?.src) {
         productImage = imgEl.src;
         break;
+      }
+    }
+
+    // Fallback to Open Graph image
+    if (!productImage) {
+      const ogImage = document.querySelector('meta[property="og:image"]')?.content;
+      if (ogImage) {
+        productImage = ogImage;
+      }
+    }
+
+    // Final fallback: largest visible image on the page
+    if (!productImage) {
+      const allImages = Array.from(document.images)
+        .filter(img => img.width > 100 && img.height > 100 && img.src)
+        .sort((a, b) => (b.width * b.height) - (a.width * a.height));
+
+      if (allImages.length > 0) {
+        productImage = allImages[0].src;
       }
     }
 
@@ -35,8 +70,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     };
 
     console.log('[content.js] Product info extracted:', productInfo);
+    console.log("Scraped image URL:", productImage);
 
     sendResponse({ productInfo });
-    return true; // important for async response
+    return true; // ✅ Required for async response
   }
 });

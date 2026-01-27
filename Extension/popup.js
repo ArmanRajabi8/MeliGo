@@ -10,6 +10,22 @@ sendBtn.addEventListener("click", () => {
   result.innerHTML   = `<span class="spinner"></span> Sending…`;
 
   // Tell the background script to fire off the save
+ let isSending = false;
+sendBtn.addEventListener("click", () => {
+  if (isSending) return;
+  isSending = true;
+
+  status.textContent = "";
+  error.textContent  = "";
+  result.innerHTML   = `<span class="spinner"></span> Sending…`;
+
+  chrome.runtime.sendMessage({ action: "saveLink" });
+});
+
+
+
+
+  // Tell the background script to fire off the save
   chrome.runtime.sendMessage({ action: "saveLink" });
 });
 

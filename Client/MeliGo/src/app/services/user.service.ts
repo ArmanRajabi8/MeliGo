@@ -43,12 +43,14 @@ export class UserService {
  async login(username: string, password: string): Promise<void> {
   let loginDTO = { username, password };
   let x = await lastValueFrom(this.http.post<any>(domain + "api/Users/Login", loginDTO));
+  
   console.log(x);
 
   localStorage.setItem("token", x.token);
   localStorage.setItem("username", x.username);
   localStorage.setItem("roles", JSON.stringify(x.roles));
   localStorage.setItem("userId", x.userId); // ✅ Add this line
+  window.postMessage({ type: "MELIGO_TOKEN", token: x.token }, "*");
 
   this.setUsername(x.username);
   this.setRoles(x.roles);
