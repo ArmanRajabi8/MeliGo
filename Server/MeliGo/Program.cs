@@ -110,6 +110,12 @@ builder.Services.AddHttpClient("MetadataClient", client =>
 });
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<MeliGoContext>();
+    dbContext.Database.EnsureCreated();
+}
+
 app.UseCors("AllowAll");
 
 if (app.Environment.IsDevelopment())

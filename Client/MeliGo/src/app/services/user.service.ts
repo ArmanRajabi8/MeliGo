@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { firstValueFrom, lastValueFrom, Subject } from 'rxjs';
-
-const domain = "https://localhost:7066/";
+import { buildApiUrl } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root'
@@ -31,18 +30,18 @@ export class UserService {
 
   async register(username : string, email : string, password : string, passwordConfirm : string) : Promise<void>{
     let registerDTO = {
-      username : username,
-      email : email,
+      username : username.trim(),
+      email : email.trim(),
       password : password,
       passwordConfirm : passwordConfirm
     };
-    let x = await lastValueFrom(this.http.post<any>(domain + "api/Users/Register", registerDTO));
+    let x = await lastValueFrom(this.http.post<any>(buildApiUrl("/api/Users/Register"), registerDTO));
     console.log(x);
   }
 
  async login(username: string, password: string): Promise<void> {
-  let loginDTO = { username, password };
-  let x = await lastValueFrom(this.http.post<any>(domain + "api/Users/Login", loginDTO));
+  let loginDTO = { username: username.trim(), password };
+  let x = await lastValueFrom(this.http.post<any>(buildApiUrl("/api/Users/Login"), loginDTO));
   
   console.log(x);
 
@@ -57,7 +56,7 @@ export class UserService {
 }
 
   async ProfilePic(formData : any) : Promise<void>{
-    let x = await lastValueFrom(this.http.put<any>(domain + "api/Users/ProfilePic", formData));
+    let x = await lastValueFrom(this.http.put<any>(buildApiUrl("/api/Users/ProfilePic"), formData));
     return x;
   }
 
@@ -67,7 +66,7 @@ export class UserService {
       newPassword,
       newPasswordConfirm
     };
-    await firstValueFrom(this.http.post(domain + "api/Users/ChangePassword", body));
+    await firstValueFrom(this.http.post(buildApiUrl("/api/Users/ChangePassword"), body));
   }
 
   isLoggedIn(): boolean {

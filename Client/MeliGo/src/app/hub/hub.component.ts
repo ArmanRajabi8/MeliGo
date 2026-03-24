@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class HubComponent {
   items: Item[] = [];
+  isLoggedIn: boolean = false;
+  loadError: string = "";
 
   isAdding: boolean = false;
   isEditing: boolean = false;
@@ -29,14 +31,23 @@ export class HubComponent {
   constructor(private hubService: HubService) {}
 
   async ngOnInit() {
+    this.isLoggedIn = localStorage.getItem("token") != null && localStorage.getItem("userId") != null;
+
+    if (!this.isLoggedIn) {
+      this.items = [];
+      return;
+    }
+
     await this.loadItems();
   }
 
   async loadItems() {
     try {
       this.items = await this.hubService.getUserItems();
+      this.loadError = "";
       console.log("Loaded items:", this.items);
     } catch (err) {
+      this.loadError = "We couldn't load your saved items right now.";
       console.error("Failed to load items:", err);
     }
   }

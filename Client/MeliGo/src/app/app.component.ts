@@ -6,6 +6,7 @@ import { Hub } from './models/hub';
 import { HubService } from './services/hub.service';
 import { UserService } from './services/user.service';
 import { HttpClientModule } from '@angular/common/http'; 
+import { buildApiUrl } from './config/api.config';
 
 
 @Component({
@@ -42,25 +43,31 @@ avatarUrl: string = 'assets/images/default.jpg';
 
   ngOnInit(): void {
   const username = localStorage.getItem("username");
+  const token = localStorage.getItem("token");
   const rolesJson = localStorage.getItem("roles");
   const roles = rolesJson ? JSON.parse(rolesJson) : [];
   this.userService.setUsername(username);
   this.userService.setRoles(roles);
 
+  if (token) {
+    window.postMessage({ type: "MELIGO_TOKEN", token }, "*");
+  }
+
  if (username) {
-    this.avatarUrl = `https://localhost:7066/api/Users/GetAvatar/${username}`;
+    this.avatarUrl = buildApiUrl(`/api/Users/GetAvatar/${username}`);
   }
    // ✅ Subscribe to avatar changes
   this.userService.avatarChanged$.subscribe(() => {
     const newUsername = localStorage.getItem("username");
     if (newUsername) {
-      this.avatarUrl = `https://localhost:7066/api/Users/GetAvatar/${newUsername}`;
+      this.avatarUrl = buildApiUrl(`/api/Users/GetAvatar/${newUsername}`);
     }
   });
 }
 
   logout(){
     localStorage.clear();
+    window.postMessage({ type: "MELIGO_TOKEN_CLEAR" }, "*");
     location.reload();
   }
   isAdmin(): boolean {

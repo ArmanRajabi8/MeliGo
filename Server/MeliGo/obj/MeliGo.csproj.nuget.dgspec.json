@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGo.csproj": {}
+    "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\Projects\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGo.csproj": {
+    "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\Projects\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGo.csproj",
+        "projectUniqueName": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\Projects\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGo.csproj",
         "projectName": "MeliGo",
-        "projectPath": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGo.csproj",
+        "projectPath": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\Projects\\MeliGo\\MeliGo\\Server\\MeliGo\\MeliGo.csproj",
         "packagesPath": "C:\\Users\\arman\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\MeliGo\\MeliGo\\Server\\MeliGo\\obj\\",
+        "outputPath": "C:\\Users\\arman\\OneDrive\\Desktop\\Arman\\Projects\\MeliGo\\MeliGo\\Server\\MeliGo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -130,7 +130,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

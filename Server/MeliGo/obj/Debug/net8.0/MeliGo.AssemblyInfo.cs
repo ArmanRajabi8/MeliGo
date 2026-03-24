@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MeliGo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d706919023986e382d8a4eb21f45a8ea6ced092b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+713fc4b274ff6985515788a2ba29db68877aa14e")]
 [assembly: System.Reflection.AssemblyProductAttribute("MeliGo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MeliGo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

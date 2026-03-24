@@ -9,9 +9,12 @@ namespace MeliGo
     {
         public MeliGoContext CreateDbContext(string[] args)
         {
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{environmentName}.json", optional: true)
                 .Build();
 
             var optionsBuilder = new DbContextOptionsBuilder<MeliGoContext>();

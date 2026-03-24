@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { HubService } from '../services/hub.service';
@@ -8,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -16,6 +17,8 @@ export class LoginComponent {
 
   loginUsername: string = "";
   loginPassword: string = "";
+  authError: string = "";
+  isSubmitting: boolean = false;
 
   constructor(
     public userService: UserService,
@@ -26,12 +29,20 @@ export class LoginComponent {
   ngOnInit() {}
 
   async login(): Promise<void> {
-    await this.userService.login(this.loginUsername, this.loginPassword);
+    this.authError = "";
+    this.isSubmitting = true;
 
-    // ✅ Correct method and type
-    let hubs: Hub[] = await this.hubService.getUserHubs();
-    localStorage.setItem("myHubs", JSON.stringify(hubs));
+    try {
+      await this.userService.login(this.loginUsername, this.loginPassword);
 
-    this.router.navigate(["/postList", "index"]);
+      let hubs: Hub[] = await this.hubService.getUserHubs();
+      localStorage.setItem("myHubs", JSON.stringify(hubs));
+
+      this.router.navigate(["/postList", "index"]);
+    } catch (error: any) {
+      this.authError = error?.error?.message || error?.error?.Message || "Login failed. Check your username/email and password.";
+    } finally {
+      this.isSubmitting = false;
+    }
   }
 }

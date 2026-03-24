@@ -44,3 +44,14 @@
     background-color:#ff45e6;
     color:black;
 }
+
+#register button:disabled{
+    opacity:0.7;
+    cursor:wait;
+}
+
+.auth-error{
+    color:#ff9cb4;
+    margin:0;
+    padding-left:5px;
+}

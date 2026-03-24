@@ -4,5 +4,6 @@
     <input type="text" name="registerEmail" id="registerEmail" placeholder="exemple@mail.com" [(ngModel)]="registerEmail">
     <input type="password" name="registerPassword" id="registerPassword" placeholder="Mot de passe" [(ngModel)]="registerPassword">
     <input type="password" name="registerPasswordConfirm" id="registerPasswordConfirm" placeholder="Confirmer le mot de passe" [(ngModel)]="registerPasswordConfirm">
-    <button (click)="register()">S'inscrire</button>
+    <p *ngIf="authError" class="auth-error">{{ authError }}</p>
+    <button (click)="register()" [disabled]="isSubmitting">{{ isSubmitting ? 'Inscription...' : "S'inscrire" }}</button>
   </div>

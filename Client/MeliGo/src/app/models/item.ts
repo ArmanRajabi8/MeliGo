@@ -3,6 +3,7 @@ export interface Item {
   name: string;
   price: number;
   imageUrl?: string;
+  link?: string;
   dateAdded?: string;
   importance: number;
   category: string;

@@ -9,14 +9,11 @@ export class TokenInterceptor implements HttpInterceptor {
     const token = localStorage.getItem('token'); 
 
     if (token) {
-      console.log('[TokenInterceptor] Adding token to request', request.url);
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`
         }
       });
-    } else {
-      console.log('[TokenInterceptor] No token found');
     }
 
     return next.handle(request);

@@ -1,67 +1,120 @@
-chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  if (msg.action === "saveLink") {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      const tab = tabs[0];
-      if (!tab?.id) return;
+const API_BASE_URL = "http://localhost:5207";
 
-      // Step 1: Inject content.js if needed
-      chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        files: ["content.js"]
-      }, () => {
-        // Step 2: Send message to content.js to get product info
-        chrome.tabs.sendMessage(tab.id, { action: "getProductInfo" }, async (response) => {
-          if (chrome.runtime.lastError) {
-            console.error("Error getting product info:", chrome.runtime.lastError);
-            chrome.runtime.sendMessage({ status: "error", message: "Could not scrape product info" });
-            return;
-          }
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.action !== "saveLink") {
+    return false;
+  }
 
-          const product = response?.productInfo;
-          if (!product?.link) {
-            chrome.runtime.sendMessage({ status: "error", message: "No product info found" });
-            return;
-          }
+  void handleSaveLink();
+  return false;
+});
 
-          // Step 3: Get token from extension storage
-          const { token } = await chrome.storage.local.get("token");
-          if (!token) {
-            chrome.runtime.sendMessage({ status: "error", message: "Not authenticated" });
-            return;
-          }
+async function handleSaveLink() {
+  try {
+    const activeTab = await getActiveTab();
 
-          // Step 4: Send product link to backend
-          fetch("https://localhost:7066/api/items/link", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`
-            },
-    body: JSON.stringify({
-  link: product.link,
-  title: product.name,
-  imageUrl: product.imageUrl
-})
+    if (!activeTab?.id || !activeTab.url) {
+      throw new Error("No active tab was found.");
+    }
 
+    if (!/^https?:\/\//i.test(activeTab.url)) {
+      throw new Error("Open a product page on a regular website before saving.");
+    }
 
-          })
-            .then(async res => {
-              if (!res.ok) {
-                const errorText = await res.text();
-                throw new Error(`Server error: ${res.status} - ${errorText}`);
-              }
-              return res.json();
-            })
-            .then(item => {
-              console.log("Product saved:", item);
-              chrome.runtime.sendMessage({ status: "saved", item });
-            })
-            .catch(err => {
-              console.error("Error sending product:", err);
-              chrome.runtime.sendMessage({ status: "error", message: err.message });
-            });
-        });
-      });
+    await ensureContentScript(activeTab.id);
+    const response = await chrome.tabs.sendMessage(activeTab.id, { action: "getProductInfo" });
+    const product = response?.productInfo;
+
+    if (!product?.link) {
+      throw new Error("This page did not expose enough product data to save.");
+    }
+
+    const { token } = await chrome.storage.local.get("token");
+    if (!token) {
+      throw new Error("Not authenticated with MeliGo. Open the app once and log in again.");
+    }
+
+    const payload = buildRequestPayload(product);
+    const savedItem = await saveProduct(payload, token);
+
+    await notifyPopup({
+      status: "saved",
+      item: savedItem,
+      product: payload
+    });
+  } catch (error) {
+    await notifyPopup({
+      status: "error",
+      message: error instanceof Error ? error.message : "Unknown error"
     });
   }
-});
+}
+
+async function getActiveTab() {
+  const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+  return tabs[0] ?? null;
+}
+
+async function ensureContentScript(tabId) {
+  try {
+    await chrome.tabs.sendMessage(tabId, { action: "ping" });
+    return;
+  } catch {
+  }
+
+  await chrome.scripting.executeScript({
+    target: { tabId },
+    files: ["content.js"]
+  });
+}
+
+function buildRequestPayload(product) {
+  const link = product.canonicalUrl || product.link;
+
+  return {
+    link,
+    title: product.title,
+    imageUrl: product.imageUrl,
+    imageUrls: Array.isArray(product.imageUrls) ? product.imageUrls : [],
+    price: typeof product.price === "number" ? product.price : null,
+    priceText: product.priceText,
+    currency: product.currency,
+    brand: product.brand,
+    description: product.description,
+    availability: product.availability,
+    sku: product.sku,
+    sourceHost: product.sourceHost,
+    pageTitle: product.pageTitle,
+    extractedAt: product.extractedAt
+  };
+}
+
+async function saveProduct(payload, token) {
+  const response = await fetch(`${API_BASE_URL}/api/items/link`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+
+    if (response.status === 401 || response.status === 403) {
+      throw new Error("MeliGo rejected the request. Log in again to refresh your token.");
+    }
+
+    throw new Error(`Server error: ${response.status} - ${errorText}`);
+  }
+
+  return response.json();
+}
+
+async function notifyPopup(message) {
+  try {
+    await chrome.runtime.sendMessage(message);
+  } catch {
+  }
+}

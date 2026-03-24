@@ -1,45 +1,89 @@
-// popup.js
-const sendBtn = document.getElementById("sendButton");
-const status  = document.getElementById("status");
-const error   = document.getElementById("error");
-const result  = document.getElementById("result");
+const sendButton = document.getElementById("sendButton");
+const status = document.getElementById("status");
+const error = document.getElementById("error");
+const result = document.getElementById("result");
 
-sendBtn.addEventListener("click", () => {
-  status.textContent = "";
-  error.textContent  = "";
-  result.innerHTML   = `<span class="spinner"></span> Sending…`;
+let isSending = false;
 
-  // Tell the background script to fire off the save
- let isSending = false;
-sendBtn.addEventListener("click", () => {
-  if (isSending) return;
+sendButton.addEventListener("click", async () => {
+  if (isSending) {
+    return;
+  }
+
   isSending = true;
+  sendButton.disabled = true;
+  sendButton.textContent = "Saving...";
 
   status.textContent = "";
-  error.textContent  = "";
-  result.innerHTML   = `<span class="spinner"></span> Sending…`;
+  error.textContent = "";
+  result.replaceChildren();
 
-  chrome.runtime.sendMessage({ action: "saveLink" });
-});
-
-
-
-
-  // Tell the background script to fire off the save
-  chrome.runtime.sendMessage({ action: "saveLink" });
-});
-
-// Listen for background.js messages
-chrome.runtime.onMessage.addListener(msg => {
-  if (msg.status === "saved") {
-    status.textContent = "Product saved!";
-    result.innerHTML   = `
-      <img src="${msg.item.imageUrl}" width="60" />
-      <span>${msg.item.name}</span>
-    `;
-  }
-  if (msg.status === "error") {
-    error.textContent = `Error: ${msg.message}`;
-    result.textContent = "";
+  try {
+    await chrome.runtime.sendMessage({ action: "saveLink" });
+  } catch (sendError) {
+    setError("The extension could not start the save flow.");
   }
 });
+
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.status === "saved") {
+    isSending = false;
+    sendButton.disabled = false;
+    sendButton.textContent = "Save this product";
+    status.textContent = "Product saved.";
+    error.textContent = "";
+    renderSavedProduct(message.item, message.product);
+  }
+
+  if (message.status === "error") {
+    setError(message.message || "Unknown error");
+  }
+});
+
+function setError(message) {
+  isSending = false;
+  sendButton.disabled = false;
+  sendButton.textContent = "Save this product";
+  status.textContent = "";
+  error.textContent = `Error: ${message}`;
+  result.replaceChildren();
+}
+
+function renderSavedProduct(item, product) {
+  result.replaceChildren();
+
+  const card = document.createElement("div");
+  card.className = "product-preview";
+
+  const image = document.createElement("img");
+  image.className = "product-preview__image";
+  image.src = item?.imageUrl || product?.imageUrl || "Meligo.png";
+  image.alt = item?.name || product?.title || "Saved product";
+  image.onerror = () => {
+    image.src = "Meligo.png";
+  };
+
+  const body = document.createElement("div");
+  body.className = "product-preview__body";
+
+  const title = document.createElement("div");
+  title.className = "product-preview__title";
+  title.textContent = item?.name || product?.title || "Saved product";
+
+  const subtitle = document.createElement("div");
+  subtitle.className = "product-preview__meta";
+  subtitle.textContent = [
+    product?.priceText || null,
+    product?.brand || null,
+    product?.sourceHost || null
+  ].filter(Boolean).join(" | ");
+
+  const galleryCount = document.createElement("div");
+  galleryCount.className = "product-preview__meta";
+  const imageCount = Array.isArray(product?.imageUrls) ? product.imageUrls.length : 0;
+  galleryCount.textContent = imageCount > 0 ? `${imageCount} images detected` : "Main image saved";
+
+  body.append(title, subtitle, galleryCount);
+  card.append(image, body);
+  result.append(card);
+}
