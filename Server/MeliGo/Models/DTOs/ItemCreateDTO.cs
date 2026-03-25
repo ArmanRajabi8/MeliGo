@@ -8,9 +8,8 @@ namespace MeliGo.Models.DTOs
         [Required]
         public string Name { get; set; }
 
-        [Required]
         [Url]
-        public string Link { get; set; }
+        public string? Link { get; set; }
 
         [Range(0, double.MaxValue)]
         public decimal Price { get; set; }

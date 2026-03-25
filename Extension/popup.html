@@ -1,85 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MeliGo</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      width: 280px;
-      padding: 10px;
-    }
-    h3 {
-      margin-top: 0;
-    }
-    button {
-      padding: 10px 15px;
-      font-size: 16px;
-      width: 100%;
-      cursor: pointer;
-      border: none;
-      border-radius: 4px;
-      background-color: #007bff;
-      color: white;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    #status {
-      margin-top: 10px;
-      color: green;
-      font-size: 14px;
-    }
-    #error {
-      margin-top: 10px;
-      color: red;
-      font-size: 14px;
-    }
-    #result {
-      margin-top: 12px;
-    }
-    .product-preview {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      padding: 10px;
-      border-radius: 8px;
-      background: #f4f7fb;
-    }
-    .product-preview__image {
-      width: 64px;
-      height: 64px;
-      object-fit: cover;
-      border-radius: 6px;
-      background: white;
-      flex-shrink: 0;
-    }
-    .product-preview__body {
-      min-width: 0;
-    }
-    .product-preview__title {
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 1.35;
-      margin-bottom: 4px;
-    }
-    .product-preview__meta {
-      font-size: 12px;
-      color: #475569;
-      line-height: 1.4;
-      word-break: break-word;
-    }
-    button:disabled {
-      cursor: wait;
-      opacity: 0.75;
-    }
-  </style>
+  <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <h3>🛒 MeliGo</h3>
-  <button id="sendButton">Save this product</button>
-  <div id="status"></div>
-  <div id="error"></div>
-  <div id="result"></div>
+  <main class="popup-shell">
+    <div class="popup-orb popup-orb--warm"></div>
+    <div class="popup-orb popup-orb--cool"></div>
+
+    <section class="panel">
+      <header class="panel__header">
+        <div class="brand">
+          <img class="brand__logo" src="Meligo.png" alt="MeliGo logo">
+          <div>
+            <p class="brand__eyebrow">Universal shopping cart</p>
+            <h1 class="brand__title">Meli<span>Go</span></h1>
+          </div>
+        </div>
+
+        <p class="panel__copy">
+          Capture the current product page with clean fallbacks, then send it straight into your MeliGo cart.
+        </p>
+      </header>
+
+      <section id="stateCard" class="status-card" data-state="idle" aria-live="polite">
+        <div>
+          <p id="stateLabel" class="status-card__eyebrow">Ready to capture</p>
+          <p id="statusMessage" class="status-card__message">
+            MeliGo will collect the product title, price, images, and source link when available.
+          </p>
+        </div>
+        <div class="status-pulse" aria-hidden="true"></div>
+      </section>
+
+      <button id="sendButton" class="primary-button">Save This Product</button>
+
+      <p id="error" class="feedback feedback--error" hidden></p>
+
+      <section id="result" class="result-slot"></section>
+
+      <section class="tip-panel">
+        <p class="tip-panel__title">What gets captured</p>
+        <div class="tip-list">
+          <span class="tip-chip">Main image</span>
+          <span class="tip-chip">Image gallery</span>
+          <span class="tip-chip">Price</span>
+          <span class="tip-chip">Store link</span>
+        </div>
+      </section>
+    </section>
+  </main>
   <script src="popup.js"></script>
 </body>
 </html>

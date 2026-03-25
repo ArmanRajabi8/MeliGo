@@ -1,60 +1,168 @@
-<div *ngIf="!isLoggedIn; else hubContent" class="hub-empty-state">
-  <p>Log in to view and manage your saved items.</p>
-</div>
-
-<ng-template #hubContent>
-  <button (click)="openAdd()" *ngIf="!isAdding && !isEditing">Add New Item</button>
-
-  <div *ngIf="isAdding || isEditing" class="item-form">
-    <h3>{{ isAdding ? 'Add New Item' : 'Edit Item' }}</h3>
-
-    <label>Name: <input type="text" [(ngModel)]="formItem.name" /></label>
-    <label>Price: <input type="number" [(ngModel)]="formItem.price" /></label>
-    <label>Image URL: <input type="text" [(ngModel)]="formItem.imageUrl" /></label>
-    <label>Category: <input type="text" [(ngModel)]="formItem.category" /></label>
-    <label>
-      Importance:
-      <select [(ngModel)]="formItem.importance">
-        <option *ngFor="let star of [1,2,3,4,5]" [value]="star">{{star}}</option>
-      </select>
-    </label>
-
-    <button (click)="saveItem()">Save</button>
-    <button (click)="cancel()">Cancel</button>
-  </div>
-
-  <div *ngIf="loadError; else itemsState" class="hub-empty-state">
-    <p>{{ loadError }}</p>
-  </div>
-
-  <ng-template #itemsState>
-    <div *ngIf="items.length > 0; else noItems">
-      <ul class="item-list">
-        <li *ngFor="let item of items" class="item-card">
-          <img [src]="item.imageUrl || 'assets/images/default.jpg'" alt="{{item.name}}" class="item-image" />
-          <div class="item-details">
-            <h4>{{item.name}}</h4>
-            <p>Price: {{item.price | currency}}</p>
-            <p>Date Added: {{item.dateAdded | date:'mediumDate'}}</p>
-            <p>Category: {{item.category}}</p>
-            <p *ngIf="item.link">
-              <a [href]="item.link" target="_blank" rel="noopener noreferrer">Open product page</a>
-            </p>
-            <p>
-              Importance:
-              <span *ngFor="let star of [1,2,3,4,5]">
-                <i class="fa" [ngClass]="star <= item.importance ? 'fa-star' : 'fa-star-o'"></i>
-              </span>
-            </p>
-            <button (click)="openEdit(item)">Modify</button>
-            <button (click)="deleteItem(item)">Delete</button>
-          </div>
-        </li>
-      </ul>
+<section *ngIf="!isLoggedIn; else hubContent" class="hub-stack">
+  <article class="page-card guest-panel reveal">
+    <div class="guest-panel__copy">
+      <p class="section-label">One home for your finds</p>
+      <h2 class="section-title guest-panel__title">
+        Log in once, then let the extension collect the products that deserve a second look.
+      </h2>
+      <p class="section-copy">
+        Your dashboard becomes the place where every saved item, price, image, and store link finally stays organized.
+      </p>
     </div>
 
+    <div class="guest-panel__actions">
+      <a class="app-button app-button--primary" [routerLink]="['/login']">Log in</a>
+      <a class="app-button app-button--secondary" [routerLink]="['/register']">Create account</a>
+    </div>
+  </article>
+</section>
+
+<ng-template #hubContent>
+  <div class="hub-stack reveal">
+    <section class="page-card hub-toolbar">
+      <div class="hub-toolbar__copy">
+        <p class="section-label">Dashboard</p>
+        <h2 class="hub-toolbar__title">Your saved items</h2>
+        <p class="section-copy">A cleaner workspace that stays focused on the products themselves.</p>
+      </div>
+
+      <button
+        class="app-button app-button--primary"
+        (click)="isAdding || isEditing ? cancel() : openAdd()"
+      >
+        {{ isAdding || isEditing ? 'Close editor' : 'Add item manually' }}
+      </button>
+    </section>
+
+    <section *ngIf="isAdding || isEditing" class="page-card composer">
+      <div class="composer__header">
+        <div>
+          <p class="section-label">{{ isAdding ? 'Manual capture' : 'Polish the details' }}</p>
+          <h3 class="composer__title">{{ isAdding ? 'Add a new product to your cart' : 'Update this saved product' }}</h3>
+        </div>
+
+        <button class="app-button app-button--ghost" (click)="cancel()">Cancel</button>
+      </div>
+
+      <div class="composer__grid">
+        <label class="field field--span-2">
+          <span>Product name</span>
+          <input class="text-input" type="text" [(ngModel)]="formItem.name" placeholder="Sony WH-1000XM5 Headphones">
+        </label>
+
+        <label class="field">
+          <span>Price</span>
+          <input class="text-input" type="number" min="0" step="0.01" [(ngModel)]="formItem.price" placeholder="299.99">
+        </label>
+
+        <label class="field">
+          <span>Importance</span>
+          <select class="select-input" [(ngModel)]="formItem.importance">
+            <option *ngFor="let priority of prioritySteps" [ngValue]="priority">{{ priority }} / 5</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Category</span>
+          <input class="text-input" type="text" [(ngModel)]="formItem.category" placeholder="Audio">
+        </label>
+
+        <label class="field">
+          <span>Image URL</span>
+          <input class="text-input" type="url" [(ngModel)]="formItem.imageUrl" placeholder="https://example.com/product.jpg">
+        </label>
+
+        <label class="field field--span-2">
+          <span>Product link</span>
+          <input class="text-input" type="url" [(ngModel)]="formItem.link" placeholder="https://store.com/products/item">
+        </label>
+      </div>
+
+      <p *ngIf="formError" class="feedback feedback--error">{{ formError }}</p>
+
+      <div class="composer__actions">
+        <button class="app-button app-button--secondary" (click)="cancel()">Cancel</button>
+        <button
+          class="app-button app-button--primary"
+          (click)="saveItem()"
+          [disabled]="isSaving || !(formItem.name || '').trim()"
+        >
+          {{ isSaving ? (isAdding ? 'Saving item...' : 'Updating item...') : (isAdding ? 'Save item' : 'Save changes') }}
+        </button>
+      </div>
+    </section>
+
+    <section *ngIf="isLoading" class="page-card hub-message">
+      <p class="hub-message__title">Loading your saved items...</p>
+      <p class="hub-message__copy">Pulling in your latest captures and manual entries.</p>
+    </section>
+
+    <section *ngIf="loadError && !isLoading" class="page-card hub-message hub-message--error">
+      <p class="hub-message__title">We hit a loading issue.</p>
+      <p class="hub-message__copy">{{ loadError }}</p>
+    </section>
+
+    <section *ngIf="!isLoading && !loadError && items.length > 0; else noItems" class="item-grid">
+      <article
+        *ngFor="let item of items; trackBy: trackByItem"
+        class="page-card item-card"
+      >
+        <div class="item-card__visual">
+          <img [src]="item.imageUrl || 'assets/images/default.jpg'" [alt]="item.name" class="item-card__image" />
+          <span class="item-card__category">{{ item.category || 'Uncategorized' }}</span>
+
+          <div class="item-card__priority" aria-label="Importance rating">
+            <span
+              *ngFor="let priority of prioritySteps"
+              class="priority-dot"
+              [class.is-active]="priority <= item.importance"
+            ></span>
+          </div>
+        </div>
+
+        <div class="item-card__body">
+          <div class="item-card__meta">
+            <span>Saved {{ item.dateAdded ? (item.dateAdded | date:'MMM d, y') : 'just now' }}</span>
+            <a *ngIf="item.link" [href]="item.link" target="_blank" rel="noopener noreferrer">Source page</a>
+          </div>
+
+          <h3 class="item-card__title">{{ item.name }}</h3>
+
+          <p class="item-card__price" *ngIf="item.price > 0; else noPrice">
+            {{ item.price | currency }}
+          </p>
+
+          <ng-template #noPrice>
+            <p class="item-card__price item-card__price--muted">Price pending</p>
+          </ng-template>
+
+          <div class="item-card__footer">
+            <span class="metric-chip">Priority {{ item.importance }}/5</span>
+
+            <div class="item-card__actions">
+              <button class="app-button app-button--secondary item-card__action" (click)="openEdit(item)">Edit</button>
+              <button
+                class="app-button app-button--ghost item-card__action"
+                (click)="deleteItem(item)"
+                [disabled]="deletingItemId === item.id"
+              >
+                {{ deletingItemId === item.id ? 'Deleting...' : 'Delete' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
     <ng-template #noItems>
-      <p>No items found in your hub yet.</p>
+      <section *ngIf="!isLoading && !loadError" class="page-card empty-state-card">
+        <p class="section-label">Ready for your first save</p>
+        <h3 class="empty-state-card__title">Your cart is empty, but it is set up for a much better shopping flow.</h3>
+        <p class="section-copy">
+          Use the extension on a product page or add one manually here to start building your cross-store shortlist.
+        </p>
+        <button class="app-button app-button--primary" (click)="openAdd()">Add your first item</button>
+      </section>
     </ng-template>
-  </ng-template>
+  </div>
 </ng-template>

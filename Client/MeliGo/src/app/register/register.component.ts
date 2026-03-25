@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { UserService } from '../services/user.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HubService } from '../services/hub.service';
 import { Hub } from '../models/hub';
@@ -9,7 +9,7 @@ import { Hub } from '../models/hub';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -29,6 +29,21 @@ export class RegisterComponent {
   ) { }
 
   ngOnInit() {}
+
+  get passwordsMatch(): boolean {
+    return this.registerPassword === this.registerPasswordConfirm;
+  }
+
+  get canSubmit(): boolean {
+    return (
+      this.registerUsername.trim().length > 0 &&
+      this.registerEmail.trim().length > 0 &&
+      this.registerPassword.length > 0 &&
+      this.registerPasswordConfirm.length > 0 &&
+      this.passwordsMatch &&
+      !this.isSubmitting
+    );
+  }
 
   async register() : Promise<void>{
     this.authError = "";

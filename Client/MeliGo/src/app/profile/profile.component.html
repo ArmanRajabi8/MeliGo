@@ -1,28 +1,101 @@
-<div *ngIf="!userIsConnected">
-    Connectez-vous pour accéder à votre profil.
-  </div>
-  
-  <div *ngIf="userIsConnected">
-    <div id="profileTitle">Votre profil</div>
-  
-    <!-- Le formulaire pour changer le mot de passe vous est déjà fourni -->
-    <div class="profile">
-      <div>Modifier le mot de passe</div>
-      <input type="password" name="oldPassword" id="oldPassword" placeholder="Mot de passe actuel" [(ngModel)]="oldPassword">
-      <input type="password" name="newPassword" id="newPassword" placeholder="Nouveau mot de passe" [(ngModel)]="newPassword">
-      <input type="password" name="newPasswordConfirm" id="newPasswordConfirm" placeholder="Confirmer le nouveau mot de passe" [(ngModel)]="newPasswordConfirm">
-      <button (click)="changePassword()">Modifier</button>
+<section *ngIf="!userIsConnected; else profileContent" class="profile-layout">
+  <article class="page-card profile-guest">
+    <p class="section-label">Profile controls</p>
+    <h2 class="section-title profile-guest__title">Sign in to manage your account, password, and profile photo.</h2>
+    <p class="section-copy">
+      This is where your MeliGo identity stays polished across the dashboard and extension experience.
+    </p>
+
+    <div class="profile-guest__actions">
+      <a class="app-button app-button--primary" [routerLink]="['/login']">Log in</a>
+      <a class="app-button app-button--secondary" [routerLink]="['/register']">Create account</a>
     </div>
+  </article>
+</section>
 
-  
+<ng-template #profileContent>
+  <section class="profile-layout reveal">
+    <article class="page-card profile-identity">
+      <div class="profile-identity__media">
+        <img [src]="imageSrc" alt="Profile picture" class="profile-identity__avatar">
+      </div>
 
-  </div>
-   <!-- Nouveau formulaire pour modifier la photo de profil -->
-   <div class="profile">
-    <div>Modifier la photo de profil</div>
-    <img [src]="imageSrc" alt = "Picture">
-    <input type="file" #myFileInput id="profileImageInput" accept="images/*" (change)="imgFileSelected($event)">
-    <button (click)="ProfilePic()" >Mettre à jour la photo</button>
-  </div>
+      <div class="profile-identity__copy">
+        <p class="section-label">Your identity</p>
+        <h2 class="section-title profile-identity__title">Keep your MeliGo presence sharp and recognizable.</h2>
+        <p class="section-copy">
+          Update the photo shown across the app and secure the account that powers your universal shopping cart.
+        </p>
 
-  <!-- "https://localhost:7216/api/Users/GetAvatar/{{username}}" -->
+        <div class="profile-identity__chips">
+          <span class="metric-chip">Signed in as {{ username }}</span>
+          <span class="metric-chip">Dashboard + extension sync</span>
+        </div>
+      </div>
+    </article>
+
+    <div class="profile-grid">
+      <article class="page-card profile-card">
+        <div class="profile-card__heading">
+          <p class="section-label">Security</p>
+          <h3 class="profile-card__title">Change your password</h3>
+        </div>
+
+        <div class="profile-card__form">
+          <label class="field">
+            <span>Current password</span>
+            <input class="text-input" type="password" name="oldPassword" id="oldPassword" placeholder="Current password" [(ngModel)]="oldPassword">
+          </label>
+
+          <label class="field">
+            <span>New password</span>
+            <input class="text-input" type="password" name="newPassword" id="newPassword" placeholder="New password" [(ngModel)]="newPassword">
+          </label>
+
+          <label class="field">
+            <span>Confirm new password</span>
+            <input class="text-input" type="password" name="newPasswordConfirm" id="newPasswordConfirm" placeholder="Repeat new password" [(ngModel)]="newPasswordConfirm">
+          </label>
+
+          <p *ngIf="passwordError" class="feedback feedback--error">{{ passwordError }}</p>
+          <p *ngIf="passwordMessage" class="feedback feedback--success">{{ passwordMessage }}</p>
+
+          <button
+            class="app-button app-button--primary profile-card__submit"
+            (click)="changePassword()"
+            [disabled]="isSavingPassword || !oldPassword || !newPassword || !newPasswordConfirm"
+          >
+            {{ isSavingPassword ? 'Updating password...' : 'Update password' }}
+          </button>
+        </div>
+      </article>
+
+      <article class="page-card profile-card profile-card--upload">
+        <div class="profile-card__heading">
+          <p class="section-label">Avatar</p>
+          <h3 class="profile-card__title">Refresh your profile photo</h3>
+        </div>
+
+        <div class="profile-upload">
+          <img [src]="imageSrc" alt="Selected profile preview" class="profile-upload__preview">
+
+          <label class="profile-upload__field" for="profileImageInput">
+            <span>Choose a new image</span>
+            <input type="file" #myFileInput id="profileImageInput" accept="image/*" (change)="imgFileSelected($event)">
+          </label>
+
+          <p *ngIf="pictureError" class="feedback feedback--error">{{ pictureError }}</p>
+          <p *ngIf="pictureMessage" class="feedback feedback--success">{{ pictureMessage }}</p>
+
+          <button
+            class="app-button app-button--secondary profile-card__submit"
+            (click)="updateProfilePicture()"
+            [disabled]="isUploadingPicture"
+          >
+            {{ isUploadingPicture ? 'Uploading photo...' : 'Update profile photo' }}
+          </button>
+        </div>
+      </article>
+    </div>
+  </section>
+</ng-template>

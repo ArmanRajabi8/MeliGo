@@ -43,8 +43,20 @@ namespace MeliGo.Controllers
         }
 
         [HttpGet("user/{userId}")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Item>>> GetByUser(string userId)
         {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (currentUserId == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!string.Equals(currentUserId, userId, StringComparison.Ordinal))
+            {
+                return Forbid();
+            }
+
             return await _context.Items
                 .Where(i => i.UserId == userId)
                 .OrderByDescending(i => i.DateAdded)
@@ -52,8 +64,27 @@ namespace MeliGo.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Item>> PostItem(Item item)
+        [Authorize]
+        public async Task<ActionResult<Item>> PostItem([FromBody] ItemCreateDto itemDto)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var item = new Item
+            {
+                Name = string.IsNullOrWhiteSpace(itemDto.Name) ? "Untitled item" : itemDto.Name.Trim(),
+                Price = itemDto.Price,
+                ImageUrl = string.IsNullOrWhiteSpace(itemDto.ImageUrl) ? null : itemDto.ImageUrl.Trim(),
+                Link = string.IsNullOrWhiteSpace(itemDto.Link) ? string.Empty : itemDto.Link.Trim(),
+                Category = string.IsNullOrWhiteSpace(itemDto.Category) ? "Uncategorized" : itemDto.Category.Trim(),
+                Importance = Math.Clamp(itemDto.Importance, 1, 5),
+                DateAdded = DateTime.UtcNow,
+                UserId = userId
+            };
+
             _context.Items.Add(item);
             await _context.SaveChangesAsync();
 
@@ -62,6 +93,55 @@ namespace MeliGo.Controllers
                 new { id = item.Id },
                 item
             );
+        }
+
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<ActionResult<Item>> UpdateItem(int id, [FromBody] ItemCreateDto updatedItem)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var existingItem = await _context.Items.FirstOrDefaultAsync(item => item.Id == id && item.UserId == userId);
+            if (existingItem == null)
+            {
+                return NotFound();
+            }
+
+            existingItem.Name = string.IsNullOrWhiteSpace(updatedItem.Name) ? existingItem.Name : updatedItem.Name.Trim();
+            existingItem.Price = updatedItem.Price;
+            existingItem.ImageUrl = string.IsNullOrWhiteSpace(updatedItem.ImageUrl) ? null : updatedItem.ImageUrl.Trim();
+            existingItem.Link = string.IsNullOrWhiteSpace(updatedItem.Link) ? existingItem.Link : updatedItem.Link.Trim();
+            existingItem.Category = string.IsNullOrWhiteSpace(updatedItem.Category) ? "Uncategorized" : updatedItem.Category.Trim();
+            existingItem.Importance = Math.Clamp(updatedItem.Importance, 1, 5);
+
+            await _context.SaveChangesAsync();
+            return Ok(existingItem);
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteItem(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var item = await _context.Items.FirstOrDefaultAsync(existingItem => existingItem.Id == id && existingItem.UserId == userId);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            _context.Items.Remove(item);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
 
         [HttpPost("link")]

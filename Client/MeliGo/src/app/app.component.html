@@ -1,36 +1,88 @@
-<div id="container">
-  <header>
+<div class="app-shell">
+  <header class="page-card app-header reveal">
+    <div class="brand-cluster">
+      <a class="brand-mark" [routerLink]="['/']" aria-label="Open the MeliGo home page">
+        <span class="brand-mark__eyebrow">Universal Shopping Cart</span>
+        <span class="brand-mark__wordmark">Meli<span>Go</span></span>
+      </a>
+      <p class="brand-mark__copy">
+        One place to collect products, keep the best images, and return with clarity instead of chaos.
+      </p>
+    </div>
 
-    <!-- Ruban principal -->
-   <div id="headerRibbon">
-  <!-- Left side: Title -->
-  <div id="title" [routerLink]="['/postList', 'index']">Meli<span>Go</span></div>
+    <nav class="app-nav" aria-label="Primary">
+      <a
+        class="nav-link"
+        [routerLink]="['/']"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Home
+      </a>
+      <a
+        class="nav-link"
+        [routerLink]="['/postList', 'index']"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: false }"
+      >
+        Dashboard
+      </a>
+      <a
+        class="nav-link"
+        [routerLink]="['/profile']"
+        routerLinkActive="is-active"
+      >
+        Profile
+      </a>
+    </nav>
 
-  <!-- Right side: Buttons + Profile -->
-  <div class="header-actions">
-    <!-- Show only when not logged in -->
-    <button class="log" [routerLink]="['/register']" *ngIf="!userService.isLoggedIn()">Sign up</button>
-    <button class="log" [routerLink]="['/login']" *ngIf="!userService.isLoggedIn()">Login</button>
+    <div class="header-actions">
+      <div class="header-status" [class.is-live]="userService.isLoggedIn()">
+        <span class="header-status__label">{{ statusLabel }}</span>
+        <span class="header-status__copy">{{ statusCopy }}</span>
+      </div>
 
-    <!-- Show only when logged in -->
-    <button class="log" (click)="logout()" *ngIf="userService.isLoggedIn()">Logout</button>
+      <a
+        class="app-button app-button--ghost"
+        [routerLink]="['/register']"
+        *ngIf="!userService.isLoggedIn()"
+      >
+        Create account
+      </a>
+      <a
+        class="app-button app-button--primary"
+        [routerLink]="['/login']"
+        *ngIf="!userService.isLoggedIn()"
+      >
+        Log in
+      </a>
+      <a
+        class="app-button app-button--ghost"
+        [routerLink]="['/postList', 'index']"
+        *ngIf="userService.isLoggedIn()"
+      >
+        Open cart
+      </a>
+      <button
+        class="app-button app-button--secondary"
+        (click)="logout()"
+        *ngIf="userService.isLoggedIn()"
+      >
+        Log out
+      </button>
 
-    <!-- Profile Picture -->
-    <a [routerLink]="['/profile']">
-  <img [src]="avatarUrl"
-     alt="Profile"
-     class="profile-pic"
-     (error)="avatarUrl = 'assets/images/default.jpg'" />
-    </a>
-  </div>
-</div>
-
-    <!-- Ruban de navigation  -->
-    
+      <a class="profile-ring" [routerLink]="['/profile']" aria-label="Open profile">
+        <img
+          [src]="avatarUrl"
+          alt="Profile"
+          class="profile-ring__image"
+          (error)="avatarUrl = 'assets/images/default.jpg'"
+        />
+      </a>
+    </div>
   </header>
-  <main>
-    
-    <router-outlet></router-outlet>
 
+  <main class="page-stage">
+    <router-outlet></router-outlet>
   </main>
 </div>

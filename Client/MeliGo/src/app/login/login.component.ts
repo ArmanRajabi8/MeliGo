@@ -2,14 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { HubService } from '../services/hub.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Hub } from '../models/hub';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -27,6 +27,10 @@ export class LoginComponent {
   ) {}
 
   ngOnInit() {}
+
+  get canSubmit(): boolean {
+    return this.loginUsername.trim().length > 0 && this.loginPassword.length > 0 && !this.isSubmitting;
+  }
 
   async login(): Promise<void> {
     this.authError = "";

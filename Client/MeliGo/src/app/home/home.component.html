@@ -1,0 +1,99 @@
+<section class="home-stack reveal">
+  <section class="page-card hero-panel">
+    <div class="hero-panel__copy">
+      <p class="section-label">Curated shopping, finally</p>
+      <h1 class="section-title hero-panel__title">{{ heroTitle }}</h1>
+      <p class="section-copy hero-panel__subtitle">{{ heroSubtitle }}</p>
+
+      <div class="hero-panel__actions">
+        <a
+          class="app-button app-button--primary"
+          [routerLink]="userService.isLoggedIn() ? ['/postList', 'index'] : ['/register']"
+        >
+          {{ userService.isLoggedIn() ? 'Open my cart' : 'Start saving products' }}
+        </a>
+        <a
+          class="app-button app-button--secondary"
+          [routerLink]="userService.isLoggedIn() ? ['/profile'] : ['/login']"
+        >
+          {{ userService.isLoggedIn() ? 'Tune my profile' : 'Reconnect my account' }}
+        </a>
+      </div>
+
+      <div class="hero-panel__chips" aria-label="Key product features">
+        <span class="metric-chip">Cross-store capture</span>
+        <span class="metric-chip">Image gallery fallbacks</span>
+        <span class="metric-chip">Live extension sync</span>
+      </div>
+    </div>
+
+    <div class="hero-panel__stats">
+      <article class="hero-stat">
+        <span class="hero-stat__label">Capture mode</span>
+        <strong class="hero-stat__value">{{ userService.isLoggedIn() ? 'Live' : 'Ready' }}</strong>
+        <p class="hero-stat__copy">
+          Save product title, price, images, and the source link without leaving the page you are browsing.
+        </p>
+      </article>
+      <article class="hero-stat">
+        <span class="hero-stat__label">Workflow</span>
+        <strong class="hero-stat__value">Fast</strong>
+        <p class="hero-stat__copy">
+          Keep quick manual edits in the dashboard while the extension handles the heavy product scraping.
+        </p>
+      </article>
+      <article class="hero-stat">
+        <span class="hero-stat__label">Feel</span>
+        <strong class="hero-stat__value">Calm</strong>
+        <p class="hero-stat__copy">
+          A focused cart experience made for comparing, prioritizing, and revisiting the products that matter.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="home-overview">
+    <article class="page-card overview-banner">
+      <div class="overview-banner__copy">
+        <p class="section-label">My live cart</p>
+        <h2 class="section-title overview-banner__title">Everything worth revisiting, saved in one focused workspace.</h2>
+        <p class="section-copy">
+          Add products manually here or use the extension while browsing and come back to edit, compare, and prioritize.
+        </p>
+      </div>
+
+      <div class="overview-banner__actions">
+        <a class="app-button app-button--primary" [routerLink]="userService.isLoggedIn() ? ['/postList', 'index'] : ['/login']">
+          {{ userService.isLoggedIn() ? 'Open my cart' : 'Log in to start' }}
+        </a>
+        <p class="overview-banner__tip">Extension saves from live product pages land in the cart page so the dashboard can stay focused on the items themselves.</p>
+      </div>
+    </article>
+
+    <div class="overview-stats">
+      <article class="page-card overview-stat-card">
+        <span class="overview-stat-card__label">Saved items</span>
+        <strong class="overview-stat-card__value">{{ isLoggedIn ? (isLoading ? '...' : items.length) : 'Ready' }}</strong>
+        <p class="overview-stat-card__copy">Your current shortlist across all product pages.</p>
+      </article>
+
+      <article class="page-card overview-stat-card">
+        <span class="overview-stat-card__label">Tracked value</span>
+        <strong class="overview-stat-card__value">{{ trackedValueLabel }}</strong>
+        <p class="overview-stat-card__copy">A quick view of the price total for everything you kept.</p>
+      </article>
+
+      <article class="page-card overview-stat-card">
+        <span class="overview-stat-card__label">Categories</span>
+        <strong class="overview-stat-card__value">{{ isLoggedIn ? (isLoading ? '...' : categoryCount) : 'Ready' }}</strong>
+        <p class="overview-stat-card__copy">A broader set means your cart is becoming a real comparison board.</p>
+      </article>
+
+      <article class="page-card overview-stat-card">
+        <span class="overview-stat-card__label">High priority</span>
+        <strong class="overview-stat-card__value">{{ isLoggedIn ? (isLoading ? '...' : topPriorityCount) : 'Focus' }}</strong>
+        <p class="overview-stat-card__copy">Items marked four stars or higher and worth a closer look.</p>
+      </article>
+    </div>
+  </section>
+</section>

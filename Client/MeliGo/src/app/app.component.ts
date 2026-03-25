@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { RouterModule, RouterOutlet } from '@angular/router';
-import { Hub } from './models/hub';
-import { HubService } from './services/hub.service';
 import { UserService } from './services/user.service';
 import { HttpClientModule } from '@angular/common/http'; 
 import { buildApiUrl } from './config/api.config';
@@ -16,29 +13,36 @@ import { buildApiUrl } from './config/api.config';
     RouterOutlet,
     RouterModule,
     CommonModule,
-    FormsModule,
     HttpClientModule // ⬅️ Add this
     ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'MeliGo';
- searchText : string = "";
+  avatarUrl: string = 'assets/images/default.jpg';
 
-  hubsToggled : boolean = false;
-  hubList : Hub[] = [];
-avatarUrl: string = 'assets/images/default.jpg';
-  constructor(public hubService : HubService, public userService : UserService){}
+  constructor(public userService : UserService){}
 
-  async toggleHubs(){
+  get statusLabel(): string {
+    return this.userService.isLoggedIn() ? "Live sync enabled" : "Guest mode";
+  }
 
-    this.hubsToggled = !this.hubsToggled;
+  get statusCopy(): string {
+    return this.userService.isLoggedIn()
+      ? "Your app and extension are ready to save products together."
+      : "Sign in once and the extension will start saving products to your cart.";
+  }
 
-    if(this.hubsToggled && localStorage.getItem("token") != null){
-      let jsonHubs : string | null = localStorage.getItem("myHubs");
-      if(jsonHubs != null) this.hubList = JSON.parse(jsonHubs);
+  refreshAvatar(useCacheBust: boolean = false): void {
+    const username = localStorage.getItem("username");
+
+    if (!username) {
+      this.avatarUrl = 'assets/images/default.jpg';
+      return;
     }
+
+    const cacheBuster = useCacheBust ? `?t=${Date.now()}` : "";
+    this.avatarUrl = buildApiUrl(`/api/Users/GetAvatar/${username}${cacheBuster}`);
   }
 
   ngOnInit(): void {
@@ -53,15 +57,10 @@ avatarUrl: string = 'assets/images/default.jpg';
     window.postMessage({ type: "MELIGO_TOKEN", token }, "*");
   }
 
- if (username) {
-    this.avatarUrl = buildApiUrl(`/api/Users/GetAvatar/${username}`);
-  }
-   // ✅ Subscribe to avatar changes
+  this.refreshAvatar();
+
   this.userService.avatarChanged$.subscribe(() => {
-    const newUsername = localStorage.getItem("username");
-    if (newUsername) {
-      this.avatarUrl = buildApiUrl(`/api/Users/GetAvatar/${newUsername}`);
-    }
+    this.refreshAvatar(true);
   });
 }
 

@@ -1,7 +1,61 @@
-<div id="login">
-    <div>Connexion</div>
-    <input type="text" name="loginUsername" id="loginUsername" placeholder="Nom d'utilisateur ou email" [(ngModel)]="loginUsername">
-    <input type="password" name="loginPassword" id="loginPassword" placeholder="Mot de passe" [(ngModel)]="loginPassword">
-    <p *ngIf="authError" class="auth-error">{{ authError }}</p>
-    <button (click)="login()" [disabled]="isSubmitting">{{ isSubmitting ? 'Connexion...' : 'Se connecter' }}</button>
-  </div>
+<section class="auth-shell reveal">
+  <article class="page-card auth-story">
+    <p class="section-label">Welcome back</p>
+    <h2 class="section-title auth-story__title">Reconnect to the products you saved before they slip out of reach.</h2>
+    <p class="section-copy">
+      Log in once and your dashboard, saved items, and extension capture flow all line back up instantly.
+    </p>
+
+    <div class="auth-story__chips">
+      <span class="metric-chip">Universal cart</span>
+      <span class="metric-chip">Live extension sync</span>
+      <span class="metric-chip">Fast manual edits</span>
+    </div>
+  </article>
+
+  <article class="page-card auth-card">
+    <div class="auth-card__heading">
+      <p class="section-label">Log in</p>
+      <h3 class="auth-card__title">Step back into your shopping cockpit.</h3>
+    </div>
+
+    <div class="auth-card__form">
+      <label class="field">
+        <span>Username or email</span>
+        <input
+          class="text-input"
+          type="text"
+          name="loginUsername"
+          id="loginUsername"
+          placeholder="arman or arman@example.com"
+          autocomplete="username"
+          [(ngModel)]="loginUsername"
+        >
+      </label>
+
+      <label class="field">
+        <span>Password</span>
+        <input
+          class="text-input"
+          type="password"
+          name="loginPassword"
+          id="loginPassword"
+          placeholder="Your password"
+          autocomplete="current-password"
+          [(ngModel)]="loginPassword"
+        >
+      </label>
+
+      <p *ngIf="authError" class="feedback feedback--error">{{ authError }}</p>
+
+      <button class="app-button app-button--primary auth-card__submit" (click)="login()" [disabled]="!canSubmit">
+        {{ isSubmitting ? 'Signing in...' : 'Log in' }}
+      </button>
+    </div>
+
+    <p class="auth-card__footer">
+      Need an account?
+      <a [routerLink]="['/register']">Create one</a>
+    </p>
+  </article>
+</section>
