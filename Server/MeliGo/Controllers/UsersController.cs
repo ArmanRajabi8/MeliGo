@@ -1,10 +1,12 @@
 ﻿using MeliGo.Models;
 using MeliGo.Models.DTOs;
+using MeliGo.Data;
 using MeliGo.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 using System.IdentityModel.Tokens.Jwt;
@@ -19,11 +21,13 @@ namespace MeliGo.Controllers
     {
         private readonly UserManager<User> _userManager;
         readonly PictureService _pictureService;
+        private readonly MeliGoContext _context;
 
-        public UsersController(UserManager<User> userManager, PictureService pictureService)
+        public UsersController(UserManager<User> userManager, PictureService pictureService, MeliGoContext context)
         {
             _userManager = userManager;
             _pictureService = pictureService;
+            _context = context;
         }
 
 
@@ -99,6 +103,136 @@ namespace MeliGo.Controllers
                     new { Message = "Le nom d'utilisateur ou le mot de passe est invalide." });
             }
         }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> ShareList(ShareListDto dto)
+        {
+            var ownerUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (ownerUserId == null)
+            {
+                return Unauthorized();
+            }
+
+            var targetValue = dto.TargetUser?.Trim();
+            if (string.IsNullOrWhiteSpace(targetValue))
+            {
+                return BadRequest(new { Message = "Le nom d'utilisateur ou email est requis." });
+            }
+
+            User? targetUser = await _userManager.FindByNameAsync(targetValue);
+            if (targetUser == null)
+            {
+                targetUser = await _userManager.FindByEmailAsync(targetValue);
+            }
+
+            if (targetUser == null)
+            {
+                return NotFound(new { Message = "Utilisateur introuvable." });
+            }
+
+            if (string.Equals(targetUser.Id, ownerUserId, StringComparison.Ordinal))
+            {
+                return BadRequest(new { Message = "Vous ne pouvez pas partager votre liste avec vous-même." });
+            }
+
+            var alreadyShared = await _context.ListShares.AnyAsync(share =>
+                share.OwnerUserId == ownerUserId && share.SharedWithUserId == targetUser.Id);
+
+            if (alreadyShared)
+            {
+                return Ok(new
+                {
+                    Message = "Liste déjà partagée.",
+                    sharedWithUserId = targetUser.Id,
+                    sharedWithUsername = targetUser.UserName
+                });
+            }
+
+            _context.ListShares.Add(new ListShare
+            {
+                OwnerUserId = ownerUserId,
+                SharedWithUserId = targetUser.Id,
+                CreatedAt = DateTime.UtcNow
+            });
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                Message = "Liste partagée.",
+                sharedWithUserId = targetUser.Id,
+                sharedWithUsername = targetUser.UserName
+            });
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<object>>> SharedWithMe()
+        {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (currentUserId == null)
+            {
+                return Unauthorized();
+            }
+
+            var shares = await _context.ListShares
+                .Where(share => share.SharedWithUserId == currentUserId)
+                .Join(_context.Users,
+                    share => share.OwnerUserId,
+                    user => user.Id,
+                    (share, user) => new
+                    {
+                        ownerUserId = user.Id,
+                        ownerUsername = user.UserName,
+                        sharedAt = share.CreatedAt
+                    })
+                .ToListAsync();
+
+            return Ok(shares);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> UnshareList(ShareListDto dto)
+        {
+            var ownerUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (ownerUserId == null)
+            {
+                return Unauthorized();
+            }
+
+            var targetValue = dto.TargetUser?.Trim();
+            if (string.IsNullOrWhiteSpace(targetValue))
+            {
+                return BadRequest(new { Message = "Le nom d'utilisateur ou email est requis." });
+            }
+
+            User? targetUser = await _userManager.FindByNameAsync(targetValue);
+            if (targetUser == null)
+            {
+                targetUser = await _userManager.FindByEmailAsync(targetValue);
+            }
+
+            if (targetUser == null)
+            {
+                return NotFound(new { Message = "Utilisateur introuvable." });
+            }
+
+            var share = await _context.ListShares.FirstOrDefaultAsync(existing =>
+                existing.OwnerUserId == ownerUserId && existing.SharedWithUserId == targetUser.Id);
+
+            if (share == null)
+            {
+                return NotFound(new { Message = "Aucun partage trouvé pour cet utilisateur." });
+            }
+
+            _context.ListShares.Remove(share);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Message = "Partage supprimé." });
+        }
+
         [HttpPut]
         public async Task<ActionResult<Picture>> ProfilePic()
         {

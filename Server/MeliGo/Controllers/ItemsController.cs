@@ -54,7 +54,13 @@ namespace MeliGo.Controllers
 
             if (!string.Equals(currentUserId, userId, StringComparison.Ordinal))
             {
-                return Forbid();
+                var hasSharedAccess = await _context.ListShares.AnyAsync(share =>
+                    share.OwnerUserId == userId && share.SharedWithUserId == currentUserId);
+
+                if (!hasSharedAccess)
+                {
+                    return Forbid();
+                }
             }
 
             return await _context.Items

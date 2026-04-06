@@ -11,5 +11,6 @@ namespace MeliGo.Data
 
         public DbSet<Picture> Pictures { get; set; } = default!;
         public DbSet<Item> Items { get; set; } = default!; // singular, no duplicates
+        public DbSet<ListShare> ListShares { get; set; } = default!;
     }
 }
