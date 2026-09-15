@@ -291,7 +291,11 @@ namespace MeliGo.Controllers
                 return null;
             }
 
-            var cleaned = Regex.Replace(priceText, @"[^\d,.\-]", "");
+            var priceMatch = Regex.Match(
+                priceText,
+                @"(?<!\d)(?:\d{1,3}(?:[.,]\d{3})+|\d+)(?:[.,]\d{2})(?!\d)");
+            var priceValue = priceMatch.Success ? priceMatch.Value : priceText;
+            var cleaned = Regex.Replace(priceValue, @"[^\d,.\-]", "");
             if (string.IsNullOrWhiteSpace(cleaned))
             {
                 return null;
