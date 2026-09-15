@@ -9,18 +9,10 @@ services:
     healthCheckPath: /healthz
     envVars:
       - key: ConnectionStrings__MeliGoContext
-        fromDatabase:
-          name: meligo-db
-          property: connectionString
+        sync: false
       - key: Jwt__Key
         generateValue: true
       - key: Jwt__Issuer
         value: meligo
       - key: Jwt__Audience
         value: meligo-web
-
-databases:
-  - name: meligo-db
-    databaseName: meligo
-    user: meligo
-    plan: free
