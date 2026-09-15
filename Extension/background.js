@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://localhost:7066";
+const API_BASE_URL = "https://meligo.onrender.com";
 
 chrome.runtime.onMessage.addListener((message) => {
   if (message.action !== "saveLink") {
