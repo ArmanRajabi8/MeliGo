@@ -13,7 +13,7 @@ export class HubService {
   constructor(public http : HttpClient) { }
 
   async getUserHubs() : Promise<Hub[]>{
-    let x = await lastValueFrom(this.http.get<Hub[]>(buildApiUrl("/api/Hubs")));
+    let x = await lastValueFrom(this.http.get<Hub[]>(buildApiUrl("/api/Hubs/GetUserHubs")));
     console.log(x);
     return x;
   }
