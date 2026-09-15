@@ -284,18 +284,26 @@ namespace MeliGo.Controllers
 
             if (string.IsNullOrWhiteSpace(user.FileName) || string.IsNullOrWhiteSpace(user.MimeType))
             {
-                return NotFound(new { Message = "No avatar is set for this user." });
+                return DefaultAvatar();
             }
 
             string avatarPath = Path.Combine(Directory.GetCurrentDirectory(), "images", "avatar", user.FileName);
             if (!System.IO.File.Exists(avatarPath))
             {
-                return NotFound(new { Message = "Avatar file not found." });
+                return DefaultAvatar();
             }
 
             byte[] bytes = await System.IO.File.ReadAllBytesAsync(avatarPath);
             return File(bytes, user.MimeType!);
 
+        }
+
+        private ActionResult<Picture> DefaultAvatar()
+        {
+            string defaultAvatarPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets", "images", "default.jpg");
+            return System.IO.File.Exists(defaultAvatarPath)
+                ? PhysicalFile(defaultAvatarPath, "image/jpeg")
+                : NotFound(new { Message = "Default avatar file not found." });
         }
 
         [HttpPost]

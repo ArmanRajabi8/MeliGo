@@ -44,7 +44,7 @@
     <div class="profile-panels">
       <article *ngIf="activeTab === 'account'" class="page-card profile-identity">
         <div class="profile-identity__media">
-          <img [src]="imageSrc" [attr.alt]="'profile.avatar.alt' | translate" class="profile-identity__avatar">
+          <img [src]="imageSrc" [attr.alt]="'profile.avatar.alt' | translate" class="profile-identity__avatar" (error)="imageSrc = 'assets/images/default.jpg'">
         </div>
 
         <div class="profile-identity__copy">
@@ -101,7 +101,7 @@
         </div>
 
         <div class="profile-upload">
-          <img [src]="imageSrc" [attr.alt]="'profile.avatar.previewAlt' | translate" class="profile-upload__preview">
+          <img [src]="imageSrc" [attr.alt]="'profile.avatar.previewAlt' | translate" class="profile-upload__preview" (error)="imageSrc = 'assets/images/default.jpg'">
 
           <label class="profile-upload__field" for="profileImageInput">
             <span>{{ 'profile.avatar.choose' | translate }}</span>
