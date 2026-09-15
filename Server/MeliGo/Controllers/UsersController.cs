@@ -38,7 +38,7 @@ namespace MeliGo.Controllers
             if (register.Password != register.PasswordConfirm)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new { Message = "Les deux mots de passe spécifiés sont différents." });
+                    new { Message = "Passwords do not match." });
             }
             User user = new User()
             {
@@ -48,10 +48,13 @@ namespace MeliGo.Controllers
             IdentityResult identityResult = await _userManager.CreateAsync(user, register.Password);
             if (!identityResult.Succeeded)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    new { Message = "La création de l'utilisateur a échoué." });
+                return BadRequest(new
+                {
+                    Message = "User creation failed.",
+                    Errors = identityResult.Errors.Select(error => error.Description)
+                });
             }
-            return Ok(new { Message = "Inscription réussie ! 🥳" });
+            return Ok(new { Message = "Registration successful." });
         }
 
         [HttpPost]
@@ -100,7 +103,7 @@ namespace MeliGo.Controllers
             else
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new { Message = "Le nom d'utilisateur ou le mot de passe est invalide." });
+                    new { Message = "Invalid username or password." });
             }
         }
 
@@ -117,7 +120,7 @@ namespace MeliGo.Controllers
             var targetValue = dto.TargetUser?.Trim();
             if (string.IsNullOrWhiteSpace(targetValue))
             {
-                return BadRequest(new { Message = "Le nom d'utilisateur ou email est requis." });
+                return BadRequest(new { Message = "Username or email is required." });
             }
 
             User? targetUser = await _userManager.FindByNameAsync(targetValue);
@@ -128,12 +131,12 @@ namespace MeliGo.Controllers
 
             if (targetUser == null)
             {
-                return NotFound(new { Message = "Utilisateur introuvable." });
+                return NotFound(new { Message = "User not found." });
             }
 
             if (string.Equals(targetUser.Id, ownerUserId, StringComparison.Ordinal))
             {
-                return BadRequest(new { Message = "Vous ne pouvez pas partager votre liste avec vous-même." });
+                return BadRequest(new { Message = "You cannot share your list with yourself." });
             }
 
             var alreadyShared = await _context.ListShares.AnyAsync(share =>
@@ -143,7 +146,7 @@ namespace MeliGo.Controllers
             {
                 return Ok(new
                 {
-                    Message = "Liste déjà partagée.",
+                    Message = "List already shared.",
                     sharedWithUserId = targetUser.Id,
                     sharedWithUsername = targetUser.UserName
                 });
@@ -160,7 +163,7 @@ namespace MeliGo.Controllers
 
             return Ok(new
             {
-                Message = "Liste partagée.",
+                Message = "List shared.",
                 sharedWithUserId = targetUser.Id,
                 sharedWithUsername = targetUser.UserName
             });
@@ -205,7 +208,7 @@ namespace MeliGo.Controllers
             var targetValue = dto.TargetUser?.Trim();
             if (string.IsNullOrWhiteSpace(targetValue))
             {
-                return BadRequest(new { Message = "Le nom d'utilisateur ou email est requis." });
+                return BadRequest(new { Message = "Username or email is required." });
             }
 
             User? targetUser = await _userManager.FindByNameAsync(targetValue);
@@ -216,7 +219,7 @@ namespace MeliGo.Controllers
 
             if (targetUser == null)
             {
-                return NotFound(new { Message = "Utilisateur introuvable." });
+                return NotFound(new { Message = "User not found." });
             }
 
             var share = await _context.ListShares.FirstOrDefaultAsync(existing =>
@@ -224,49 +227,51 @@ namespace MeliGo.Controllers
 
             if (share == null)
             {
-                return NotFound(new { Message = "Aucun partage trouvé pour cet utilisateur." });
+                return NotFound(new { Message = "No share found for this user." });
             }
 
             _context.ListShares.Remove(share);
             await _context.SaveChangesAsync();
 
-            return Ok(new { Message = "Partage supprimé." });
+            return Ok(new { Message = "Share removed." });
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult<Picture>> ProfilePic()
         {
-            try
+            User? user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (user == null) return Unauthorized();
+
+            IFormCollection formCollection = await Request.ReadFormAsync();
+            IFormFile? file = formCollection.Files.GetFile("monImage"); // ⛔ Même clé que dans le FormData 😠
+
+            if (file == null) return BadRequest(new { Message = "Please provide an image." });
+
+            using SixLabors.ImageSharp.Image image = SixLabors.ImageSharp.Image.Load(file.OpenReadStream());
+
+            user.FileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            user.MimeType = file.ContentType;
+
+            string avatarDirectory = Path.Combine(Directory.GetCurrentDirectory(), "images", "avatar");
+            Directory.CreateDirectory(avatarDirectory);
+
+            string avatarPath = Path.Combine(avatarDirectory, user.FileName);
+            await image.SaveAsync(avatarPath);
+
+            IdentityResult updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
             {
-                User? user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-                if (user == null) return Unauthorized();
-
-                IFormCollection formCollection = await Request.ReadFormAsync();
-                IFormFile? file = formCollection.Files.GetFile("monImage"); // ⛔ Même clé que dans le FormData 😠
-
-                if (file == null) return BadRequest(new { Message = "Fournis une image, niochon" });
-
-                SixLabors.ImageSharp.Image image = SixLabors.ImageSharp.Image.Load(file.OpenReadStream());
-
-                user.FileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                user.MimeType = file.ContentType;
-
-
-                // ⛔ Ce dossier (projet/images/big) DOIT déjà exister 📂 !! Créez-le d'abord !
-                image.Save(Directory.GetCurrentDirectory() + "/images/avatar/" + user.FileName);
-
-                await _userManager.UpdateAsync(user);
-
-
-
-                // La seule chose dont le client pourrait avoir besoin, c'est l'id de l'image.
-                // On aurait pu ne rien retourner aussi, selon les besoins du client Angular.
-                return Ok();
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Message = "Avatar update failed.",
+                    Errors = updateResult.Errors.Select(error => error.Description)
+                });
             }
-            catch (Exception)
-            {
-                throw;
-            }
+
+            // La seule chose dont le client pourrait avoir besoin, c'est l'id de l'image.
+            // On aurait pu ne rien retourner aussi, selon les besoins du client Angular.
+            return Ok();
 
         }
         [HttpGet("{username}")]
@@ -274,14 +279,26 @@ namespace MeliGo.Controllers
         {
 
             User? user = await _userManager.FindByNameAsync(username);
-            if (user == null) return Unauthorized();
+            if (user == null) return NotFound(new { Message = "User not found." });
 
-            byte[] bytes = System.IO.File.ReadAllBytes(Directory.GetCurrentDirectory() + "/images/avatar/" + user.FileName);
+            if (string.IsNullOrWhiteSpace(user.FileName) || string.IsNullOrWhiteSpace(user.MimeType))
+            {
+                return NotFound(new { Message = "No avatar is set for this user." });
+            }
+
+            string avatarPath = Path.Combine(Directory.GetCurrentDirectory(), "images", "avatar", user.FileName);
+            if (!System.IO.File.Exists(avatarPath))
+            {
+                return NotFound(new { Message = "Avatar file not found." });
+            }
+
+            byte[] bytes = await System.IO.File.ReadAllBytesAsync(avatarPath);
             return File(bytes, user.MimeType!);
 
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> ChangePassword(ChangePasswordDTO dto)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
@@ -292,28 +309,28 @@ namespace MeliGo.Controllers
 
             if (dto.NewPassword != dto.NewPasswordConfirm)
             {
-                return BadRequest(new { Message = "Les nouveaux mots de passe ne correspondent pas." });
+                return BadRequest(new { Message = "New passwords do not match." });
             }
 
             IdentityResult result = await _userManager.ChangePasswordAsync(user, dto.OldPassword, dto.NewPassword);
 
             if (!result.Succeeded)
             {
-                return BadRequest(new { Message = "Échec du changement de mot de passe." });
+                return BadRequest(new { Message = "Password change failed." });
             }
 
-            return Ok(new { Message = "Mot de passe changé avec succès !" });
+            return Ok(new { Message = "Password updated successfully." });
         }
         [HttpPost]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> AddModerator(string username)
         {
             User? user = await _userManager.FindByNameAsync(username);
-            if (user == null) return NotFound(new { Message = "Utilisateur introuvable." });
+            if (user == null) return NotFound(new { Message = "User not found." });
 
             IdentityResult result = await _userManager.AddToRoleAsync(user, "moderator");
-            if (result.Succeeded) return Ok(new { Message = "Rôle créé !" });
-            else return BadRequest(new { Message = "La création du rôle a échoué." });
+            if (result.Succeeded) return Ok(new { Message = "Role created." });
+            else return BadRequest(new { Message = "Role creation failed." });
 
         }
     }

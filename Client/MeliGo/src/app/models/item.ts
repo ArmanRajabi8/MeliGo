@@ -7,4 +7,5 @@ export interface Item {
   dateAdded?: string;
   importance: number;
   category: string;
+  hubId?: number | null;
 }

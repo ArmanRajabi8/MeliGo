@@ -1,18 +1,16 @@
 <section *ngIf="!isLoggedIn; else hubContent" class="hub-stack">
   <article class="page-card guest-panel reveal">
     <div class="guest-panel__copy">
-      <p class="section-label">One home for your finds</p>
+      <p class="section-label">{{ 'hub.guest.label' | translate }}</p>
       <h2 class="section-title guest-panel__title">
-        Log in once, then let the extension collect the products that deserve a second look.
+        {{ 'hub.guest.title' | translate }}
       </h2>
-      <p class="section-copy">
-        Your dashboard becomes the place where every saved item, price, image, and store link finally stays organized.
-      </p>
+      <p class="section-copy">{{ 'hub.guest.copy' | translate }}</p>
     </div>
 
     <div class="guest-panel__actions">
-      <a class="app-button app-button--primary" [routerLink]="['/login']">Log in</a>
-      <a class="app-button app-button--secondary" [routerLink]="['/register']">Create account</a>
+      <a class="app-button app-button--primary" [routerLink]="['/login']">{{ 'hub.guest.login' | translate }}</a>
+      <a class="app-button app-button--secondary" [routerLink]="['/register']">{{ 'hub.guest.create' | translate }}</a>
     </div>
   </article>
 </section>
@@ -21,84 +19,172 @@
   <div class="hub-stack reveal">
     <section class="page-card hub-toolbar">
       <div class="hub-toolbar__copy">
-        <p class="section-label">Dashboard</p>
-        <h2 class="hub-toolbar__title">Your saved items</h2>
-        <p class="section-copy">A cleaner workspace that stays focused on the products themselves.</p>
+        <p class="section-label">{{ 'hub.toolbar.label' | translate }}</p>
+        <h2 class="hub-toolbar__title">{{ 'hub.toolbar.title' | translate }}</h2>
+        <p class="section-copy">{{ 'hub.toolbar.copy' | translate }}</p>
       </div>
 
-      <button
-        class="app-button app-button--primary"
-        (click)="isAdding || isEditing ? cancel() : openAdd()"
-      >
-        {{ isAdding || isEditing ? 'Close editor' : 'Add item manually' }}
-      </button>
-    </section>
-
-    <section *ngIf="isAdding || isEditing" class="page-card composer">
-      <div class="composer__header">
-        <div>
-          <p class="section-label">{{ isAdding ? 'Manual capture' : 'Polish the details' }}</p>
-          <h3 class="composer__title">{{ isAdding ? 'Add a new product to your cart' : 'Update this saved product' }}</h3>
-        </div>
-
-        <button class="app-button app-button--ghost" (click)="cancel()">Cancel</button>
-      </div>
-
-      <div class="composer__grid">
-        <label class="field field--span-2">
-          <span>Product name</span>
-          <input class="text-input" type="text" [(ngModel)]="formItem.name" placeholder="Sony WH-1000XM5 Headphones">
-        </label>
-
-        <label class="field">
-          <span>Price</span>
-          <input class="text-input" type="number" min="0" step="0.01" [(ngModel)]="formItem.price" placeholder="299.99">
-        </label>
-
-        <label class="field">
-          <span>Importance</span>
-          <select class="select-input" [(ngModel)]="formItem.importance">
-            <option *ngFor="let priority of prioritySteps" [ngValue]="priority">{{ priority }} / 5</option>
+      <div class="hub-toolbar__actions">
+        <label class="hub-view">
+          <span>{{ 'hub.view.label' | translate }}</span>
+          <select class="select-input" [ngModel]="viewUserId" (ngModelChange)="selectSharedUser($event)">
+            <option [ngValue]="currentUserId">{{ 'hub.view.mine' | translate }}</option>
+            <option *ngFor="let share of sharedWithMe" [ngValue]="share.ownerUserId">{{ share.ownerUsername }}</option>
           </select>
         </label>
-
-        <label class="field">
-          <span>Category</span>
-          <input class="text-input" type="text" [(ngModel)]="formItem.category" placeholder="Audio">
-        </label>
-
-        <label class="field">
-          <span>Image URL</span>
-          <input class="text-input" type="url" [(ngModel)]="formItem.imageUrl" placeholder="https://example.com/product.jpg">
-        </label>
-
-        <label class="field field--span-2">
-          <span>Product link</span>
-          <input class="text-input" type="url" [(ngModel)]="formItem.link" placeholder="https://store.com/products/item">
-        </label>
-      </div>
-
-      <p *ngIf="formError" class="feedback feedback--error">{{ formError }}</p>
-
-      <div class="composer__actions">
-        <button class="app-button app-button--secondary" (click)="cancel()">Cancel</button>
         <button
           class="app-button app-button--primary"
-          (click)="saveItem()"
-          [disabled]="isSaving || !(formItem.name || '').trim()"
+          (click)="isAdding || isEditing ? cancel() : openAdd()"
+          [disabled]="isViewingShared"
         >
-          {{ isSaving ? (isAdding ? 'Saving item...' : 'Updating item...') : (isAdding ? 'Save item' : 'Save changes') }}
+          {{ isAdding || isEditing ? ('hub.toolbar.close' | translate) : ('hub.toolbar.add' | translate) }}
+        </button>
+        <button class="app-button app-button--ghost" (click)="openHubManager()" [disabled]="isViewingShared">
+          {{ isManagingHubs ? ('hub.toolbar.closeCarts' | translate) : ('hub.toolbar.manage' | translate) }}
         </button>
       </div>
     </section>
 
+    <section *ngIf="hubs.length && !isViewingShared" class="page-card hub-carts">
+      <p class="section-label">{{ 'hub.carts.label' | translate }}</p>
+      <div class="hub-carts__row">
+        <div class="hub-tabs">
+          <button
+            *ngFor="let hub of hubs"
+            class="hub-tab"
+            [class.is-active]="hub.id === activeHubId"
+            (click)="selectHub(hub)"
+          >
+            <span>{{ getHubDisplayName(hub) }}</span>
+            <span class="hub-tab__count">{{ hub.itemCount ?? 0 }}</span>
+          </button>
+        </div>
+        <button class="app-button app-button--secondary" (click)="openAdd()">
+          {{ 'hub.carts.addItem' | translate }}
+        </button>
+      </div>
+      <p *ngIf="hubError" class="feedback feedback--error">{{ hubError }}</p>
+    </section>
+
+    <section *ngIf="isManagingHubs" class="page-card hub-manager">
+      <div class="hub-manager__header">
+        <div>
+          <p class="section-label">{{ 'hub.manager.label' | translate }}</p>
+          <h3 class="hub-manager__title">{{ 'hub.manager.title' | translate }}</h3>
+        </div>
+        <button class="app-button app-button--ghost" (click)="openHubManager()">{{ 'hub.manager.close' | translate }}</button>
+      </div>
+
+      <div class="hub-manager__grid">
+        <div class="hub-manager__list">
+          <div class="hub-manager__row" *ngFor="let hub of hubs">
+            <div class="hub-manager__info">
+              <p>{{ getHubDisplayName(hub) }}</p>
+              <span class="meta">
+                {{ hub.isDefault ? ('hub.manager.default' | translate) : ('hub.manager.items' | translate:{count: hub.itemCount ?? 0}) }}
+              </span>
+            </div>
+            <div class="hub-manager__actions">
+              <button class="app-button app-button--ghost" (click)="startRename(hub)">{{ 'hub.manager.rename' | translate }}</button>
+              <button
+                class="app-button app-button--ghost"
+                [disabled]="hub.isDefault"
+                (click)="deleteHub(hub)"
+              >
+                {{ 'hub.manager.delete' | translate }}
+              </button>
+            </div>
+            <div class="hub-manager__rename" *ngIf="renameHubId === hub.id">
+              <input class="text-input" [(ngModel)]="renameHubName" placeholder="{{ 'hub.manager.renamePlaceholder' | translate }}">
+              <button class="app-button app-button--primary" (click)="renameHub(hub)">{{ 'hub.manager.renameSave' | translate }}</button>
+              <button class="app-button app-button--ghost" (click)="cancelRename()">{{ 'hub.manager.renameCancel' | translate }}</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="hub-manager__create">
+          <p class="section-label">{{ 'hub.manager.newLabel' | translate }}</p>
+          <input class="text-input" [(ngModel)]="newHubName" placeholder="{{ 'hub.manager.newPlaceholder' | translate }}">
+          <button class="app-button app-button--primary" (click)="createHub()">{{ 'hub.manager.newAction' | translate }}</button>
+        </div>
+      </div>
+    </section>
+
+    <div *ngIf="isAdding || isEditing" class="modal">
+      <div class="modal__backdrop" (click)="cancel()"></div>
+      <section class="page-card composer modal__panel" (click)="$event.stopPropagation()">
+        <div class="composer__header">
+          <div>
+            <p class="section-label">{{ isAdding ? ('hub.composer.label.add' | translate) : ('hub.composer.label.edit' | translate) }}</p>
+            <h3 class="composer__title">{{ isAdding ? ('hub.composer.title.add' | translate) : ('hub.composer.title.edit' | translate) }}</h3>
+          </div>
+
+          <button class="app-button app-button--ghost" (click)="cancel()">{{ 'hub.composer.cancel' | translate }}</button>
+        </div>
+
+        <div class="composer__grid">
+          <label class="field field--span-2">
+            <span>{{ 'hub.composer.nameLabel' | translate }}</span>
+            <input class="text-input" type="text" [(ngModel)]="formItem.name" placeholder="{{ 'hub.composer.namePlaceholder' | translate }}">
+          </label>
+
+          <label class="field">
+            <span>{{ 'hub.composer.priceLabel' | translate }}</span>
+            <input class="text-input" type="number" min="0" step="0.01" [(ngModel)]="formItem.price" placeholder="299.99">
+          </label>
+
+          <label class="field">
+            <span>{{ 'hub.composer.importanceLabel' | translate }}</span>
+            <select class="select-input" [(ngModel)]="formItem.importance">
+              <option *ngFor="let priority of prioritySteps" [ngValue]="priority">{{ priority }} / 5</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>{{ 'hub.composer.cartLabel' | translate }}</span>
+            <select class="select-input" [(ngModel)]="formItem.hubId">
+              <option *ngFor="let hub of hubs" [ngValue]="hub.id">{{ hub.name }}</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>{{ 'hub.composer.categoryLabel' | translate }}</span>
+            <input class="text-input" type="text" [(ngModel)]="formItem.category" placeholder="{{ 'hub.composer.categoryPlaceholder' | translate }}">
+          </label>
+
+          <label class="field">
+            <span>{{ 'hub.composer.imageLabel' | translate }}</span>
+            <input class="text-input" type="url" [(ngModel)]="formItem.imageUrl" placeholder="{{ 'hub.composer.imagePlaceholder' | translate }}">
+          </label>
+
+          <label class="field field--span-2">
+            <span>{{ 'hub.composer.linkLabel' | translate }}</span>
+            <input class="text-input" type="url" [(ngModel)]="formItem.link" placeholder="{{ 'hub.composer.linkPlaceholder' | translate }}">
+          </label>
+        </div>
+
+        <p *ngIf="formError" class="feedback feedback--error">{{ formError }}</p>
+
+        <div class="composer__actions">
+          <button class="app-button app-button--secondary" (click)="cancel()">{{ 'hub.composer.cancel' | translate }}</button>
+          <button
+            class="app-button app-button--primary"
+            (click)="saveItem()"
+            [disabled]="isSaving || !(formItem.name || '').trim()"
+          >
+            {{ isSaving ? (isAdding ? ('hub.composer.saveAddBusy' | translate) : ('hub.composer.saveEditBusy' | translate)) : (isAdding ? ('hub.composer.saveAdd' | translate) : ('hub.composer.saveEdit' | translate)) }}
+          </button>
+        </div>
+      </section>
+    </div>
+
     <section *ngIf="isLoading" class="page-card hub-message">
-      <p class="hub-message__title">Loading your saved items...</p>
-      <p class="hub-message__copy">Pulling in your latest captures and manual entries.</p>
+      <p class="hub-message__title">{{ 'hub.loading.title' | translate }}</p>
+      <p class="hub-message__copy">{{ 'hub.loading.copy' | translate }}</p>
     </section>
 
     <section *ngIf="loadError && !isLoading" class="page-card hub-message hub-message--error">
-      <p class="hub-message__title">We hit a loading issue.</p>
+      <p class="hub-message__title">{{ 'hub.error.title' | translate }}</p>
       <p class="hub-message__copy">{{ loadError }}</p>
     </section>
 
@@ -109,9 +195,9 @@
       >
         <div class="item-card__visual">
           <img [src]="item.imageUrl || 'assets/images/default.jpg'" [alt]="item.name" class="item-card__image" />
-          <span class="item-card__category">{{ item.category || 'Uncategorized' }}</span>
+          <span class="item-card__category">{{ getCategoryLabel(item.category) }}</span>
 
-          <div class="item-card__priority" aria-label="Importance rating">
+          <div class="item-card__priority" [attr.aria-label]="'hub.item.importanceAria' | translate">
             <span
               *ngFor="let priority of prioritySteps"
               class="priority-dot"
@@ -122,8 +208,9 @@
 
         <div class="item-card__body">
           <div class="item-card__meta">
-            <span>Saved {{ item.dateAdded ? (item.dateAdded | date:'MMM d, y') : 'just now' }}</span>
-            <a *ngIf="item.link" [href]="item.link" target="_blank" rel="noopener noreferrer">Source page</a>
+            <span>{{ 'hub.item.saved' | translate }} {{ item.dateAdded ? (item.dateAdded | date:'MMM d, y') : ('hub.item.justNow' | translate) }}</span>
+            <span class="item-card__hub">{{ getHubName(item.hubId) }}</span>
+            <a *ngIf="item.link" [href]="item.link" target="_blank" rel="noopener noreferrer">{{ 'hub.item.source' | translate }}</a>
           </div>
 
           <h3 class="item-card__title">{{ item.name }}</h3>
@@ -133,20 +220,26 @@
           </p>
 
           <ng-template #noPrice>
-            <p class="item-card__price item-card__price--muted">Price pending</p>
+            <p class="item-card__price item-card__price--muted">{{ 'hub.item.pricePending' | translate }}</p>
           </ng-template>
 
           <div class="item-card__footer">
-            <span class="metric-chip">Priority {{ item.importance }}/5</span>
+            <span class="metric-chip">{{ 'hub.item.priority' | translate:{value: item.importance} }}</span>
 
             <div class="item-card__actions">
-              <button class="app-button app-button--secondary item-card__action" (click)="openEdit(item)">Edit</button>
+              <button
+                class="app-button app-button--secondary item-card__action"
+                (click)="openEdit(item)"
+                [disabled]="isViewingShared"
+              >
+                {{ 'hub.item.edit' | translate }}
+              </button>
               <button
                 class="app-button app-button--ghost item-card__action"
                 (click)="deleteItem(item)"
-                [disabled]="deletingItemId === item.id"
+                [disabled]="deletingItemId === item.id || isViewingShared"
               >
-                {{ deletingItemId === item.id ? 'Deleting...' : 'Delete' }}
+                {{ deletingItemId === item.id ? ('hub.item.deleting' | translate) : ('hub.item.delete' | translate) }}
               </button>
             </div>
           </div>
@@ -156,12 +249,10 @@
 
     <ng-template #noItems>
       <section *ngIf="!isLoading && !loadError" class="page-card empty-state-card">
-        <p class="section-label">Ready for your first save</p>
-        <h3 class="empty-state-card__title">Your cart is empty, but it is set up for a much better shopping flow.</h3>
-        <p class="section-copy">
-          Use the extension on a product page or add one manually here to start building your cross-store shortlist.
-        </p>
-        <button class="app-button app-button--primary" (click)="openAdd()">Add your first item</button>
+        <p class="section-label">{{ 'hub.empty.label' | translate }}</p>
+        <h3 class="empty-state-card__title">{{ 'hub.empty.title' | translate }}</h3>
+        <p class="section-copy">{{ 'hub.empty.copy' | translate }}</p>
+        <button class="app-button app-button--primary" (click)="openAdd()">{{ 'hub.empty.action' | translate }}</button>
       </section>
     </ng-template>
   </div>

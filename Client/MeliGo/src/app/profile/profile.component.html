@@ -1,60 +1,84 @@
-<section *ngIf="!userIsConnected; else profileContent" class="profile-layout">
+<section *ngIf="!userIsConnected; else profileContent" class="profile-layout profile-layout--guest">
   <article class="page-card profile-guest">
-    <p class="section-label">Profile controls</p>
-    <h2 class="section-title profile-guest__title">Sign in to manage your account, password, and profile photo.</h2>
-    <p class="section-copy">
-      This is where your MeliGo identity stays polished across the dashboard and extension experience.
-    </p>
+    <p class="section-label">{{ 'profile.guest.label' | translate }}</p>
+    <h2 class="section-title profile-guest__title">{{ 'profile.guest.title' | translate }}</h2>
+    <p class="section-copy">{{ 'profile.guest.copy' | translate }}</p>
 
     <div class="profile-guest__actions">
-      <a class="app-button app-button--primary" [routerLink]="['/login']">Log in</a>
-      <a class="app-button app-button--secondary" [routerLink]="['/register']">Create account</a>
+      <a class="app-button app-button--primary" [routerLink]="['/login']">{{ 'profile.guest.login' | translate }}</a>
+      <a class="app-button app-button--secondary" [routerLink]="['/register']">{{ 'profile.guest.create' | translate }}</a>
     </div>
   </article>
 </section>
 
 <ng-template #profileContent>
-  <section class="profile-layout reveal">
-    <article class="page-card profile-identity">
-      <div class="profile-identity__media">
-        <img [src]="imageSrc" alt="Profile picture" class="profile-identity__avatar">
-      </div>
-
-      <div class="profile-identity__copy">
-        <p class="section-label">Your identity</p>
-        <h2 class="section-title profile-identity__title">Keep your MeliGo presence sharp and recognizable.</h2>
-        <p class="section-copy">
-          Update the photo shown across the app and secure the account that powers your universal shopping cart.
-        </p>
-
-        <div class="profile-identity__chips">
-          <span class="metric-chip">Signed in as {{ username }}</span>
-          <span class="metric-chip">Dashboard + extension sync</span>
+  <section class="profile-layout profile-layout--shell reveal">
+    <aside class="page-card profile-sidebar">
+      <div class="profile-sidebar__identity">
+        <img [src]="imageSrc" [attr.alt]="'profile.avatar.alt' | translate" class="profile-sidebar__avatar">
+        <div>
+          <p class="section-label">{{ 'profile.identity.label' | translate }}</p>
+          <h3 class="profile-sidebar__name">{{ username }}</h3>
         </div>
       </div>
-    </article>
 
-    <div class="profile-grid">
-      <article class="page-card profile-card">
+      <nav class="profile-tabs" [attr.aria-label]="'profile.tabs.aria' | translate">
+        <button class="profile-tab" [class.is-active]="activeTab === 'account'" (click)="setActiveTab('account')">
+          {{ 'profile.tabs.account' | translate }}
+        </button>
+        <button class="profile-tab" [class.is-active]="activeTab === 'security'" (click)="setActiveTab('security')">
+          {{ 'profile.tabs.security' | translate }}
+        </button>
+        <button class="profile-tab" [class.is-active]="activeTab === 'avatar'" (click)="setActiveTab('avatar')">
+          {{ 'profile.tabs.avatar' | translate }}
+        </button>
+        <button class="profile-tab" [class.is-active]="activeTab === 'sharing'" (click)="setActiveTab('sharing')">
+          {{ 'profile.tabs.sharing' | translate }}
+        </button>
+        <button class="profile-tab" [class.is-active]="activeTab === 'settings'" (click)="setActiveTab('settings')">
+          {{ 'profile.tabs.settings' | translate }}
+        </button>
+      </nav>
+    </aside>
+
+    <div class="profile-panels">
+      <article *ngIf="activeTab === 'account'" class="page-card profile-identity">
+        <div class="profile-identity__media">
+          <img [src]="imageSrc" [attr.alt]="'profile.avatar.alt' | translate" class="profile-identity__avatar">
+        </div>
+
+        <div class="profile-identity__copy">
+          <p class="section-label">{{ 'profile.identity.label' | translate }}</p>
+          <h2 class="section-title profile-identity__title">{{ 'profile.identity.title' | translate }}</h2>
+          <p class="section-copy">{{ 'profile.identity.copy' | translate }}</p>
+
+          <div class="profile-identity__chips">
+            <span class="metric-chip">{{ 'profile.identity.signedInAs' | translate:{ username: username || '' } }}</span>
+            <span class="metric-chip">{{ 'profile.identity.sync' | translate }}</span>
+          </div>
+        </div>
+      </article>
+
+      <article *ngIf="activeTab === 'security'" class="page-card profile-card">
         <div class="profile-card__heading">
-          <p class="section-label">Security</p>
-          <h3 class="profile-card__title">Change your password</h3>
+          <p class="section-label">{{ 'profile.security.label' | translate }}</p>
+          <h3 class="profile-card__title">{{ 'profile.security.title' | translate }}</h3>
         </div>
 
         <div class="profile-card__form">
           <label class="field">
-            <span>Current password</span>
-            <input class="text-input" type="password" name="oldPassword" id="oldPassword" placeholder="Current password" [(ngModel)]="oldPassword">
+            <span>{{ 'profile.security.current' | translate }}</span>
+            <input class="text-input" type="password" name="oldPassword" id="oldPassword" placeholder="{{ 'profile.security.currentPlaceholder' | translate }}" [(ngModel)]="oldPassword">
           </label>
 
           <label class="field">
-            <span>New password</span>
-            <input class="text-input" type="password" name="newPassword" id="newPassword" placeholder="New password" [(ngModel)]="newPassword">
+            <span>{{ 'profile.security.new' | translate }}</span>
+            <input class="text-input" type="password" name="newPassword" id="newPassword" placeholder="{{ 'profile.security.newPlaceholder' | translate }}" [(ngModel)]="newPassword">
           </label>
 
           <label class="field">
-            <span>Confirm new password</span>
-            <input class="text-input" type="password" name="newPasswordConfirm" id="newPasswordConfirm" placeholder="Repeat new password" [(ngModel)]="newPasswordConfirm">
+            <span>{{ 'profile.security.confirm' | translate }}</span>
+            <input class="text-input" type="password" name="newPasswordConfirm" id="newPasswordConfirm" placeholder="{{ 'profile.security.confirmPlaceholder' | translate }}" [(ngModel)]="newPasswordConfirm">
           </label>
 
           <p *ngIf="passwordError" class="feedback feedback--error">{{ passwordError }}</p>
@@ -65,22 +89,22 @@
             (click)="changePassword()"
             [disabled]="isSavingPassword || !oldPassword || !newPassword || !newPasswordConfirm"
           >
-            {{ isSavingPassword ? 'Updating password...' : 'Update password' }}
+            {{ isSavingPassword ? ('profile.security.submitBusy' | translate) : ('profile.security.submit' | translate) }}
           </button>
         </div>
       </article>
 
-      <article class="page-card profile-card profile-card--upload">
+      <article *ngIf="activeTab === 'avatar'" class="page-card profile-card profile-card--upload">
         <div class="profile-card__heading">
-          <p class="section-label">Avatar</p>
-          <h3 class="profile-card__title">Refresh your profile photo</h3>
+          <p class="section-label">{{ 'profile.avatar.label' | translate }}</p>
+          <h3 class="profile-card__title">{{ 'profile.avatar.title' | translate }}</h3>
         </div>
 
         <div class="profile-upload">
-          <img [src]="imageSrc" alt="Selected profile preview" class="profile-upload__preview">
+          <img [src]="imageSrc" [attr.alt]="'profile.avatar.previewAlt' | translate" class="profile-upload__preview">
 
           <label class="profile-upload__field" for="profileImageInput">
-            <span>Choose a new image</span>
+            <span>{{ 'profile.avatar.choose' | translate }}</span>
             <input type="file" #myFileInput id="profileImageInput" accept="image/*" (change)="imgFileSelected($event)">
           </label>
 
@@ -92,8 +116,62 @@
             (click)="updateProfilePicture()"
             [disabled]="isUploadingPicture"
           >
-            {{ isUploadingPicture ? 'Uploading photo...' : 'Update profile photo' }}
+            {{ isUploadingPicture ? ('profile.avatar.submitBusy' | translate) : ('profile.avatar.submit' | translate) }}
           </button>
+        </div>
+      </article>
+
+      <article *ngIf="activeTab === 'sharing'" class="page-card profile-card">
+        <div class="profile-card__heading">
+          <p class="section-label">{{ 'profile.share.label' | translate }}</p>
+          <h3 class="profile-card__title">{{ 'profile.share.title' | translate }}</h3>
+        </div>
+
+        <div class="profile-card__form">
+          <label class="field">
+            <span>{{ 'profile.share.placeholder' | translate }}</span>
+            <input class="text-input" type="text" [(ngModel)]="shareTarget" placeholder="{{ 'profile.share.placeholder' | translate }}">
+          </label>
+
+          <div class="profile-share__actions">
+            <button class="app-button app-button--primary" (click)="shareList()" [disabled]="isSharing || !shareTarget.trim()">
+              {{ 'profile.share.button' | translate }}
+            </button>
+            <button class="app-button app-button--ghost" (click)="unshareList()" [disabled]="isSharing || !shareTarget.trim()">
+              {{ 'profile.share.unshare' | translate }}
+            </button>
+          </div>
+
+          <p *ngIf="shareError" class="feedback feedback--error">{{ shareError }}</p>
+          <p *ngIf="shareMessage" class="feedback feedback--success">{{ shareMessage }}</p>
+        </div>
+
+        <div class="profile-share__list">
+          <p class="section-label">{{ 'profile.share.sharedWithMe' | translate }}</p>
+          <div *ngIf="isLoadingShared" class="profile-share__loading">{{ 'profile.share.loading' | translate }}</div>
+          <div *ngIf="!isLoadingShared && sharedWithMe.length === 0" class="profile-share__empty">{{ 'profile.share.empty' | translate }}</div>
+          <ul *ngIf="!isLoadingShared && sharedWithMe.length > 0">
+            <li *ngFor="let share of sharedWithMe">
+              {{ share.ownerUsername }} • {{ share.sharedAt | date:'MMM d, y' }}
+            </li>
+          </ul>
+        </div>
+      </article>
+
+      <article *ngIf="activeTab === 'settings'" class="page-card profile-card">
+        <div class="profile-card__heading">
+          <p class="section-label">{{ 'profile.settings.label' | translate }}</p>
+          <h3 class="profile-card__title">{{ 'profile.settings.title' | translate }}</h3>
+        </div>
+
+        <div class="profile-settings">
+          <button class="profile-language" [class.is-active]="currentLanguage === 'en'" (click)="setLanguage('en')">
+            {{ 'profile.settings.english' | translate }}
+          </button>
+          <button class="profile-language" [class.is-active]="currentLanguage === 'fr'" (click)="setLanguage('fr')">
+            {{ 'profile.settings.french' | translate }}
+          </button>
+          <p class="section-copy profile-settings__copy">{{ 'profile.settings.helper' | translate }}</p>
         </div>
       </article>
     </div>

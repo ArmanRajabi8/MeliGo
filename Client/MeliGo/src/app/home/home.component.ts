@@ -4,11 +4,13 @@ import { RouterLink } from '@angular/router';
 import { HubService } from '../services/hub.service';
 import { Item } from '../models/item';
 import { UserService } from '../services/user.service';
+import { I18nService } from '../services/i18n.service';
+import { TranslatePipe } from '../pipes/translate.pipe';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TranslatePipe],
   providers: [CurrencyPipe],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -21,25 +23,26 @@ export class HomeComponent {
   constructor(
     private hubService: HubService,
     private currencyPipe: CurrencyPipe,
-    public userService: UserService
+    public userService: UserService,
+    private i18n: I18nService
   ) {}
 
   get heroTitle(): string {
     const username = localStorage.getItem("username");
 
     if (this.userService.isLoggedIn() && username) {
-      return `Build a sharper cart around what ${username} actually wants.`;
+      return this.i18n.t('home.heroTitle.loggedIn', { username });
     }
 
-    return "Save anything worth buying before it disappears into twenty open tabs.";
+    return this.i18n.t('home.heroTitle.loggedOut');
   }
 
   get heroSubtitle(): string {
     if (this.userService.isLoggedIn()) {
-      return "MeliGo keeps your finds in one calm dashboard, with the extension ready to capture details from any store in seconds.";
+      return this.i18n.t('home.heroSubtitle.loggedIn');
     }
 
-    return "Capture products from Amazon, niche shops, and everywhere in between, then return to one clean shopping cockpit whenever you are ready.";
+    return this.i18n.t('home.heroSubtitle.loggedOut');
   }
 
   get totalValue(): number {
@@ -60,7 +63,7 @@ export class HomeComponent {
 
   get trackedValueLabel(): string {
     if (!this.isLoggedIn) {
-      return "Live";
+      return this.i18n.t('home.stat.trackedValue.loggedOut');
     }
 
     if (this.isLoading) {

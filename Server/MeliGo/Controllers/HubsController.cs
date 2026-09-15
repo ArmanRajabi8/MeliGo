@@ -51,7 +51,7 @@ namespace MeliGo.Controllers
         public async Task<IActionResult> AddItem([FromBody] ItemCreateDto dto)
         {
             var username = User.Identity?.Name;
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await _userManager.FindByNameAsync(username!);
             if (user == null) return Unauthorized();
 
             var item = new Item
@@ -62,7 +62,7 @@ namespace MeliGo.Controllers
                 DateAdded = DateTime.UtcNow,
                 UserId = user.Id,
                 Importance = dto.Importance,
-                Category = dto.Category
+                Category = dto.Category!
             };
 
             _context.Items.Add(item);
@@ -93,7 +93,7 @@ namespace MeliGo.Controllers
             item.Price = dto.Price;
             item.ImageUrl = dto.ImageUrl;
             item.Importance = dto.Importance;
-            item.Category = dto.Category;
+            item.Category = dto.Category!;
 
             await _context.SaveChangesAsync();
             return Ok(item);

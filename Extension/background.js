@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:5207";
+const API_BASE_URL = "https://localhost:7066";
 
 chrome.runtime.onMessage.addListener((message) => {
   if (message.action !== "saveLink") {

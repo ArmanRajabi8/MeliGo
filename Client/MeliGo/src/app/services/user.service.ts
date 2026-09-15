@@ -69,6 +69,20 @@ export class UserService {
     await firstValueFrom(this.http.post(buildApiUrl("/api/Users/ChangePassword"), body));
   }
 
+  async shareList(targetUser: string): Promise<any> {
+    const payload = { targetUser: targetUser.trim() };
+    return await lastValueFrom(this.http.post<any>(buildApiUrl("/api/Users/ShareList"), payload));
+  }
+
+  async unshareList(targetUser: string): Promise<any> {
+    const payload = { targetUser: targetUser.trim() };
+    return await lastValueFrom(this.http.post<any>(buildApiUrl("/api/Users/UnshareList"), payload));
+  }
+
+  async getSharedWithMe(): Promise<any[]> {
+    return await lastValueFrom(this.http.get<any[]>(buildApiUrl("/api/Users/SharedWithMe")));
+  }
+
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }

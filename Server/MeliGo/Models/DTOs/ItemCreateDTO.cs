@@ -19,5 +19,7 @@ namespace MeliGo.Models.DTOs
 
         public string? Category { get; set; }
         public int Importance { get; set; } = 1;
+
+        public int? HubId { get; set; }
     }
 }

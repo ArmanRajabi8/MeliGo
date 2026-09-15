@@ -44,7 +44,7 @@ namespace MeliGo.Controllers
 
         [HttpGet("user/{userId}")]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<Item>>> GetByUser(string userId)
+        public async Task<ActionResult<IEnumerable<Item>>> GetByUser(string userId, [FromQuery] int? hubId = null)
         {
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (currentUserId == null)
@@ -63,8 +63,24 @@ namespace MeliGo.Controllers
                 }
             }
 
-            return await _context.Items
-                .Where(i => i.UserId == userId)
+            var defaultHub = await GetDefaultHubAsync(userId, createIfMissing: string.Equals(currentUserId, userId, StringComparison.Ordinal));
+            if (defaultHub != null)
+            {
+                await AssignOrphanItemsToHubAsync(userId, defaultHub.Id);
+            }
+
+            var query = _context.Items
+                .Where(i => i.UserId == userId);
+
+            if (hubId.HasValue)
+            {
+                var hubValue = hubId.Value;
+                query = query.Where(i =>
+                    i.HubId == hubValue ||
+                    (i.HubId == null && defaultHub != null && hubValue == defaultHub.Id));
+            }
+
+            return await query
                 .OrderByDescending(i => i.DateAdded)
                 .ToListAsync();
         }
@@ -79,6 +95,12 @@ namespace MeliGo.Controllers
                 return Unauthorized();
             }
 
+            var hubId = await ResolveHubIdAsync(userId, itemDto.HubId);
+            if (itemDto.HubId.HasValue && hubId == null)
+            {
+                return BadRequest(new { Message = "The selected cart does not exist." });
+            }
+
             var item = new Item
             {
                 Name = string.IsNullOrWhiteSpace(itemDto.Name) ? "Untitled item" : itemDto.Name.Trim(),
@@ -88,7 +110,8 @@ namespace MeliGo.Controllers
                 Category = string.IsNullOrWhiteSpace(itemDto.Category) ? "Uncategorized" : itemDto.Category.Trim(),
                 Importance = Math.Clamp(itemDto.Importance, 1, 5),
                 DateAdded = DateTime.UtcNow,
-                UserId = userId
+                UserId = userId,
+                HubId = hubId
             };
 
             _context.Items.Add(item);
@@ -123,6 +146,17 @@ namespace MeliGo.Controllers
             existingItem.Link = string.IsNullOrWhiteSpace(updatedItem.Link) ? existingItem.Link : updatedItem.Link.Trim();
             existingItem.Category = string.IsNullOrWhiteSpace(updatedItem.Category) ? "Uncategorized" : updatedItem.Category.Trim();
             existingItem.Importance = Math.Clamp(updatedItem.Importance, 1, 5);
+
+            if (updatedItem.HubId.HasValue)
+            {
+                var resolvedHubId = await ResolveHubIdAsync(userId, updatedItem.HubId);
+                if (resolvedHubId == null)
+                {
+                    return BadRequest(new { Message = "The selected cart does not exist." });
+                }
+
+                existingItem.HubId = resolvedHubId;
+            }
 
             await _context.SaveChangesAsync();
             return Ok(existingItem);
@@ -178,6 +212,12 @@ namespace MeliGo.Controllers
             var fallbackGalleryImage = dto.ImageUrls?.FirstOrDefault();
             var extractedImageCount = dto.ImageUrls?.Count ?? 0;
 
+            var hubId = await ResolveHubIdAsync(userId, dto.HubId);
+            if (dto.HubId.HasValue && hubId == null)
+            {
+                return BadRequest(new { Message = "The selected cart does not exist." });
+            }
+
             var item = new Item
             {
                 Name = string.IsNullOrWhiteSpace(title) ? "Unknown product" : title.Trim(),
@@ -187,7 +227,8 @@ namespace MeliGo.Controllers
                 Category = "Uncategorized",
                 Importance = 1,
                 DateAdded = DateTime.UtcNow,
-                UserId = userId
+                UserId = userId,
+                HubId = hubId
             };
 
             _context.Items.Add(item);
@@ -269,6 +310,67 @@ namespace MeliGo.Controllers
             }
 
             return value;
+        }
+
+        private async Task<int?> ResolveHubIdAsync(string userId, int? requestedHubId)
+        {
+            if (requestedHubId.HasValue)
+            {
+                var exists = await _context.Hubs.AnyAsync(hub =>
+                    hub.Id == requestedHubId.Value && hub.OwnerUserId == userId);
+
+                if (!exists)
+                {
+                    return null;
+                }
+
+                return requestedHubId.Value;
+            }
+
+            var defaultHub = await GetDefaultHubAsync(userId, createIfMissing: true);
+            return defaultHub?.Id;
+        }
+
+        private async Task<Hub?> GetDefaultHubAsync(string userId, bool createIfMissing)
+        {
+            var hub = await _context.Hubs.FirstOrDefaultAsync(existing =>
+                existing.OwnerUserId == userId && existing.IsDefault);
+
+            if (hub != null || !createIfMissing)
+            {
+                return hub;
+            }
+
+            hub = new Hub
+            {
+                Name = "Main cart",
+                OwnerUserId = userId,
+                IsDefault = true
+            };
+
+            _context.Hubs.Add(hub);
+            await _context.SaveChangesAsync();
+
+            return hub;
+        }
+
+        private async Task AssignOrphanItemsToHubAsync(string userId, int hubId)
+        {
+            var orphans = await _context.Items
+                .Where(item => item.UserId == userId && item.HubId == null)
+                .ToListAsync();
+
+            if (orphans.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var item in orphans)
+            {
+                item.HubId = hubId;
+            }
+
+            await _context.SaveChangesAsync();
         }
     }
 }

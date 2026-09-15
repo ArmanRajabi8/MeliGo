@@ -5,11 +5,13 @@ import { HubService } from '../services/hub.service';
 import { Router, RouterLink } from '@angular/router';
 import { Hub } from '../models/hub';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '../pipes/translate.pipe';
+import { I18nService } from '../services/i18n.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, TranslatePipe],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -23,7 +25,8 @@ export class LoginComponent {
   constructor(
     public userService: UserService,
     public hubService: HubService,
-    public router: Router
+    public router: Router,
+    private i18n: I18nService
   ) {}
 
   ngOnInit() {}
@@ -44,7 +47,7 @@ export class LoginComponent {
 
       this.router.navigate(["/postList", "index"]);
     } catch (error: any) {
-      this.authError = error?.error?.message || error?.error?.Message || "Login failed. Check your username/email and password.";
+      this.authError = error?.error?.message || error?.error?.Message || this.i18n.t('auth.login.errorDefault');
     } finally {
       this.isSubmitting = false;
     }

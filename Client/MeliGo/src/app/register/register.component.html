@@ -1,90 +1,88 @@
 <section class="auth-shell reveal">
   <article class="page-card auth-story">
-    <p class="section-label">Start clean</p>
-    <h2 class="section-title auth-story__title">Turn scattered product tabs into one cart you can actually trust.</h2>
-    <p class="section-copy">
-      Create your account to save products from anywhere, keep the best images, and build a smarter buying shortlist.
-    </p>
+    <p class="section-label">{{ 'auth.register.welcomeLabel' | translate }}</p>
+    <h2 class="section-title auth-story__title">{{ 'auth.register.title' | translate }}</h2>
+    <p class="section-copy">{{ 'auth.register.copy' | translate }}</p>
 
     <div class="auth-story__chips">
-      <span class="metric-chip">Cross-site saving</span>
-      <span class="metric-chip">Image fallback capture</span>
-      <span class="metric-chip">Personal dashboard</span>
+      <span class="metric-chip">{{ 'auth.register.chip.capture' | translate }}</span>
+      <span class="metric-chip">{{ 'auth.register.chip.images' | translate }}</span>
+      <span class="metric-chip">{{ 'auth.register.chip.dashboard' | translate }}</span>
     </div>
   </article>
 
   <article class="page-card auth-card">
     <div class="auth-card__heading">
-      <p class="section-label">Create account</p>
-      <h3 class="auth-card__title">Launch your universal cart.</h3>
+      <p class="section-label">{{ 'auth.register.formLabel' | translate }}</p>
+      <h3 class="auth-card__title">{{ 'auth.register.formTitle' | translate }}</h3>
     </div>
 
     <div class="auth-card__form">
       <label class="field">
-        <span>Username</span>
+        <span>{{ 'auth.register.usernameLabel' | translate }}</span>
         <input
           class="text-input"
           type="text"
           name="registerUsername"
           id="registerUsername"
-          placeholder="arman"
+          placeholder="{{ 'auth.register.usernamePlaceholder' | translate }}"
           autocomplete="username"
           [(ngModel)]="registerUsername"
         >
       </label>
 
       <label class="field">
-        <span>Email</span>
+        <span>{{ 'auth.register.emailLabel' | translate }}</span>
         <input
           class="text-input"
           type="email"
           name="registerEmail"
           id="registerEmail"
-          placeholder="arman@example.com"
+          placeholder="{{ 'auth.register.emailPlaceholder' | translate }}"
           autocomplete="email"
           [(ngModel)]="registerEmail"
         >
       </label>
 
       <label class="field">
-        <span>Password</span>
+        <span>{{ 'auth.register.passwordLabel' | translate }}</span>
         <input
           class="text-input"
           type="password"
           name="registerPassword"
           id="registerPassword"
-          placeholder="Create a password"
+          placeholder="{{ 'auth.register.passwordPlaceholder' | translate }}"
           autocomplete="new-password"
           [(ngModel)]="registerPassword"
         >
       </label>
 
       <label class="field">
-        <span>Confirm password</span>
+        <span>{{ 'auth.register.confirmLabel' | translate }}</span>
         <input
           class="text-input"
           type="password"
           name="registerPasswordConfirm"
           id="registerPasswordConfirm"
-          placeholder="Repeat your password"
+          placeholder="{{ 'auth.register.confirmPlaceholder' | translate }}"
           autocomplete="new-password"
           [(ngModel)]="registerPasswordConfirm"
         >
       </label>
 
       <p *ngIf="registerPasswordConfirm && !passwordsMatch" class="feedback feedback--error">
-        Passwords do not match yet.
+        {{ 'auth.register.passwordMismatch' | translate }}
       </p>
       <p *ngIf="authError" class="feedback feedback--error">{{ authError }}</p>
 
       <button class="app-button app-button--primary auth-card__submit" (click)="register()" [disabled]="!canSubmit">
-        {{ isSubmitting ? 'Creating account...' : "Create my cart" }}
+        {{ isSubmitting ? ('auth.register.submitBusy' | translate) : ('auth.register.submitIdle' | translate) }}
       </button>
     </div>
 
     <p class="auth-card__footer">
-      Already have an account?
-      <a [routerLink]="['/login']">Log in</a>
+      {{ 'auth.register.footerPrompt' | translate }}
+      <a [routerLink]="['/login']">{{ 'auth.register.footerAction' | translate }}</a>
     </p>
   </article>
 </section>

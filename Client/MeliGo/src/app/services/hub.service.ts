@@ -12,32 +12,26 @@ export class HubService {
 
   constructor(public http : HttpClient) { }
 
-  // Créer un nouveau hub
-  async postHub(hubName : string) : Promise<Hub>{
-
-    let newHub = new Hub(0, hubName, false);
-
-    let x = await lastValueFrom(this.http.post<Hub>(buildApiUrl("/api/Hubs/PostHub"), newHub));
-    console.log(x);
-    return x;
-
-  }
-
-  // Obtenir un hub précis quand on affiche ses posts
-  async getHub(id : number) : Promise<Hub>{
-    console.log(id);
-    let x = await lastValueFrom(this.http.get<Hub>(buildApiUrl(`/api/Hubs/GetHub/${id}`)));
-    console.log(x);
-    return x;
-  }
-
-  // Obtenir la liste des hubs de l'utilisateur
   async getUserHubs() : Promise<Hub[]>{
-
-    let x = await lastValueFrom(this.http.get<Hub[]>(buildApiUrl("/api/Hubs/GetUserHubs")));
+    let x = await lastValueFrom(this.http.get<Hub[]>(buildApiUrl("/api/Hubs")));
     console.log(x);
     return x;
+  }
 
+  async createHub(name: string): Promise<Hub> {
+    let x = await lastValueFrom(this.http.post<Hub>(buildApiUrl("/api/Hubs"), { name }));
+    console.log(x);
+    return x;
+  }
+
+  async renameHub(id: number, name: string): Promise<Hub> {
+    let x = await lastValueFrom(this.http.put<Hub>(buildApiUrl(`/api/Hubs/${id}`), { name }));
+    console.log(x);
+    return x;
+  }
+
+  async deleteHub(id: number): Promise<void> {
+    await lastValueFrom(this.http.delete<void>(buildApiUrl(`/api/Hubs/${id}`)));
   }
 
   // Rejoindre / quitter un hub
@@ -48,14 +42,14 @@ export class HubService {
 
 
  // In your Angular service
-async getUserItems(): Promise<Item[]> {
-  const userId = localStorage.getItem("userId"); // Make sure this is set at login
+  async getUserItems(hubId?: number | null, userIdOverride?: string | null): Promise<Item[]> {
+  const userId = userIdOverride ?? localStorage.getItem("userId"); // Make sure this is set at login
   if (!userId) {
     return [];
   }
 
   return await lastValueFrom(
-    this.http.get<Item[]>(buildApiUrl(`/api/Items/user/${userId}`))
+    this.http.get<Item[]>(buildApiUrl(`/api/Items/user/${userId}${hubId ? `?hubId=${hubId}` : ""}`))
   );
 }
   async addItem(item: Item): Promise<Item> {

@@ -16,5 +16,6 @@ namespace MeliGo.Models.DTOs
         public string? PageTitle { get; set; }
         public string? ExtractedAt { get; set; }
         public List<string> ImageUrls { get; set; } = new();
+        public int? HubId { get; set; }
     }
 }

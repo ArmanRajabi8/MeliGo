@@ -5,11 +5,13 @@ import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HubService } from '../services/hub.service';
 import { Hub } from '../models/hub';
+import { TranslatePipe } from '../pipes/translate.pipe';
+import { I18nService } from '../services/i18n.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, TranslatePipe],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -25,7 +27,8 @@ export class RegisterComponent {
   constructor(
     public userService : UserService,
     public hubService : HubService,
-    public router : Router
+    public router : Router,
+    private i18n: I18nService
   ) { }
 
   ngOnInit() {}
@@ -58,7 +61,7 @@ export class RegisterComponent {
 
       this.router.navigate(["/postList", "index"]);
     } catch (error: any) {
-      this.authError = error?.error?.message || error?.error?.Message || "Registration failed.";
+      this.authError = error?.error?.message || error?.error?.Message || this.i18n.t('auth.register.errorDefault');
     } finally {
       this.isSubmitting = false;
     }

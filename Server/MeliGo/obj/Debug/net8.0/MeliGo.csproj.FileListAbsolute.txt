@@ -685,3 +685,4 @@ C:\Users\arman\OneDrive\Desktop\Arman\Projects\MeliGo\MeliGo\Server\MeliGo\obj\D
 C:\Users\arman\OneDrive\Desktop\Arman\Projects\MeliGo\MeliGo\Server\MeliGo\obj\Debug\net8.0\MeliGo.genruntimeconfig.cache
 C:\Users\arman\OneDrive\Desktop\Arman\Projects\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\MeliGo.pdb
 C:\Users\arman\OneDrive\Desktop\Arman\Projects\MeliGo\MeliGo\Server\MeliGo\obj\Debug\net8.0\ref\MeliGo.dll
+C:\Users\arman\OneDrive\Desktop\Arman\Projects\MeliGo\MeliGo\Server\MeliGo\bin\Debug\net8.0\NuGet.Config

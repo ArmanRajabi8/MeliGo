@@ -4,6 +4,8 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { UserService } from './services/user.service';
 import { HttpClientModule } from '@angular/common/http'; 
 import { buildApiUrl } from './config/api.config';
+import { I18nService } from './services/i18n.service';
+import { TranslatePipe } from './pipes/translate.pipe';
 
 
 @Component({
@@ -13,7 +15,8 @@ import { buildApiUrl } from './config/api.config';
     RouterOutlet,
     RouterModule,
     CommonModule,
-    HttpClientModule // ⬅️ Add this
+    HttpClientModule,
+    TranslatePipe
     ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -21,16 +24,18 @@ import { buildApiUrl } from './config/api.config';
 export class AppComponent {
   avatarUrl: string = 'assets/images/default.jpg';
 
-  constructor(public userService : UserService){}
+  constructor(public userService : UserService, private i18n: I18nService){}
 
   get statusLabel(): string {
-    return this.userService.isLoggedIn() ? "Live sync enabled" : "Guest mode";
+    return this.userService.isLoggedIn()
+      ? this.i18n.t('nav.status.liveLabel')
+      : this.i18n.t('nav.status.guestLabel');
   }
 
   get statusCopy(): string {
     return this.userService.isLoggedIn()
-      ? "Your app and extension are ready to save products together."
-      : "Sign in once and the extension will start saving products to your cart.";
+      ? this.i18n.t('nav.status.liveCopy')
+      : this.i18n.t('nav.status.guestCopy');
   }
 
   refreshAvatar(useCacheBust: boolean = false): void {
