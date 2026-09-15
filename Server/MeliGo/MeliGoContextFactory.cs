@@ -20,7 +20,7 @@ namespace MeliGo
             var optionsBuilder = new DbContextOptionsBuilder<MeliGoContext>();
             var connectionString = config.GetConnectionString("MeliGoContext");
 
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseNpgsql(connectionString);
             optionsBuilder.UseLazyLoadingProxies();
 
             return new MeliGoContext(optionsBuilder.Options);
