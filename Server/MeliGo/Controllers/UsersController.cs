@@ -81,11 +81,12 @@ namespace MeliGo.Controllers
                 authClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
 
                 SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8
-                    .GetBytes("LooOOongue Phrase SiNoN Ça ne Marchera PaAaAAAaAas !"));
+                    .GetBytes(HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Jwt:Key"]
+                        ?? throw new InvalidOperationException("Jwt:Key is not configured.")));
 
                 JwtSecurityToken token = new JwtSecurityToken(
-                    issuer: "https://localhost:7066",
-                    audience: "http://localhost:4200",
+                    issuer: HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Jwt:Issuer"] ?? "meligo",
+                    audience: HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Jwt:Audience"] ?? "meligo-web",
                     claims: authClaims,
                     expires: DateTime.Now.AddMinutes(300),
                     signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature)

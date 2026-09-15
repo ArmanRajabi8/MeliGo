@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: meligo
+    runtime: docker
+    repo: https://github.com/ArmanRajabi8/MeliGo.git
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /healthz
+    envVars:
+      - key: ConnectionStrings__MeliGoContext
+        fromDatabase:
+          name: meligo-db
+          property: connectionString
+      - key: Jwt__Key
+        generateValue: true
+      - key: Jwt__Issuer
+        value: meligo
+      - key: Jwt__Audience
+        value: meligo-web
+
+databases:
+  - name: meligo-db
+    databaseName: meligo
+    user: meligo
+    plan: free

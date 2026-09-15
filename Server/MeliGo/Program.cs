@@ -7,26 +7,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ✅ Local SQL Server (active)
 builder.Services.AddDbContext<MeliGoContext>(options =>
 {
-    options.UseSqlServer(
+    options.UseNpgsql(
         builder.Configuration.GetConnectionString("MeliGoContext")
         ?? throw new InvalidOperationException("Connection string 'MeliGoContext' not found."));
     options.UseLazyLoadingProxies();
 });
-
-// 🧪 Optional: External PostgreSQL (comment this in to use)
-// builder.Services.AddDbContext<MeliGoContext>(options =>
-// {
-//     options.UseNpgsql(
-//         builder.Configuration.GetConnectionString("MeliGoContext")
-//         ?? throw new InvalidOperationException("Connection string 'MeliGoContext' not found."));
-//     options.UseLazyLoadingProxies();
-// });
 
 builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<MeliGoContext>();
 
@@ -54,10 +45,10 @@ builder.Services.AddAuthentication(options =>
     {
         ValidateAudience = true,
         ValidateIssuer = true,
-        ValidAudience = "http://localhost:4200",
-        ValidIssuer = "https://localhost:7066",
+        ValidAudience = builder.Configuration["Jwt:Audience"] ?? "meligo-web",
+        ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "meligo",
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-            .GetBytes("LooOOongue Phrase SiNoN Ça ne Marchera PaAaAAAaAas !"))
+            .GetBytes(builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key is not configured.")))
     };
 });
 
@@ -110,6 +101,11 @@ builder.Services.AddHttpClient("MetadataClient", client =>
 });
 var app = builder.Build();
 
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<MeliGoContext>();
@@ -135,8 +131,11 @@ if (app.Environment.IsDevelopment())
     }
 }
 
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapGet("/healthz", () => Results.Ok(new { status = "ok" }));
+app.UseDefaultFiles();
+app.UseStaticFiles();
+app.MapFallbackToFile("index.html");
 app.Run();
