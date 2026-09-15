@@ -4,14 +4,14 @@
       <p class="landing-eyebrow"><span class="landing-eyebrow__dot"></span>{{ 'home.heroLabel' | translate }}</p>
 
       <h1 class="landing-hero__title">
-        One <span class="landing-highlight">cart</span><br />
-        for everything<br />
-        you want.
+        {{ 'home.landing.titleOne' | translate }} <span class="landing-highlight">{{ 'home.landing.titleHighlight' | translate }}</span><br />
+        {{ 'home.landing.titleTwo' | translate }}<br />
+        {{ 'home.landing.titleThree' | translate }}
       </h1>
 
       <p class="landing-hero__subtitle">
-        Save items from any store, in one place.<br class="landing-hero__desktop-break" />
-        Shop smarter. Buy faster. Let AI handle the rest.
+        {{ 'home.landing.subtitleOne' | translate }}<br class="landing-hero__desktop-break" />
+        {{ 'home.landing.subtitleTwo' | translate }}
       </p>
 
       <div class="landing-hero__actions">
@@ -20,7 +20,7 @@
           [routerLink]="userService.isLoggedIn() ? ['/postList', 'index'] : ['/register']"
         >
           <span class="button-orb">✦</span>
-          {{ userService.isLoggedIn() ? ('home.heroAction.loggedInPrimary' | translate) : 'Add to Chrome — It\'s free' }}
+          {{ userService.isLoggedIn() ? ('home.heroAction.loggedInPrimary' | translate) : ('home.landing.chromeCta' | translate) }}
         </a>
         <a
           class="app-button app-button--secondary"
@@ -31,7 +31,7 @@
       </div>
 
       <div class="landing-hero__availability">
-        <span>Also available for</span>
+        <span>{{ 'home.landing.available' | translate }}</span>
         <span class="browser-name"><i class="browser-dot browser-dot--edge"></i>Edge</span>
         <span class="browser-name"><i class="browser-dot browser-dot--safari"></i>Safari</span>
         <span class="browser-name"><i class="browser-dot browser-dot--firefox"></i>Firefox</span>
@@ -41,7 +41,7 @@
         <span class="proof-avatars" aria-hidden="true">
           <span>J</span><span>A</span><span>M</span>
         </span>
-        <span><strong>One calm place</strong> for every product worth remembering.</span>
+        <span><strong>{{ 'home.landing.proof' | translate }}</strong></span>
       </div>
     </div>
 
@@ -80,15 +80,15 @@
   <section class="landing-features" aria-label="MeliGo features">
     <article class="feature-card">
       <span class="feature-card__icon">↗</span>
-      <div><strong>Save as you browse</strong><p>One click captures the product, price, and images.</p></div>
+      <div><strong>{{ 'home.landing.featureSave' | translate }}</strong><p>{{ 'home.landing.featureSaveCopy' | translate }}</p></div>
     </article>
     <article class="feature-card">
       <span class="feature-card__icon feature-card__icon--soft">⌁</span>
-      <div><strong>Keep the details</strong><p>Come back to a clean, organized shortlist.</p></div>
+      <div><strong>{{ 'home.landing.featureDetails' | translate }}</strong><p>{{ 'home.landing.featureDetailsCopy' | translate }}</p></div>
     </article>
     <article class="feature-card">
       <span class="feature-card__icon feature-card__icon--peach">✦</span>
-      <div><strong>Buy with clarity</strong><p>Compare what matters before you check out.</p></div>
+      <div><strong>{{ 'home.landing.featureClarity' | translate }}</strong><p>{{ 'home.landing.featureClarityCopy' | translate }}</p></div>
     </article>
   </section>
 
