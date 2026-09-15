@@ -351,3 +351,203 @@ button {
   border: 1px solid rgba(123, 227, 211, 0.18);
   color: var(--text);
 }
+
+/* Keep the browser popup visually aligned with the MeliGo web workspace. */
+:root {
+  --bg-deep: #f5f4ef;
+  --bg-rich: #ffffff;
+  --surface: #ffffff;
+  --surface-soft: #f4f6f1;
+  --line: rgba(16, 38, 35, 0.1);
+  --line-strong: rgba(16, 38, 35, 0.18);
+  --text: #102322;
+  --text-muted: #6d7a75;
+  --accent: #123d36;
+  --accent-strong: #092d28;
+  --accent-soft: #e5efe8;
+  --teal: #397c6d;
+  --teal-soft: #e1eee9;
+  --danger: #a43e38;
+  --danger-soft: #f9e8e5;
+  --radius-xl: 18px;
+  --radius-lg: 14px;
+  --radius-md: 11px;
+  --shadow: 0 18px 40px rgba(30, 45, 39, 0.12);
+}
+
+body {
+  color: var(--text);
+  background:
+    radial-gradient(circle at top right, rgba(244, 183, 126, 0.2), transparent 13rem),
+    #f5f4ef;
+}
+
+.popup-shell {
+  padding: 12px;
+}
+
+.popup-orb {
+  display: none;
+}
+
+.panel {
+  min-height: 536px;
+  gap: 12px;
+  padding: 17px;
+  border-color: var(--line);
+  border-radius: var(--radius-xl);
+  background: #ffffff;
+  box-shadow: var(--shadow);
+  backdrop-filter: none;
+}
+
+.brand {
+  grid-template-columns: 42px 1fr;
+  gap: 10px;
+}
+
+.brand__logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border-color: var(--line);
+  box-shadow: none;
+}
+
+.brand__eyebrow {
+  margin-bottom: 3px;
+  color: var(--teal);
+  font-size: 0.61rem;
+}
+
+.brand__title {
+  color: var(--text);
+  font-size: 1.58rem;
+}
+
+.brand__title span {
+  color: var(--accent);
+  font-family: inherit;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.panel__copy {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.status-card {
+  padding: 12px 13px;
+  border-color: var(--line);
+  background: #f6f8f4;
+}
+
+.status-card[data-state="loading"] {
+  border-color: rgba(57, 124, 109, 0.25);
+  background: var(--teal-soft);
+}
+
+.status-card[data-state="success"] {
+  border-color: rgba(33, 125, 88, 0.2);
+  background: #e9f5ed;
+}
+
+.status-card[data-state="error"] {
+  border-color: rgba(164, 62, 56, 0.2);
+  background: var(--danger-soft);
+}
+
+.status-card__eyebrow {
+  color: var(--text-muted);
+  font-size: 0.62rem;
+}
+
+.status-card__message {
+  color: var(--text);
+  font-size: 0.8rem;
+}
+
+.status-pulse {
+  background: var(--teal);
+  box-shadow: 0 0 0 7px rgba(57, 124, 109, 0.11);
+}
+
+.primary-button {
+  min-height: 48px;
+  color: #ffffff;
+  background: var(--accent);
+  box-shadow: 0 12px 22px rgba(18, 61, 54, 0.16);
+}
+
+.primary-button:hover {
+  background: var(--accent-strong);
+  box-shadow: 0 15px 25px rgba(18, 61, 54, 0.2);
+}
+
+.feedback--error {
+  color: var(--danger);
+  background: var(--danger-soft);
+  border-color: rgba(164, 62, 56, 0.2);
+}
+
+.saved-card,
+.placeholder-card,
+.tip-panel {
+  border-color: var(--line);
+  background: #f8f9f6;
+}
+
+.saved-card {
+  grid-template-columns: 86px 1fr;
+  gap: 12px;
+  padding: 12px;
+}
+
+.saved-card__image {
+  width: 86px;
+  height: 86px;
+  border-radius: 12px;
+  background: #e9eee8;
+  mix-blend-mode: multiply;
+}
+
+.saved-card__eyebrow,
+.saved-card__link {
+  color: var(--teal);
+}
+
+.saved-card__title {
+  color: var(--text);
+  font-size: 0.94rem;
+}
+
+.saved-chip {
+  color: var(--text);
+  background: #ffffff;
+  border-color: var(--line);
+  font-size: 0.7rem;
+}
+
+.saved-card__copy,
+.placeholder-card__copy {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.tip-panel {
+  padding: 12px;
+}
+
+.tip-panel__title {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+}
+
+.tip-chip {
+  color: var(--text);
+  background: var(--teal-soft);
+  border-color: rgba(57, 124, 109, 0.16);
+  font-size: 0.72rem;
+}

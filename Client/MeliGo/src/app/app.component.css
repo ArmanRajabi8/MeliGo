@@ -187,3 +187,152 @@
   }
 }
 
+/* Reference layout: a quiet, editorial header above the workspace. */
+.app-shell {
+  width: min(1260px, calc(100% - 3rem));
+  padding: 1.15rem 0 4.5rem;
+}
+
+.app-header {
+  display: flex;
+  gap: 2.6rem;
+  align-items: center;
+  padding: 0.55rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.brand-cluster {
+  flex: 0 0 auto;
+  gap: 0;
+}
+
+.brand-mark {
+  gap: 0;
+}
+
+.brand-mark__eyebrow,
+.brand-mark__copy,
+.header-status {
+  display: none;
+}
+
+.brand-mark__wordmark {
+  color: var(--text-primary);
+  font-size: 1.62rem;
+  line-height: 1;
+  letter-spacing: -0.085em;
+  font-weight: 700;
+}
+
+.brand-mark__wordmark span {
+  color: var(--accent);
+  font-family: inherit;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.app-nav {
+  justify-content: flex-start;
+  gap: 1.55rem;
+  flex: 1 1 auto;
+}
+
+.nav-link {
+  min-height: auto;
+  padding: 0.65rem 0.05rem 0.58rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.nav-link:hover,
+.nav-link.is-active {
+  color: var(--text-primary);
+  background: transparent;
+  border-color: var(--accent);
+  transform: none;
+}
+
+.header-actions {
+  gap: 0.65rem;
+  flex-wrap: nowrap;
+}
+
+.header-actions .app-button {
+  min-height: 2.55rem;
+  padding: 0.7rem 1.05rem;
+  font-size: 0.78rem;
+}
+
+.header-actions .app-button--ghost {
+  order: -1;
+}
+
+.profile-ring {
+  width: 38px;
+  height: 38px;
+  padding: 2px;
+  border-radius: 50%;
+  background: #dce8df;
+  box-shadow: none;
+}
+
+.profile-ring__image {
+  border-radius: 50%;
+  background: #edf1eb;
+}
+
+.page-stage {
+  margin-top: 1.6rem;
+}
+
+@media (max-width: 840px) {
+  .app-header {
+    gap: 1.35rem;
+    flex-wrap: wrap;
+  }
+
+  .app-nav {
+    order: 3;
+    flex-basis: 100%;
+    gap: 1.15rem;
+    border-top: 1px solid var(--line);
+    padding-top: 0.65rem;
+  }
+
+  .header-actions {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .app-shell {
+    width: min(100% - 1.25rem, 1260px);
+    padding-top: 0.8rem;
+  }
+
+  .header-actions .app-button {
+    padding-inline: 0.8rem;
+  }
+
+  .header-actions .app-button--ghost {
+    display: none;
+  }
+
+  .app-nav {
+    gap: 0.8rem;
+    justify-content: space-between;
+  }
+
+  .nav-link {
+    font-size: 0.75rem;
+  }
+}

@@ -3,7 +3,7 @@
     <div class="brand-cluster">
       <a class="brand-mark" [routerLink]="['/']" [attr.aria-label]="'nav.aria.home' | translate">
         <span class="brand-mark__eyebrow">{{ 'nav.brandEyebrow' | translate }}</span>
-        <span class="brand-mark__wordmark">Meli<span>Go</span></span>
+        <span class="brand-mark__wordmark">meli<span>go</span></span>
       </a>
       <p class="brand-mark__copy">
         {{ 'nav.brandCopy' | translate }}
@@ -43,14 +43,14 @@
       </div>
 
       <a
-        class="app-button app-button--ghost"
+        class="app-button app-button--primary"
         [routerLink]="['/register']"
         *ngIf="!userService.isLoggedIn()"
       >
         {{ 'nav.createAccount' | translate }}
       </a>
       <a
-        class="app-button app-button--primary"
+        class="app-button app-button--ghost"
         [routerLink]="['/login']"
         *ngIf="!userService.isLoggedIn()"
       >
@@ -71,7 +71,7 @@
         {{ 'nav.logout' | translate }}
       </button>
 
-      <a class="profile-ring" [routerLink]="['/profile']" [attr.aria-label]="'nav.aria.profile' | translate">
+      <a class="profile-ring" [routerLink]="['/profile']" [attr.aria-label]="'nav.aria.profile' | translate" *ngIf="userService.isLoggedIn()">
         <img
           [src]="avatarUrl"
           alt="{{ 'nav.profileAlt' | translate }}"

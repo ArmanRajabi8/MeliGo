@@ -16,7 +16,37 @@
 </section>
 
 <ng-template #hubContent>
-  <div class="hub-stack reveal">
+  <div class="dashboard-layout">
+    <aside class="page-card dashboard-sidebar">
+      <a class="dashboard-sidebar__brand" [routerLink]="['/']">meli<span>go</span></a>
+
+      <nav class="dashboard-sidebar__nav" aria-label="Cart navigation">
+        <a class="dashboard-sidebar__link is-active" [routerLink]="['/postList', 'index']">
+          <span class="dashboard-sidebar__icon">▱</span>
+          <span>My Cart</span>
+          <span class="dashboard-sidebar__badge">{{ items.length }}</span>
+        </a>
+        <a class="dashboard-sidebar__link" [routerLink]="['/']">
+          <span class="dashboard-sidebar__icon">♡</span>
+          <span>Saved for Later</span>
+        </a>
+        <a class="dashboard-sidebar__link" [routerLink]="['/postList', 'index']">
+          <span class="dashboard-sidebar__icon">☷</span>
+          <span>Lists</span>
+        </a>
+        <a class="dashboard-sidebar__link" [routerLink]="['/profile']">
+          <span class="dashboard-sidebar__icon">⚙</span>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="dashboard-sidebar__account">
+        <span class="dashboard-sidebar__account-avatar">M</span>
+        <span><strong>My account</strong><small>Live workspace</small></span>
+      </div>
+    </aside>
+
+    <div class="hub-stack reveal">
     <section class="page-card hub-toolbar">
       <div class="hub-toolbar__copy">
         <p class="section-label">{{ 'hub.toolbar.label' | translate }}</p>
@@ -255,5 +285,6 @@
         <button class="app-button app-button--primary" (click)="openAdd()">{{ 'hub.empty.action' | translate }}</button>
       </section>
     </ng-template>
+    </div>
   </div>
 </ng-template>

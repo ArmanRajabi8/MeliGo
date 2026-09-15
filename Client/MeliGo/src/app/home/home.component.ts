@@ -73,6 +73,10 @@ export class HomeComponent {
     return this.currencyPipe.transform(this.totalValue) ?? "$0.00";
   }
 
+  getPreviewImage(index: number): string {
+    return this.items[index]?.imageUrl || 'assets/images/default.jpg';
+  }
+
   async ngOnInit() {
     this.isLoggedIn = localStorage.getItem("token") != null && localStorage.getItem("userId") != null;
 

@@ -251,3 +251,123 @@
     flex: 1 1 100%;
   }
 }
+
+.profile-layout--shell {
+  grid-template-columns: 228px minmax(0, 1fr);
+  gap: 1.15rem;
+}
+
+.profile-sidebar,
+.profile-identity,
+.profile-card,
+.profile-guest {
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
+}
+
+.profile-sidebar {
+  gap: 1.35rem;
+  padding: 1.2rem;
+  border-color: var(--line);
+  background: #ffffff;
+}
+
+.profile-sidebar__avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border-color: var(--line);
+  box-shadow: none;
+}
+
+.profile-sidebar__name {
+  font-size: 0.95rem;
+}
+
+.profile-tabs {
+  gap: 0.25rem;
+}
+
+.profile-tab {
+  padding: 0.72rem 0.78rem;
+  border-color: transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.profile-tab:hover {
+  color: var(--text-primary);
+  background: #f1f5f0;
+}
+
+.profile-tab.is-active {
+  border-color: transparent;
+  color: var(--accent);
+  background: #e8f0e9;
+}
+
+.profile-identity {
+  grid-template-columns: 132px minmax(0, 1fr);
+  padding: 1.35rem;
+  background: #ffffff;
+}
+
+.profile-identity__avatar {
+  width: 132px;
+  height: 132px;
+  border-radius: 16px;
+  border-color: var(--line);
+  box-shadow: none;
+}
+
+.profile-identity__copy {
+  gap: 0.8rem;
+}
+
+.profile-identity__title {
+  font-size: clamp(2rem, 4vw, 3.4rem);
+}
+
+.profile-card {
+  padding: 1.35rem;
+  background: #ffffff;
+}
+
+.profile-card__title {
+  font-size: clamp(1.45rem, 3vw, 2rem);
+}
+
+.profile-upload__preview {
+  border-radius: 16px;
+  border-color: var(--line);
+  box-shadow: none;
+}
+
+.profile-upload__field input[type="file"] {
+  border-color: var(--line-strong);
+  background: #f8f9f6;
+  color: var(--text-muted);
+}
+
+.profile-language {
+  border-color: var(--line);
+  background: #f5f7f3;
+  color: var(--text-soft);
+}
+
+.profile-language.is-active {
+  border-color: var(--accent);
+  color: #ffffff;
+  background: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .profile-layout--shell {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-sidebar {
+    position: static;
+  }
+}

@@ -1,58 +1,98 @@
-<section class="home-stack reveal">
-  <section class="page-card hero-panel">
-    <div class="hero-panel__copy">
-      <p class="section-label">{{ 'home.heroLabel' | translate }}</p>
-      <h1 class="section-title hero-panel__title">{{ heroTitle }}</h1>
-      <p class="section-copy hero-panel__subtitle">{{ heroSubtitle }}</p>
+<section class="home-stack reveal landing-page">
+  <section class="page-card landing-hero">
+    <div class="landing-hero__copy">
+      <p class="landing-eyebrow"><span class="landing-eyebrow__dot"></span>{{ 'home.heroLabel' | translate }}</p>
 
-      <div class="hero-panel__actions">
+      <h1 class="landing-hero__title">
+        One <span class="landing-highlight">cart</span><br />
+        for everything<br />
+        you want.
+      </h1>
+
+      <p class="landing-hero__subtitle">
+        Save items from any store, in one place.<br class="landing-hero__desktop-break" />
+        Shop smarter. Buy faster. Let AI handle the rest.
+      </p>
+
+      <div class="landing-hero__actions">
         <a
           class="app-button app-button--primary"
           [routerLink]="userService.isLoggedIn() ? ['/postList', 'index'] : ['/register']"
         >
-          {{ userService.isLoggedIn() ? ('home.heroAction.loggedInPrimary' | translate) : ('home.heroAction.loggedOutPrimary' | translate) }}
+          <span class="button-orb">✦</span>
+          {{ userService.isLoggedIn() ? ('home.heroAction.loggedInPrimary' | translate) : 'Add to Chrome — It\'s free' }}
         </a>
         <a
           class="app-button app-button--secondary"
           [routerLink]="userService.isLoggedIn() ? ['/profile'] : ['/login']"
         >
-          {{ userService.isLoggedIn() ? ('home.heroAction.loggedInSecondary' | translate) : ('home.heroAction.loggedOutSecondary' | translate) }}
+          {{ userService.isLoggedIn() ? ('home.heroAction.loggedInSecondary' | translate) : ('nav.login' | translate) }}
         </a>
       </div>
 
-      <div class="hero-panel__chips" [attr.aria-label]="'home.hero.chipsAria' | translate">
-        <span class="metric-chip">{{ 'home.heroChip.capture' | translate }}</span>
-        <span class="metric-chip">{{ 'home.heroChip.images' | translate }}</span>
-        <span class="metric-chip">{{ 'home.heroChip.sync' | translate }}</span>
+      <div class="landing-hero__availability">
+        <span>Also available for</span>
+        <span class="browser-name"><i class="browser-dot browser-dot--edge"></i>Edge</span>
+        <span class="browser-name"><i class="browser-dot browser-dot--safari"></i>Safari</span>
+        <span class="browser-name"><i class="browser-dot browser-dot--firefox"></i>Firefox</span>
+      </div>
+
+      <div class="landing-hero__proof">
+        <span class="proof-avatars" aria-hidden="true">
+          <span>J</span><span>A</span><span>M</span>
+        </span>
+        <span><strong>One calm place</strong> for every product worth remembering.</span>
       </div>
     </div>
 
-    <div class="hero-panel__stats">
-      <article class="hero-stat">
-        <span class="hero-stat__label">{{ 'home.stat.captureLabel' | translate }}</span>
-        <strong class="hero-stat__value">{{ userService.isLoggedIn() ? ('home.stat.captureValue.loggedIn' | translate) : ('home.stat.captureValue.loggedOut' | translate) }}</strong>
-        <p class="hero-stat__copy">
-          {{ 'home.stat.captureCopy' | translate }}
-        </p>
-      </article>
-      <article class="hero-stat">
-        <span class="hero-stat__label">{{ 'home.stat.workflowLabel' | translate }}</span>
-        <strong class="hero-stat__value">{{ 'home.stat.workflowValue' | translate }}</strong>
-        <p class="hero-stat__copy">
-          {{ 'home.stat.workflowCopy' | translate }}
-        </p>
-      </article>
-      <article class="hero-stat">
-        <span class="hero-stat__label">{{ 'home.stat.feelLabel' | translate }}</span>
-        <strong class="hero-stat__value">{{ 'home.stat.feelValue' | translate }}</strong>
-        <p class="hero-stat__copy">
-          {{ 'home.stat.feelCopy' | translate }}
-        </p>
-      </article>
+    <div class="landing-visual" aria-label="MeliGo product preview">
+      <div class="landing-visual__hint">Save from anywhere <span>↗</span></div>
+      <div class="landing-visual__canvas">
+        <div class="product-tile product-tile--lamp">
+          <div class="product-tile__image product-tile__image--lamp">
+            <img [src]="getPreviewImage(0)" alt="" />
+          </div>
+          <span class="store-tag store-tag--amazon"><b>a</b> Amazon</span>
+        </div>
+        <div class="product-tile product-tile--shoe">
+          <div class="product-tile__image product-tile__image--shoe">
+            <img [src]="getPreviewImage(1)" alt="" />
+          </div>
+          <span class="store-tag store-tag--nike">⌁ Nike</span>
+        </div>
+        <div class="product-tile product-tile--sweater">
+          <div class="product-tile__image product-tile__image--sweater">
+            <img [src]="getPreviewImage(2)" alt="" />
+          </div>
+          <span class="store-tag store-tag--aritzia">A Aritzia</span>
+        </div>
+        <div class="product-tile product-tile--beauty">
+          <div class="product-tile__image product-tile__image--beauty">
+            <img [src]="getPreviewImage(3)" alt="" />
+          </div>
+          <span class="store-tag store-tag--sephora">▌ Sephora</span>
+        </div>
+        <div class="product-tile product-tile--add"><span>＋</span> Any store</div>
+      </div>
     </div>
   </section>
 
-  <section class="home-overview">
+  <section class="landing-features" aria-label="MeliGo features">
+    <article class="feature-card">
+      <span class="feature-card__icon">↗</span>
+      <div><strong>Save as you browse</strong><p>One click captures the product, price, and images.</p></div>
+    </article>
+    <article class="feature-card">
+      <span class="feature-card__icon feature-card__icon--soft">⌁</span>
+      <div><strong>Keep the details</strong><p>Come back to a clean, organized shortlist.</p></div>
+    </article>
+    <article class="feature-card">
+      <span class="feature-card__icon feature-card__icon--peach">✦</span>
+      <div><strong>Buy with clarity</strong><p>Compare what matters before you check out.</p></div>
+    </article>
+  </section>
+
+  <section *ngIf="isLoggedIn" class="home-overview">
     <article class="page-card overview-banner">
       <div class="overview-banner__copy">
         <p class="section-label">{{ 'home.overview.label' | translate }}</p>
@@ -61,8 +101,8 @@
       </div>
 
       <div class="overview-banner__actions">
-        <a class="app-button app-button--primary" [routerLink]="userService.isLoggedIn() ? ['/postList', 'index'] : ['/login']">
-          {{ userService.isLoggedIn() ? ('home.overview.action.loggedIn' | translate) : ('home.overview.action.loggedOut' | translate) }}
+        <a class="app-button app-button--primary" [routerLink]="['/postList', 'index']">
+          {{ 'home.overview.action.loggedIn' | translate }}
         </a>
         <p class="overview-banner__tip">{{ 'home.overview.tip' | translate }}</p>
       </div>
@@ -71,25 +111,22 @@
     <div class="overview-stats">
       <article class="page-card overview-stat-card">
         <span class="overview-stat-card__label">{{ 'home.stat.savedLabel' | translate }}</span>
-        <strong class="overview-stat-card__value">{{ isLoggedIn ? (isLoading ? '...' : items.length) : ('home.stat.savedValue.loggedOut' | translate) }}</strong>
+        <strong class="overview-stat-card__value">{{ isLoading ? '...' : items.length }}</strong>
         <p class="overview-stat-card__copy">{{ 'home.stat.savedCopy' | translate }}</p>
       </article>
-
       <article class="page-card overview-stat-card">
         <span class="overview-stat-card__label">{{ 'home.stat.trackedLabel' | translate }}</span>
         <strong class="overview-stat-card__value">{{ trackedValueLabel }}</strong>
         <p class="overview-stat-card__copy">{{ 'home.stat.trackedCopy' | translate }}</p>
       </article>
-
       <article class="page-card overview-stat-card">
         <span class="overview-stat-card__label">{{ 'home.stat.categoriesLabel' | translate }}</span>
-        <strong class="overview-stat-card__value">{{ isLoggedIn ? (isLoading ? '...' : categoryCount) : ('home.stat.categoriesValue.loggedOut' | translate) }}</strong>
+        <strong class="overview-stat-card__value">{{ isLoading ? '...' : categoryCount }}</strong>
         <p class="overview-stat-card__copy">{{ 'home.stat.categoriesCopy' | translate }}</p>
       </article>
-
       <article class="page-card overview-stat-card">
         <span class="overview-stat-card__label">{{ 'home.stat.priorityLabel' | translate }}</span>
-        <strong class="overview-stat-card__value">{{ isLoggedIn ? (isLoading ? '...' : topPriorityCount) : ('home.stat.priorityValue.loggedOut' | translate) }}</strong>
+        <strong class="overview-stat-card__value">{{ isLoading ? '...' : topPriorityCount }}</strong>
         <p class="overview-stat-card__copy">{{ 'home.stat.priorityCopy' | translate }}</p>
       </article>
     </div>
