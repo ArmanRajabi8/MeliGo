@@ -199,7 +199,7 @@ namespace MeliGo.Controllers
 
         [HttpPost("link")]
         [Authorize]
-        public async Task<ActionResult<Item>> AddItemFromLink([FromBody] LinkDto dto)
+        public async Task<IActionResult> AddItemFromLink([FromBody] LinkDto dto)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
@@ -255,25 +255,46 @@ namespace MeliGo.Controllers
                 dto.Link
             );
 
-            return item;
+            return Ok(new
+            {
+                item.Id,
+                item.Name,
+                item.Price,
+                item.ImageUrl,
+                item.Link,
+                item.DateAdded,
+                item.Importance,
+                item.Category,
+                item.UserId,
+                item.HubId
+            });
         }
 
         private static decimal ResolvePrice(LinkDto dto)
         {
-            if (dto.Price.HasValue)
+            if (!string.IsNullOrWhiteSpace(dto.PriceText))
             {
-                return dto.Price.Value;
+                var parsedTextPrice = ParsePriceText(dto.PriceText);
+                if (parsedTextPrice.HasValue)
+                {
+                    return parsedTextPrice.Value;
+                }
             }
 
-            if (string.IsNullOrWhiteSpace(dto.PriceText))
+            return dto.Price ?? 0;
+        }
+
+        private static decimal? ParsePriceText(string? priceText)
+        {
+            if (string.IsNullOrWhiteSpace(priceText))
             {
-                return 0;
+                return null;
             }
 
-            var cleaned = Regex.Replace(dto.PriceText, @"[^\d,.\-]", "");
+            var cleaned = Regex.Replace(priceText, @"[^\d,.\-]", "");
             if (string.IsNullOrWhiteSpace(cleaned))
             {
-                return 0;
+                return null;
             }
 
             var normalized = NormalizePriceString(cleaned);
@@ -284,7 +305,7 @@ namespace MeliGo.Controllers
                 CultureInfo.InvariantCulture,
                 out var parsedPrice)
                 ? parsedPrice
-                : 0;
+                : null;
         }
 
         private static string NormalizePriceString(string value)
