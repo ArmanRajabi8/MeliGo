@@ -1,6 +1,7 @@
 ﻿using MeliGo.Data;
 using MeliGo.Models;
 using MeliGo.Models.DTOs;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,100 +24,79 @@ namespace MeliGo.Controllers
         }
         
         [HttpGet("GetUserHubs")]
-        public async Task<IActionResult> GetUserHubs()
+        public async Task<ActionResult<IEnumerable<Hub>>> GetUserHubs()
         {
-            var username = User.Identity?.Name;
-            if (string.IsNullOrEmpty(username))
-                return Unauthorized("Username claim missing.");
+            var userId = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
 
-            var user = await _userManager.FindByNameAsync(username);
-            if (user == null) return Unauthorized("User not found.");
-
-            var items = await _context.Items
-                .Where(i => i.UserId == user.Id)
-                .Select(i => new {
-                    i.Id,
-                    i.Name,
-                    i.Price,
-                    i.ImageUrl,
-                    i.DateAdded,
-                    i.Importance,
-                    i.Category
-                }).ToListAsync();
-
-            return Ok(items);
+            return await _context.Hubs
+                .Where(hub => hub.OwnerUserId == userId)
+                .OrderByDescending(hub => hub.IsDefault)
+                .ThenBy(hub => hub.Name)
+                .Select(hub => new Hub
+                {
+                    Id = hub.Id,
+                    Name = hub.Name,
+                    OwnerUserId = hub.OwnerUserId,
+                    IsDefault = hub.IsDefault,
+                    CreatedAt = hub.CreatedAt,
+                    ItemCount = hub.Items.Count
+                })
+                .ToListAsync();
         }
 
-        [HttpPost("AddItem")]
-        public async Task<IActionResult> AddItem([FromBody] ItemCreateDto dto)
+        [HttpPost]
+        public async Task<ActionResult<Hub>> CreateHub([FromBody] HubCreateDto dto)
         {
-            var username = User.Identity?.Name;
-            var user = await _userManager.FindByNameAsync(username!);
-            if (user == null) return Unauthorized();
+            var userId = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
+            if (string.IsNullOrWhiteSpace(dto.Name)) return BadRequest("A cart name is required.");
 
-            var item = new Item
+            var hub = new Hub
             {
-                Name = dto.Name,
-                Price = dto.Price,
-                ImageUrl = dto.ImageUrl,
-                DateAdded = DateTime.UtcNow,
-                UserId = user.Id,
-                Importance = dto.Importance,
-                Category = dto.Category!
+                Name = dto.Name.Trim(),
+                OwnerUserId = userId,
+                IsDefault = false
             };
 
-            _context.Items.Add(item);
+            _context.Hubs.Add(hub);
             await _context.SaveChangesAsync();
-            return Ok(item);
+            return Ok(hub);
         }
 
-        [HttpPut("UpdateItem/{id}")]
-        public async Task<IActionResult> UpdateItem(int id, [FromBody] ItemCreateDto dto)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Hub>> RenameHub(int id, [FromBody] HubCreateDto dto)
         {
-            var username = User.Identity?.Name;
-            if (string.IsNullOrEmpty(username))
-                return Unauthorized("Username claim missing.");
+            var userId = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
+            if (string.IsNullOrWhiteSpace(dto.Name)) return BadRequest("A cart name is required.");
 
-            var user = await _userManager.FindByNameAsync(username);
-            if (user == null)
-                return Unauthorized("User not found.");
-
-            var item = await _context.Items.FindAsync(id);
-            if (item == null) return NotFound();
-
-            if (item.UserId != user.Id)
-                return Forbid("You are not allowed to modify this item.");
-
-          
-
-            item.Name = dto.Name;
-            item.Price = dto.Price;
-            item.ImageUrl = dto.ImageUrl;
-            item.Importance = dto.Importance;
-            item.Category = dto.Category!;
-
+            var hub = await _context.Hubs.FirstOrDefaultAsync(h => h.Id == id && h.OwnerUserId == userId);
+            if (hub == null) return NotFound();
+            hub.Name = dto.Name.Trim();
             await _context.SaveChangesAsync();
-            return Ok(item);
+            return Ok(hub);
         }
 
-        [HttpDelete("DeleteItem/{id}")]
-        public async Task<IActionResult> DeleteItem(int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteHub(int id)
         {
-            var username = User.Identity?.Name;
-            if (string.IsNullOrEmpty(username))
-                return Unauthorized("Username claim missing.");
+            var userId = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
 
-            var user = await _userManager.FindByNameAsync(username);
-            if (user == null)
-                return Unauthorized("User not found.");
+            var hub = await _context.Hubs.FirstOrDefaultAsync(h => h.Id == id && h.OwnerUserId == userId);
+            if (hub == null) return NotFound();
+            if (hub.IsDefault) return BadRequest("The default cart cannot be deleted.");
 
-            var item = await _context.Items.FindAsync(id);
-            if (item == null) return NotFound();
+            var defaultHub = await _context.Hubs.FirstOrDefaultAsync(h => h.OwnerUserId == userId && h.IsDefault);
+            if (defaultHub != null)
+            {
+                await _context.Items
+                    .Where(item => item.HubId == hub.Id)
+                    .ExecuteUpdateAsync(setters => setters.SetProperty(item => item.HubId, defaultHub.Id));
+            }
 
-            if (item.UserId != user.Id)
-                return Forbid("You are not allowed to modify this item.");
-
-            _context.Items.Remove(item);
+            _context.Hubs.Remove(hub);
             await _context.SaveChangesAsync();
             return Ok();
         }

@@ -82,6 +82,19 @@ namespace MeliGo.Controllers
 
             return await query
                 .OrderByDescending(i => i.DateAdded)
+                .Select(i => new Item
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Price = i.Price,
+                    ImageUrl = i.ImageUrl,
+                    Link = i.Link,
+                    DateAdded = i.DateAdded,
+                    Importance = i.Importance,
+                    Category = i.Category,
+                    UserId = i.UserId,
+                    HubId = i.HubId
+                })
                 .ToListAsync();
         }
 
