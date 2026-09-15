@@ -5,6 +5,12 @@
 
   globalThis.__meligoContentInitialized = true;
 
+  const MELIGO_APP_ORIGINS = new Set([
+    "https://meligo.onrender.com",
+    "http://localhost:4200",
+    "http://127.0.0.1:4200"
+  ]);
+
   const TITLE_SELECTORS = [
     "#productTitle",
     "[data-testid*='product-title']",
@@ -60,7 +66,7 @@
   ];
 
   window.addEventListener("message", (event) => {
-    if (event.source !== window || !event.data?.type) {
+    if (event.source !== window || !event.data?.type || !MELIGO_APP_ORIGINS.has(window.location.origin)) {
       return;
     }
 
@@ -73,6 +79,13 @@
       chrome.storage.local.remove("token");
     }
   });
+
+  if (MELIGO_APP_ORIGINS.has(window.location.origin)) {
+    requestTokenFromMeliGo();
+    // Give Angular a moment on a cold tab before asking once more.
+    window.setTimeout(requestTokenFromMeliGo, 500);
+    window.setTimeout(requestTokenFromMeliGo, 1500);
+  }
 
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "ping") {
@@ -173,6 +186,10 @@
       hasProductSchema: productSchemas.length > 0,
       extractedAt: new Date().toISOString()
     };
+  }
+
+  function requestTokenFromMeliGo() {
+    window.postMessage({ type: "MELIGO_TOKEN_REQUEST" }, window.location.origin);
   }
 
   function parseJsonLdEntries() {

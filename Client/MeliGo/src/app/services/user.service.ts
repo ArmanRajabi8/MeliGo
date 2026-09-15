@@ -49,7 +49,7 @@ export class UserService {
   localStorage.setItem("username", x.username);
   localStorage.setItem("roles", JSON.stringify(x.roles));
   localStorage.setItem("userId", x.userId); // ✅ Add this line
-  window.postMessage({ type: "MELIGO_TOKEN", token: x.token }, "*");
+  window.postMessage({ type: "MELIGO_TOKEN", token: x.token }, window.location.origin);
 
   this.setUsername(x.username);
   this.setRoles(x.roles);

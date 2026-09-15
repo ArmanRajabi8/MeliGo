@@ -4,8 +4,43 @@ const result = document.getElementById("result");
 const stateCard = document.getElementById("stateCard");
 const stateLabel = document.getElementById("stateLabel");
 const statusMessage = document.getElementById("statusMessage");
+const connectionCard = document.getElementById("connectionCard");
+const connectionLabel = document.getElementById("connectionLabel");
+const connectionMessage = document.getElementById("connectionMessage");
+const connectButton = document.getElementById("connectButton");
 
 let isSending = false;
+
+connectButton.addEventListener("click", async () => {
+  connectButton.disabled = true;
+  connectButton.textContent = "Opening...";
+  connectionLabel.textContent = "Opening MeliGo";
+  connectionMessage.textContent = "Your current browser session will sync automatically.";
+
+  try {
+    const response = await chrome.runtime.sendMessage({ action: "connectMeliGo" });
+
+    if (!response?.ok) {
+      throw new Error(response?.message || "Could not open MeliGo.");
+    }
+
+    connectionMessage.textContent = "Waiting for the MeliGo tab to share your session.";
+    window.setTimeout(updateConnectionState, 1200);
+  } catch (connectError) {
+    connectionLabel.textContent = "Could not connect";
+    connectionMessage.textContent = connectError instanceof Error
+      ? connectError.message
+      : "Open MeliGo in a browser tab, then try again.";
+    connectButton.disabled = false;
+    connectButton.textContent = "Try again";
+  }
+});
+
+chrome.storage.onChanged.addListener((changes, areaName) => {
+  if (areaName === "local" && changes.token) {
+    void updateConnectionState();
+  }
+});
 
 sendButton.addEventListener("click", async () => {
   if (isSending) {
@@ -47,6 +82,23 @@ chrome.runtime.onMessage.addListener((message) => {
     setError(message.message || "Unknown error");
   }
 });
+
+async function updateConnectionState() {
+  const { token } = await chrome.storage.local.get("token");
+  const isConnected = typeof token === "string" && token.length > 0;
+
+  connectionCard.dataset.connected = String(isConnected);
+  connectionLabel.textContent = isConnected ? "Connected to MeliGo" : "MeliGo not connected";
+  connectionMessage.textContent = isConnected
+    ? "Your session is ready for one-click saves."
+    : "Open MeliGo to connect this extension automatically.";
+  connectButton.hidden = isConnected;
+
+  if (isConnected) {
+    connectButton.disabled = false;
+    connectButton.textContent = "Connect";
+  }
+}
 
 function setError(message) {
   isSending = false;
@@ -162,3 +214,5 @@ renderPlaceholder(
   "Ready for your next find",
   "Use this popup on a product page to capture the cleanest title, price, image, and store link MeliGo can detect."
 );
+
+void updateConnectionState();

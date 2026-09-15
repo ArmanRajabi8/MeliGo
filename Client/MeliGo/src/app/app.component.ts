@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { UserService } from './services/user.service';
 import { HttpClientModule } from '@angular/common/http'; 
@@ -21,8 +21,20 @@ import { TranslatePipe } from './pipes/translate.pipe';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   avatarUrl: string = 'assets/images/default.jpg';
+
+  private readonly extensionMessageHandler = (event: MessageEvent): void => {
+    if (
+      event.source !== window ||
+      event.origin !== window.location.origin ||
+      event.data?.type !== 'MELIGO_TOKEN_REQUEST'
+    ) {
+      return;
+    }
+
+    this.publishExtensionToken();
+  };
 
   constructor(public userService : UserService, private i18n: I18nService){}
 
@@ -50,28 +62,41 @@ export class AppComponent {
     this.avatarUrl = buildApiUrl(`/api/Users/GetAvatar/${username}${cacheBuster}`);
   }
 
-  ngOnInit(): void {
-  const username = localStorage.getItem("username");
-  const token = localStorage.getItem("token");
-  const rolesJson = localStorage.getItem("roles");
-  const roles = rolesJson ? JSON.parse(rolesJson) : [];
-  this.userService.setUsername(username);
-  this.userService.setRoles(roles);
+  private publishExtensionToken(): void {
+    const token = localStorage.getItem('token');
 
-  if (token) {
-    window.postMessage({ type: "MELIGO_TOKEN", token }, "*");
+    if (token) {
+      window.postMessage({ type: 'MELIGO_TOKEN', token }, window.location.origin);
+      return;
+    }
+
+    window.postMessage({ type: 'MELIGO_TOKEN_CLEAR' }, window.location.origin);
   }
 
-  this.refreshAvatar();
+  ngOnInit(): void {
+    window.addEventListener('message', this.extensionMessageHandler);
 
-  this.userService.avatarChanged$.subscribe(() => {
-    this.refreshAvatar(true);
-  });
-}
+    const username = localStorage.getItem('username');
+    const rolesJson = localStorage.getItem('roles');
+    const roles = rolesJson ? JSON.parse(rolesJson) : [];
+    this.userService.setUsername(username);
+    this.userService.setRoles(roles);
+    this.publishExtensionToken();
+
+    this.refreshAvatar();
+
+    this.userService.avatarChanged$.subscribe(() => {
+      this.refreshAvatar(true);
+    });
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('message', this.extensionMessageHandler);
+  }
 
   logout(){
     localStorage.clear();
-    window.postMessage({ type: "MELIGO_TOKEN_CLEAR" }, "*");
+    this.publishExtensionToken();
     location.reload();
   }
   isAdmin(): boolean {

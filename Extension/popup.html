@@ -26,6 +26,15 @@
         </p>
       </header>
 
+      <section id="connectionCard" class="connection-card" data-connected="false" aria-live="polite">
+        <span class="connection-card__dot" aria-hidden="true"></span>
+        <div class="connection-card__copy">
+          <p id="connectionLabel" class="connection-card__label">Checking MeliGo connection</p>
+          <p id="connectionMessage" class="connection-card__message">Looking for an open MeliGo tab.</p>
+        </div>
+        <button id="connectButton" class="secondary-button" type="button">Connect</button>
+      </section>
+
       <section id="stateCard" class="status-card" data-state="idle" aria-live="polite">
         <div>
           <p id="stateLabel" class="status-card__eyebrow">Ready to capture</p>
