@@ -92,6 +92,52 @@
     </article>
   </section>
 
+  <section class="page-card extension-install" id="extension">
+    <div class="extension-install__intro">
+      <p class="section-label">{{ 'home.extension.label' | translate }}</p>
+      <h2 class="section-title extension-install__title">{{ 'home.extension.title' | translate }}</h2>
+      <p class="section-copy">{{ 'home.extension.copy' | translate }}</p>
+      <a class="app-button app-button--primary extension-install__download" href="/downloads/meligo-extension.zip" download="meligo-extension.zip">
+        <span class="button-orb">↓</span>
+        {{ 'home.extension.download' | translate }}
+      </a>
+      <p class="extension-install__note">{{ 'home.extension.note' | translate }}</p>
+    </div>
+
+    <div class="extension-install__steps">
+      <article class="install-step">
+        <div class="install-step__preview install-step__preview--toggle">
+          <div class="browser-chrome"><span></span><span></span><span></span><b>Extensions</b><i></i></div>
+          <div class="fake-toggle"><span></span></div>
+        </div>
+        <div class="install-step__number">01</div>
+        <h3>{{ 'home.extension.stepOneTitle' | translate }}</h3>
+        <p>{{ 'home.extension.stepOneCopy' | translate }}</p>
+      </article>
+
+      <article class="install-step">
+        <div class="install-step__preview install-step__preview--button">
+          <div class="browser-chrome"><span></span><span></span><span></span><b>Extensions</b><i></i></div>
+          <div class="fake-browser-button">＋ Load unpacked</div>
+        </div>
+        <div class="install-step__number">02</div>
+        <h3>{{ 'home.extension.stepTwoTitle' | translate }}</h3>
+        <p>{{ 'home.extension.stepTwoCopy' | translate }}</p>
+      </article>
+
+      <article class="install-step">
+        <div class="install-step__preview install-step__preview--folder">
+          <div class="folder-icon">M</div>
+          <div class="fake-folder-name">meligo-extension</div>
+          <div class="fake-check">✓</div>
+        </div>
+        <div class="install-step__number">03</div>
+        <h3>{{ 'home.extension.stepThreeTitle' | translate }}</h3>
+        <p>{{ 'home.extension.stepThreeCopy' | translate }}</p>
+      </article>
+    </div>
+  </section>
+
   <section *ngIf="isLoggedIn" class="home-overview">
     <article class="page-card overview-banner">
       <div class="overview-banner__copy">
